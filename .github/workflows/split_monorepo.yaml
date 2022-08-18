@@ -58,8 +58,8 @@ jobs:
                     package-directory: '${{ matrix.package }}'
                     split-repository-organization: 'openswoole'
                     split-repository-name: '${{ matrix.package }}'
-                    user-name: "Openswoole"
-                    user-email: "hello@openswoole.com"
+                    user-name: "doubaokun"
+                    user-email: "doubaokun@gmail.com"
                     branch: "master"
 
             # with tag
@@ -76,6 +76,6 @@ jobs:
                     package-directory: '${{ matrix.package }}'
                     split-repository-organization: 'openswoole'
                     split-repository-name: '${{ matrix.package }}'
-                    user-name: "Openswoole"
-                    user-email: "hello@openswoole.com"
+                    user-name: "doubaokun"
+                    user-email: "doubaokun@gmail.com"
                     branch: "master"
