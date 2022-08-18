@@ -1,6 +1,6 @@
 {
     "name": "openswoole/core",
-    "description": "Openswoole core library",
+    "description": "Openswoole core addons",
     "license": "Apache 2",
     "keywords": ["php", "openswoole"],
     "homepage": "https://openswoole.com",
