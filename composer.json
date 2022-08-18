@@ -7,10 +7,10 @@
         }
     ],
     "require": {
-        "ext-openswoole": "^4.10",
         "php": ">=7.4"
     },
     "suggest": {
+        "ext-openswoole": "^4.10",
         "google/protobuf": "^3.19"
     },
     "require-dev": {
