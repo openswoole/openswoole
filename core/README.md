@@ -1,1 +1,1 @@
-# Openswoole core library
+# Openswoole core
