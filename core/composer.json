@@ -1,0 +1,24 @@
+{
+    "name": "openswoole/core",
+    "description": "Openswoole core library",
+    "license": "Apache 2",
+    "keywords": [
+        "php",
+        "openswoole"
+    ],
+    "homepage": "https://openswoole.com",
+    "support": {
+        "docs": "https://openswoole.com/docs",
+        "issues": "https://github.com/openswoole/openswoole/issues",
+        "pull-request": "https://github.com/openswoole/openswoole/pulls",
+        "source": "https://github.com/openswoole/openswoole"
+    },
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Openswoole\\Core\\": "src/"
+        }
+    }
+}
