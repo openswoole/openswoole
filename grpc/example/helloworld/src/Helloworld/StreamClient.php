@@ -21,9 +21,9 @@ class StreamClient extends \OpenSwoole\GRPC\BaseStub
     public function FetchResponse(HelloRequest $request, $metadata = []): HelloReply
     {
         return $this->_serverStreamRequest('/helloworld.Stream/FetchResponse',
-        $request,
-        ['\Helloworld\HelloReply', 'decode'],
-        $metadata);
+            $request,
+            ['\Helloworld\HelloReply', 'decode'],
+            $metadata);
     }
 
     public function getNext(): HelloReply

@@ -21,8 +21,8 @@ class GreeterClient extends \OpenSwoole\GRPC\BaseStub
     public function SayHello(HelloRequest $request, $metadata = []): HelloReply
     {
         return $this->_simpleRequest('/helloworld.Greeter/SayHello',
-        $request,
-        ['\Helloworld\HelloReply', 'decode'],
-        $metadata);
+            $request,
+            ['\Helloworld\HelloReply', 'decode'],
+            $metadata);
     }
 }
