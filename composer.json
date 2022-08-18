@@ -1,18 +1,41 @@
 {
     "name": "openswoole/openswoole",
+    "authors": [
+        {
+            "name": "Open Swoole Group",
+            "email": "hello@openswoole.com"
+        }
+    ],
     "require": {
+        "ext-openswoole": "^4.10",
         "php": ">=7.4"
     },
+    "suggest": {
+        "google/protobuf": "^3.19"
+    },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.6",
+        "openswoole/ide-helper": "~4.10.2",
         "phpunit/phpunit": "^9.5",
-        "symplify/monorepo-builder": "^11.1"
+        "symplify/monorepo-builder": "^11.1",
+        "vimeo/psalm": "^4.6"
     },
     "autoload": {
         "psr-4": {
+            "OpenSwoole\\GRPC\\": "grpc/src/",
             "Openswoole\\Core\\": "core/src/"
         }
     },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../.."
+        }
+    ],
     "replace": {
-        "openswoole/core": "self.version"
-    }
+        "openswoole/core": "self.version",
+        "openswoole/grpc": "self.version"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

@@ -1,0 +1,14 @@
+name: Coding Style Checks
+
+on: [ push, pull_request, workflow_dispatch ]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run Coding Style Checks
+        run: docker run --rm -v "$(pwd):/project" -w /project -i jakzal/phpqa:php8.0 php-cs-fixer fix --dry-run

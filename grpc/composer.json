@@ -1,0 +1,35 @@
+{
+    "name": "openswoole/grpc",
+    "description": "OpenSwoole GRPC framework for building high performance services",
+    "type": "library",
+    "license": "Apache 2.0",
+    "authors": [
+        {
+            "name": "Open Swoole Group",
+            "email": "hello@openswoole.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "ext-openswoole": "^4.10",
+        "google/protobuf": "^3.19"
+    },
+    "require-dev": {
+        "openswoole/ide-helper": "~4.10.2",
+        "phpunit/phpunit": "^9.5",
+        "vimeo/psalm": "^4.6",
+        "friendsofphp/php-cs-fixer": "^3.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "OpenSwoole\\GRPC\\": "src/"
+        }
+    },
+    "scripts": {
+        "test": [
+            "psalm --no-cache"
+        ]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
