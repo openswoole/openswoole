@@ -2,10 +2,7 @@
     "name": "openswoole/core",
     "description": "Openswoole core library",
     "license": "Apache 2",
-    "keywords": [
-        "php",
-        "openswoole"
-    ],
+    "keywords": ["php", "openswoole"],
     "homepage": "https://openswoole.com",
     "support": {
         "docs": "https://openswoole.com/docs",
