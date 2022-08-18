@@ -61,5 +61,6 @@ return (new PhpCsFixer\Config())
     ])
     ->setFinder(PhpCsFixer\Finder::create()->in([
         __DIR__ . '/core/src',
+        __DIR__ . '/grpc/src',
     ]))
     ->setUsingCache(false);
