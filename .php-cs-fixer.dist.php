@@ -6,7 +6,6 @@ $header = <<<'EOF'
 This file is part of OpenSwoole.
 @link     https://openswoole.com
 @contact  hello@openswoole.com
-@license  https://github.com/openswoole/openswoole/blob/main/LICENSE
 EOF;
 
 return (new PhpCsFixer\Config())

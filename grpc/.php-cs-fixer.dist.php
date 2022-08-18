@@ -3,10 +3,9 @@
 declare(strict_types=1);
 
 $header = <<<'EOF'
-This file is part of OpenSwoole RPC.
+This file is part of OpenSwoole.
 @link     https://openswoole.com
 @contact  hello@openswoole.com
-@license  https://github.com/openswoole/grpc/blob/main/LICENSE
 EOF;
 
 return (new PhpCsFixer\Config())
