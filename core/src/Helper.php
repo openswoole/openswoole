@@ -10,11 +10,6 @@ namespace OpenSwoole\Core;
 
 class Helper
 {
-    public static function statsToJSON(array $stats)
-    {
-        return json_encode($stats, \JSON_PRETTY_PRINT);
-    }
-
     public static function statsToOpenMetrics(array $stats)
     {
         $event_workers = '';
