@@ -10,6 +10,15 @@ namespace OpenSwoole\Core;
 
 class Helper
 {
+	public static function handle(Server $server, callable $callback)
+    {
+        $server->on('request', function (\OpenSwoole\HTTP\Request $request, \OpenSwoole\HTTP\Response $response) use ($callback) {
+            $serverRequest = \OpenSwoole\Core\Psr\ServerRequest::from($request);
+            $serverResponse = $callback($serverRequest);
+            \OpenSwoole\Core\Psr\Response::emit($response, $serverResponse);
+        });
+    }
+
     public static function statsToOpenMetrics(array $stats)
     {
         $event_workers = '';
