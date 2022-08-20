@@ -1,0 +1,27 @@
+<?php
+/**
+ * This file is part of Open Swoole.
+ *
+ * @link     https://openswoole.com
+ * @contact  hello@openswoole.com
+ * @license  https://github.com/openswoole/library/blob/master/LICENSE
+ */
+
+declare(strict_types=1);
+
+namespace OpenSwoole\Core\Psr7Test\Tests;
+
+use Http\Psr7Test\UriIntegrationTest;
+use OpenSwoole\Core\Psr\Uri;
+
+/**
+ * @internal
+ * @coversNothing
+ */
+class UriTest extends UriIntegrationTest
+{
+    public function createUri($uri)
+    {
+        return new Uri($uri);
+    }
+}

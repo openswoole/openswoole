@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of Open Swoole.
- *
- * @link     https://openswoole.com
- * @contact  hello@openswoole.com
- * @license  https://github.com/openswoole/library/blob/master/LICENSE
- */
 
 declare(strict_types=1);
-
+/**
+ * This file is part of OpenSwoole.
+ * @link     https://openswoole.com
+ * @contact  hello@openswoole.com
+ */
 namespace OpenSwoole\Core\Psr;
 
 class ServerRequest extends Request
@@ -39,11 +36,11 @@ class ServerRequest extends Request
     ) {
         parent::__construct($uri, $method, $body, $headers, $protocolVersion);
 
-        $this->cookieParams = $cookies;
-        $this->queryParams = $queryParams;
-        $this->serverParams = $serverParams;
+        $this->cookieParams  = $cookies;
+        $this->queryParams   = $queryParams;
+        $this->serverParams  = $serverParams;
         $this->uploadedFiles = $uploadedFiles;
-        $this->parsedBody = $parsedBody;
+        $this->parsedBody    = $parsedBody;
     }
 
     public function getAttributes()
@@ -58,7 +55,7 @@ class ServerRequest extends Request
 
     public function withAttribute($name, $value)
     {
-        $request = clone $this;
+        $request                    = clone $this;
         $request->attributes[$name] = $value;
         return $request;
     }
@@ -87,7 +84,7 @@ class ServerRequest extends Request
 
     public function withCookieParams(array $cookies)
     {
-        $request = clone $this;
+        $request               = clone $this;
         $request->cookieParams = $cookies;
         return $request;
     }
@@ -113,7 +110,7 @@ class ServerRequest extends Request
 
     public function withQueryParams(array $query)
     {
-        $request = clone $this;
+        $request              = clone $this;
         $request->queryParams = $query;
         return $request;
     }
@@ -125,7 +122,7 @@ class ServerRequest extends Request
 
     public function withUploadedFiles(array $uploadedFiles)
     {
-        $request = clone $this;
+        $request                = clone $this;
         $request->uploadedFiles = $uploadedFiles;
         return $request;
     }
@@ -140,7 +137,7 @@ class ServerRequest extends Request
         if (!is_array($data) && !is_object($data) && !is_null($data)) {
             throw new \InvalidArgumentException('Error HTTP body.');
         }
-        $request = clone $this;
+        $request             = clone $this;
         $request->parsedBody = $data;
         return $request;
     }

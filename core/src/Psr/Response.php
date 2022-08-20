@@ -1,17 +1,16 @@
 <?php
-/**
- * This file is part of Open Swoole.
- *
- * @link     https://openswoole.com
- * @contact  hello@openswoole.com
- * @license  https://github.com/openswoole/library/blob/master/LICENSE
- */
 
 declare(strict_types=1);
-
+/**
+ * This file is part of OpenSwoole.
+ * @link     https://openswoole.com
+ * @contact  hello@openswoole.com
+ */
 namespace OpenSwoole\Core\Psr;
 
-class Response extends Message
+use Psr\Http\Message\ResponseInterface;
+
+class Response extends Message implements ResponseInterface
 {
     public const CHUNK_SIZE = 100 * 1024 * 1024; // 100K
 

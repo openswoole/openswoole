@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of Open Swoole.
- *
- * @link     https://openswoole.com
- * @contact  hello@openswoole.com
- * @license  https://github.com/openswoole/library/blob/master/LICENSE
- */
 
 declare(strict_types=1);
-
+/**
+ * This file is part of OpenSwoole.
+ * @link     https://openswoole.com
+ * @contact  hello@openswoole.com
+ */
 namespace OpenSwoole\Core\Psr;
 
 class Message
@@ -35,7 +32,7 @@ class Message
 
     public function withProtocolVersion($version)
     {
-        $message = clone $this;
+        $message                  = clone $this;
         $message->protocolVersion = $version;
         return $message;
     }
@@ -135,7 +132,7 @@ class Message
 
     public function withBody($stream)
     {
-        $message = clone $this;
+        $message         = clone $this;
         $message->stream = $stream;
         return $message;
     }

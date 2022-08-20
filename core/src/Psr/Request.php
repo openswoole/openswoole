@@ -1,17 +1,16 @@
 <?php
-/**
- * This file is part of Open Swoole.
- *
- * @link     https://openswoole.com
- * @contact  hello@openswoole.com
- * @license  https://github.com/openswoole/library/blob/master/LICENSE
- */
 
 declare(strict_types=1);
-
+/**
+ * This file is part of OpenSwoole.
+ * @link     https://openswoole.com
+ * @contact  hello@openswoole.com
+ */
 namespace OpenSwoole\Core\Psr;
 
-class Request extends Message
+use Psr\Http\Message\RequestInterface;
+
+class Request extends Message implements RequestInterface
 {
     private $method;
 
@@ -21,9 +20,9 @@ class Request extends Message
 
     public function __construct($uri, string $method = null, $body = null, array $headers = [], string $protocolVersion = '1.1')
     {
-        $this->uri = is_string($uri) ? new Uri($uri) : $uri;
-        $this->method = $method;
-        $this->headers = $headers;
+        $this->uri             = is_string($uri) ? new Uri($uri) : $uri;
+        $this->method          = $method;
+        $this->headers         = $headers;
         $this->protocolVersion = $protocolVersion;
         if ($body === null) {
             $stream = new Stream('php://memory', 'wb+');
@@ -45,7 +44,7 @@ class Request extends Message
         if (!is_string($method)) {
             throw new \InvalidArgumentException('Method is not validate.');
         }
-        $request = clone $this;
+        $request         = clone $this;
         $request->method = $method;
         return $request;
     }
@@ -103,12 +102,10 @@ class Request extends Message
     public function withRequestTarget($requestTarget): self
     {
         if (preg_match('/\s/', $requestTarget)) {
-            throw new \InvalidArgumentException(
-                'Request target can\'t contain whitespaces'
-            );
+            throw new \InvalidArgumentException('Request target can\'t contain whitespaces');
         }
 
-        $request = clone $this;
+        $request                = clone $this;
         $request->requestTarget = $requestTarget;
         return $request;
     }

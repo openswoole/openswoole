@@ -1,17 +1,16 @@
 <?php
-/**
- * This file is part of Open Swoole.
- *
- * @link     https://openswoole.com
- * @contact  hello@openswoole.com
- * @license  https://github.com/openswoole/library/blob/master/LICENSE
- */
 
 declare(strict_types=1);
-
+/**
+ * This file is part of OpenSwoole.
+ * @link     https://openswoole.com
+ * @contact  hello@openswoole.com
+ */
 namespace OpenSwoole\Core\Psr;
 
-class UploadedFile
+use Psr\Http\Message\UploadedFileInterface;
+
+class UploadedFile implements UploadedFileInterface
 {
     private $error;
 
@@ -29,9 +28,9 @@ class UploadedFile
 
     public function __construct($fileOrResourceOrStream, int $size, int $errorStatus, string $clientFilename = null, string $clientMediaType = null)
     {
-        $this->size = $size;
-        $this->error = $errorStatus;
-        $this->clientFilename = $clientFilename;
+        $this->size            = $size;
+        $this->error           = $errorStatus;
+        $this->clientFilename  = $clientFilename;
         $this->clientMediaType = $clientMediaType;
         $this->apply($fileOrResourceOrStream);
     }
@@ -70,11 +69,11 @@ class UploadedFile
         return $this->stream;
     }
 
-    public function moveTo(string $targetPath): void
+    public function moveTo($targetPath): void
     {
         if ($this->stream !== null) {
             $from = $this->getStream();
-            $to = new Stream($targetPath, 'wb');
+            $to   = new Stream($targetPath, 'wb');
 
             $from->rewind();
 

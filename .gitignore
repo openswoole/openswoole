@@ -19,3 +19,7 @@
 /composer.phar
 
 /vendor
+
+/core/vendor
+/core/.tmp
+/core/.phpunit.*

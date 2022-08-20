@@ -1,0 +1,27 @@
+<?php
+/**
+ * This file is part of Open Swoole.
+ *
+ * @link     https://openswoole.com
+ * @contact  hello@openswoole.com
+ * @license  https://github.com/openswoole/library/blob/master/LICENSE
+ */
+
+declare(strict_types=1);
+
+namespace OpenSwoole\Core\Psr7Test\Tests;
+
+use Http\Psr7Test\ResponseIntegrationTest;
+use OpenSwoole\Core\Psr\Response;
+
+/**
+ * @internal
+ * @coversNothing
+ */
+class ResponseTest extends ResponseIntegrationTest
+{
+    public function createSubject()
+    {
+        return new Response('');
+    }
+}

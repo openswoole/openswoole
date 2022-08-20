@@ -1,20 +1,19 @@
 <?php
-/**
- * This file is part of Open Swoole.
- *
- * @link     https://openswoole.com
- * @contact  hello@openswoole.com
- * @license  https://github.com/openswoole/library/blob/master/LICENSE
- */
 
 declare(strict_types=1);
-
+/**
+ * This file is part of OpenSwoole.
+ * @link     https://openswoole.com
+ * @contact  hello@openswoole.com
+ */
 namespace OpenSwoole\Core\Psr;
 
-class Uri
+use Psr\Http\Message\UriInterface;
+
+class Uri implements UriInterface
 {
     private const DEFAULT_SCHEME_PORT = [
-        'http' => 80,
+        'http'  => 80,
         'https' => 443,
     ];
 
@@ -43,11 +42,11 @@ class Uri
 
     public function __toString(): string
     {
-        $uri = '';
+        $uri       = '';
         $authority = $this->getAuthority();
-        $query = $this->getQuery();
-        $path = $this->getPath();
-        $fragment = $this->getFragment();
+        $query     = $this->getQuery();
+        $path      = $this->getPath();
+        $fragment  = $this->getFragment();
 
         if (!empty($this->scheme)) {
             $uri .= $this->scheme . ':';
@@ -80,8 +79,8 @@ class Uri
         if (!is_string($scheme)) {
             throw new \InvalidArgumentException('Error HTTP schema.');
         }
-        $scheme = $this->normalizeScheme($scheme);
-        $uri = clone $this;
+        $scheme      = $this->normalizeScheme($scheme);
+        $uri         = clone $this;
         $uri->scheme = $scheme;
         return $uri;
     }
@@ -91,7 +90,7 @@ class Uri
         return $this->path;
     }
 
-    public function withPath(string $path): self
+    public function withPath($path): self
     {
         $path = $this->normalizePath($path);
 
@@ -109,7 +108,7 @@ class Uri
         return $this->host;
     }
 
-    public function withHost(string $host): self
+    public function withHost($host): self
     {
         $host = $this->normalizeHost($host);
 
@@ -139,7 +138,7 @@ class Uri
         return null;
     }
 
-    public function withPort(int $port): self
+    public function withPort($port): self
     {
         if ($port === $this->port) {
             return $this;
@@ -155,7 +154,7 @@ class Uri
         return $this->fragment;
     }
 
-    public function withFragment(string $fragment): self
+    public function withFragment($fragment): self
     {
         $fragment = $this->normalizeFragmentAndQuery($fragment);
 
@@ -173,7 +172,7 @@ class Uri
         return $this->query;
     }
 
-    public function withQuery(string $query): self
+    public function withQuery($query): self
     {
         $query = $this->normalizeFragmentAndQuery($query);
 
@@ -273,17 +272,17 @@ class Uri
         $parsed = parse_url($uri);
 
         $res->scheme = array_key_exists('scheme', $parsed) ? $this->normalizeScheme($parsed['scheme']) : '';
-        $res->host = array_key_exists('host', $parsed) ? $this->normalizeHost($parsed['host']) : '';
-        $res->port = array_key_exists('port', $parsed) ? $parsed['port'] : null;
+        $res->host   = array_key_exists('host', $parsed) ? $this->normalizeHost($parsed['host']) : '';
+        $res->port   = array_key_exists('port', $parsed) ? $parsed['port'] : null;
 
         $res->userInfo = array_key_exists('user', $parsed) ? $this->normalizeUserInfo($parsed['user']) : '';
         if (array_key_exists('pass', $parsed)) {
             $res->userInfo .= ':' . $parsed['pass'];
         }
 
-        $res->path = array_key_exists('path', $parsed) ? $parsed['path'] : '';
-        $res->path = $this->normalizePath($res->path);
-        $res->query = array_key_exists('query', $parsed) ? $parsed['query'] : '';
+        $res->path     = array_key_exists('path', $parsed) ? $parsed['path'] : '';
+        $res->path     = $this->normalizePath($res->path);
+        $res->query    = array_key_exists('query', $parsed) ? $parsed['query'] : '';
         $res->fragment = array_key_exists('fragment', $parsed) ? $this->normalizeFragmentAndQuery($parsed['fragment']) : '';
 
         return $res;

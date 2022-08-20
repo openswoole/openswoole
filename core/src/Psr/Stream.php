@@ -1,17 +1,16 @@
 <?php
-/**
- * This file is part of Open Swoole.
- *
- * @link     https://openswoole.com
- * @contact  hello@openswoole.com
- * @license  https://github.com/openswoole/library/blob/master/LICENSE
- */
 
 declare(strict_types=1);
-
+/**
+ * This file is part of OpenSwoole.
+ * @link     https://openswoole.com
+ * @contact  hello@openswoole.com
+ */
 namespace OpenSwoole\Core\Psr;
 
-class Stream
+use Psr\Http\Message\StreamInterface;
+
+class Stream implements StreamInterface
 {
     public const WRITE_SIGNS = ['w', 'a', 'x', 'c', '+'];
 
@@ -73,7 +72,7 @@ class Stream
 
     public function detach()
     {
-        $resource = $this->resource;
+        $resource       = $this->resource;
         $this->resource = null;
         return $resource;
     }
@@ -258,23 +257,13 @@ class Stream
     public static function createStreamFromFile(string $filename, string $mode = 'r')
     {
         if ($mode === '' || !preg_match('/^[rwaxce]{1}[bt]{0,1}[+]{0,1}+$/', $mode)) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'Invalid file opening mode "%s"',
-                    $mode
-                )
-            );
+            throw new InvalidArgumentException(sprintf('Invalid file opening mode "%s"', $mode));
         }
 
         $resource = @fopen($filename, $mode);
 
         if (!is_resource($resource)) {
-            throw new RuntimeException(
-                sprintf(
-                    'Unable to open file at "%s"',
-                    $filename
-                )
-            );
+            throw new RuntimeException(sprintf('Unable to open file at "%s"', $filename));
         }
 
         return new Stream($resource);
