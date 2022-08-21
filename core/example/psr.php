@@ -1,5 +1,11 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of OpenSwoole.
+ * @link     https://openswoole.com
+ * @contact  hello@openswoole.com
+ */
 include './vendor/autoload.php';
 
 // $router = new League\Route\Router;
@@ -14,13 +20,12 @@ include './vendor/autoload.php';
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-if(interface_exists('Psr\Http\Message\ResponseInterface')) {
-	
+if (interface_exists('Psr\Http\Message\ResponseInterface')) {
 }
 
-$server = new OpenSwoole\HTTP\Server("127.0.0.1", 9501);
+$server = new OpenSwoole\HTTP\Server('127.0.0.1', 9501);
 
-$server->on("start", function (OpenSwoole\Http\Server $server) {
+$server->on('start', function (OpenSwoole\Http\Server $server) {
     echo "OpenSwoole http server is started at http://127.0.0.1:9501\n";
 });
 
@@ -36,45 +41,43 @@ $server->on("start", function (OpenSwoole\Http\Server $server) {
 
 class DefaultResponseMiddleware
 {
-    public function process($request,  $handler) 
+    public function process($request, $handler)
     {
-        $defaultResponse = (new \OpenSwoole\Core\Psr\Response('aaaa'))->withHeader('x-a', '1234');
+        return (new \OpenSwoole\Core\Psr\Response('aaaa'))->withHeader('x-a', '1234');
         // var_dump('0');
-        return $defaultResponse;
     }
 }
 
 class MiddlewareA
 {
-    public function process($request,  $handler) 
+    public function process($request, $handler)
     {
         $requestBody = $request->getBody();
         // var_dump('A1');
-        $response = $handler->handle($request);
+        return $handler->handle($request);
         // var_dump('A2');
-        return $response;
     }
 }
 
 class MiddlewareB
 {
-    public function process($request,  $handler) 
+    public function process($request, $handler)
     {
         $requestBody = $request->getBody();
         // var_dump('B1');
-        $response = $handler->handle($request);
+        return $handler->handle($request);
         // var_dump('B2');
-        return $response;
     }
 }
 
 $stack = (new \OpenSwoole\Core\Psr\MiddlewareStack())
-	->add(new DefaultResponseMiddleware())
-	->add(new MiddlewareA())
-	->add(new MiddlewareB());
+    ->add(new DefaultResponseMiddleware())
+    ->add(new MiddlewareA())
+    ->add(new MiddlewareB())
+;
 
-$server->handle(function($request) use ($stack) {
-	return $stack->handle($request);
+$server->handle(function ($request) use ($stack) {
+    return $stack->handle($request);
 });
 
 // $server->handle(function($request) {

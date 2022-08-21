@@ -13,7 +13,6 @@ use TypeError;
 
 class ObjectProxy
 {
-
     protected object $__object;
 
     public function __construct($object)
@@ -60,6 +59,7 @@ class ObjectProxy
         $object = $this->__object;
         return $object(...$arguments);
     }
+
     public function __clone()
     {
         throw new Error('Trying to clone an uncloneable object proxy object');
