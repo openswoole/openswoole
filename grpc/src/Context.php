@@ -34,6 +34,7 @@ final class Context implements ContextInterface, \IteratorAggregate, \Countable,
         return $this->values;
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset): bool
     {
         assert(\is_string($offset), 'Offset argument must be a type of string');
@@ -41,6 +42,7 @@ final class Context implements ContextInterface, \IteratorAggregate, \Countable,
         return isset($this->values[$offset]) || \array_key_exists($offset, $this->values);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         assert(\is_string($offset), 'Offset argument must be a type of string');
@@ -48,6 +50,7 @@ final class Context implements ContextInterface, \IteratorAggregate, \Countable,
         return $this->values[$offset] ?? null;
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value): void
     {
         assert(\is_string($offset), 'Offset argument must be a type of string');
@@ -55,6 +58,7 @@ final class Context implements ContextInterface, \IteratorAggregate, \Countable,
         $this->values[$offset] = $value;
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset): void
     {
         assert(\is_string($offset), 'Offset argument must be a type of string');
