@@ -10,7 +10,6 @@ namespace OpenSwoole\Core\Coroutine;
 
 use OpenSwoole\Coroutine;
 use OpenSwoole\Coroutine\Socket;
-
 use RuntimeException;
 
 // std
@@ -253,7 +252,7 @@ function socket_set_nonblock(Socket $socket)
         return true;
     }
     $socket->__ext_sockets_nonblock = true;
-    $socket->__ext_sockets_timeout = $socket->getOption(SOL_SOCKET, SO_RCVTIMEO);
+    $socket->__ext_sockets_timeout  = $socket->getOption(SOL_SOCKET, SO_RCVTIMEO);
     $socket->setOption(SOL_SOCKET, SO_RCVTIMEO, ['sec' => 0, 'usec' => 1000]);
     return true;
 }
