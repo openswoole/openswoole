@@ -37,17 +37,6 @@
             "OpenSwoole\\GRPC\\": "grpc/src/"
         }
     },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../.."
-        },
-        {
-            "name": "openswoole/core",
-            "type": "vcs",
-            "url": "https://github.com/openswoole/core"
-        }
-    ],
     "replace": {
         "openswoole/core": "self.version",
         "openswoole/example": "self.version",
