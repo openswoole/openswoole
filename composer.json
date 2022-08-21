@@ -34,7 +34,7 @@
         ],
         "psr-4": {
             "OpenSwoole\\Core\\": "core/src/",
-            "OpenSwoole\\GRPC\\": "grpc/src/",
+            "OpenSwoole\\GRPC\\": "grpc/src/"
         }
     },
     "repositories": [
