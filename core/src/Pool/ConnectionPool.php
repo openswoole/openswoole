@@ -14,7 +14,7 @@ use Throwable;
 
 class ConnectionPool
 {
-    public const DEFAULT_SIZE = 64;
+    public const DEFAULT_SIZE = 8;
 
     /** @var Channel */
     protected $pool;

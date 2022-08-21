@@ -1,0 +1,16 @@
+{
+    "name": "openswoole/example",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Bruce Dou",
+            "email": "doubaokun@gmail.com"
+        }
+    ],
+    "require": {
+        "openswoole/core": "dev-master"
+    },
+    "repositories": [
+        {"name": "openswoole/core", "type": "vcs", "url": "https://github.com/openswoole/core"}
+    ]
+}

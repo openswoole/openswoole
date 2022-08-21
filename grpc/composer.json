@@ -10,15 +10,17 @@
         }
     ],
     "require": {
-        "php": ">=7.4",
-        "ext-openswoole": "^4.10",
-        "google/protobuf": "^3.19"
+        "php": ">=7.4"
     },
     "require-dev": {
-        "openswoole/ide-helper": "~4.10.2",
+        "openswoole/ide-helper": "^4.11",
         "phpunit/phpunit": "^9.5",
         "vimeo/psalm": "^4.6",
         "friendsofphp/php-cs-fixer": "^3.6"
+    },
+    "suggest": {
+        "ext-openswoole": "*",
+        "google/protobuf": "^3.19"
     },
     "autoload": {
         "psr-4": {

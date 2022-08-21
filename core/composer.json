@@ -2,7 +2,13 @@
     "name": "openswoole/core",
     "description": "Openswoole core addons",
     "license": "Apache 2",
-    "keywords": ["php", "openswoole"],
+    "authors": [
+        {
+            "name": "OpenSwoole Group",
+            "email": "hello@openswoole.com"
+        }
+    ],
+    "keywords": ["php", "openswoole", "websocket", "http2", "tcp", "mqtt", "http"],
     "homepage": "https://openswoole.com",
     "support": {
         "docs": "https://openswoole.com/docs",
@@ -17,19 +23,23 @@
     "require-dev": {
         "ext-curl": "*",
         "ext-sockets": "*",
-        "phpunit/phpunit": "~8.0",
-        "openswoole/ide-helper": "~4.11",
-        "friendsofphp/php-cs-fixer": "^3.4",
+        "phpunit/phpunit": "^9.5",
+        "openswoole/ide-helper": "^4.11",
+        "friendsofphp/php-cs-fixer": "^3.6",
         "php-http/psr7-integration-tests": "^1.1"
     },
     "suggest": {
-        "ext-mysqli": "Required to use mysqli database",
-        "ext-pdo": "Required to use pdo database",
+        "ext-openswoole": "*",
+        "ext-mysqli": "*",
+        "ext-pdo": "*",
         "ext-redis": "Required to use redis database, and the required version is greater than or equal to 3.1.3"
     },
     "autoload": {
         "psr-4": {
             "OpenSwoole\\Core\\": "src/"
-        }
+        },
+        "files": [
+            "src/Coroutine/functions.php"
+        ]
     }
 }

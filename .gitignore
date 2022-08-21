@@ -20,6 +20,7 @@
 
 /vendor
 
+/core/example/vendor
 /core/vendor
 /core/.tmp
 /core/.phpunit.*
