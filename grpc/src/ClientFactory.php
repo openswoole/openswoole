@@ -10,8 +10,8 @@ namespace OpenSwoole\GRPC;
 
 final class ClientFactory
 {
-    public static function make($host, $port)
+    public static function make($config)
     {
-        return new Client($host, $port);
+        return (new Client($config['host'], $config['port']))->connect();
     }
 }
