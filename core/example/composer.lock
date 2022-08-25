@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:openswoole/core.git",
-                "reference": "edf98ed980fe63d61cf32d7476492c58a3d430bf"
+                "reference": "529de79e3d0c68751be9f14dc91dd5d4b0342784"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openswoole/core/zipball/edf98ed980fe63d61cf32d7476492c58a3d430bf",
-                "reference": "edf98ed980fe63d61cf32d7476492c58a3d430bf",
+                "url": "https://api.github.com/repos/openswoole/core/zipball/529de79e3d0c68751be9f14dc91dd5d4b0342784",
+                "reference": "529de79e3d0c68751be9f14dc91dd5d4b0342784",
                 "shasum": ""
             },
             "require": {
@@ -27,14 +27,15 @@
             "require-dev": {
                 "ext-curl": "*",
                 "ext-sockets": "*",
-                "friendsofphp/php-cs-fixer": "^3.4",
-                "openswoole/ide-helper": "~4.11",
+                "friendsofphp/php-cs-fixer": "^3.6",
+                "openswoole/ide-helper": "^4.11",
                 "php-http/psr7-integration-tests": "^1.1",
-                "phpunit/phpunit": "~8.0"
+                "phpunit/phpunit": "^9.5"
             },
             "suggest": {
-                "ext-mysqli": "Required to use mysqli database",
-                "ext-pdo": "Required to use pdo database",
+                "ext-mysqli": "*",
+                "ext-openswoole": "*",
+                "ext-pdo": "*",
                 "ext-redis": "Required to use redis database, and the required version is greater than or equal to 3.1.3"
             },
             "default-branch": true,
@@ -42,16 +43,30 @@
             "autoload": {
                 "psr-4": {
                     "OpenSwoole\\Core\\": "src/"
-                }
+                },
+                "files": [
+                    "src/Coroutine/functions.php"
+                ]
             },
             "license": [
                 "Apache 2"
             ],
+            "authors": [
+                {
+                    "name": "OpenSwoole Group",
+                    "email": "hello@openswoole.com"
+                }
+            ],
             "description": "Openswoole core addons",
             "homepage": "https://openswoole.com",
             "keywords": [
+                "http",
+                "http2",
+                "mqtt",
                 "openswoole",
-                "php"
+                "php",
+                "tcp",
+                "websocket"
             ],
             "support": {
                 "docs": "https://openswoole.com/docs",
@@ -59,7 +74,7 @@
                 "pull-request": "https://github.com/openswoole/openswoole/pulls",
                 "source": "https://github.com/openswoole/openswoole"
             },
-            "time": "2022-08-20T17:27:01+00:00"
+            "time": "2022-08-25T15:11:08+00:00"
         },
         {
             "name": "psr/http-message",

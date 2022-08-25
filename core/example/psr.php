@@ -20,9 +20,6 @@ include './vendor/autoload.php';
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-if (interface_exists('Psr\Http\Message\ResponseInterface')) {
-}
-
 $server = new OpenSwoole\HTTP\Server('127.0.0.1', 9501);
 
 $server->on('start', function (OpenSwoole\Http\Server $server) {
@@ -76,9 +73,11 @@ $stack = (new \OpenSwoole\Core\Psr\MiddlewareStack())
     ->add(new MiddlewareB())
 ;
 
-$server->handle(function ($request) use ($stack) {
-    return $stack->handle($request);
-});
+$server->setHandler($stack);
+
+// $server->handle(function ($request) use ($stack) {
+//     return $stack->handle($request);
+// });
 
 // $server->handle(function($request) {
 // 	$request = $request->withHeader('foo', 'bar')->withAddedHeader('foo', 'baz');
