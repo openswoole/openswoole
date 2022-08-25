@@ -37,9 +37,9 @@ class MiddlewareA implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $requestBody = $request->getBody();
-        // var_dump('A1');
+        var_dump('A1');
         return $handler->handle($request);
-        // var_dump('A2');
+        var_dump('A2');
     }
 }
 
@@ -48,9 +48,9 @@ class MiddlewareB implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $requestBody = $request->getBody();
-        // var_dump('B1');
+        var_dump('B1');
         return $handler->handle($request);
-        // var_dump('B2');
+        var_dump('B2');
     }
 }
 

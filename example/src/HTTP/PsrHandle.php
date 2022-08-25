@@ -37,9 +37,10 @@ class MiddlewareA implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $requestBody = $request->getBody();
-        // var_dump('A1');
-        return $handler->handle($request);
-        // var_dump('A2');
+        var_dump('A1');
+        $response = $handler->handle($request);
+        var_dump('A2');
+        return $response;
     }
 }
 
@@ -48,9 +49,10 @@ class MiddlewareB implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $requestBody = $request->getBody();
-        // var_dump('B1');
-        return $handler->handle($request);
-        // var_dump('B2');
+        var_dump('B1');
+        $response = $handler->handle($request);
+        var_dump('B2');
+        return $response;
     }
 }
 
@@ -62,11 +64,6 @@ $stack = (new StackHandler())
 
 $server->handle(function ($request) use ($stack) {
     return $stack->handle($request);
-});
-
-$server->handle(function ($request) {
-    $request = $request->withHeader('foo', 'bar')->withAddedHeader('foo', 'baz');
-    return (new Response('openswoole'))->withHeader('x-a', 'a');
 });
 
 $server->start();
