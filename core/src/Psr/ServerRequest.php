@@ -8,7 +8,9 @@ declare(strict_types=1);
  */
 namespace OpenSwoole\Core\Psr;
 
-class ServerRequest extends Request
+use Psr\Http\Message\ServerRequestInterface;
+
+class ServerRequest extends Request implements ServerRequestInterface
 {
     protected $attributes = [];
 
