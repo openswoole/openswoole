@@ -106,6 +106,7 @@ class ClientPool
             while ($this->pool && !$this->pool->isEmpty()) {
                 $client = $this->get();
                 $client->heartbeat();
+                $this->put($client);
                 \co::sleep(30);
             }
         });
