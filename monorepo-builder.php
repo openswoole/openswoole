@@ -11,6 +11,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::PACKAGE_DIRECTORIES, [
         __DIR__ . '/core',
         __DIR__ . '/grpc',
+        __DIR__ . '/example',
     ]);
     // for "merge" command
     $parameters->set(Option::DATA_TO_APPEND, [
