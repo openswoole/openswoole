@@ -10,6 +10,7 @@ namespace OpenSwoole\Core\Psr\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 class StackHandler implements RequestHandlerInterface
@@ -21,7 +22,7 @@ class StackHandler implements RequestHandlerInterface
         $this->middlewares = $middlewares;
     }
 
-    public function add($middleware)
+    public function add(MiddlewareInterface $middleware)
     {
         $stack = clone $this;
         array_unshift($stack->middlewares, $middleware);
