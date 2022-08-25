@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace OpenSwoole\Core;
 
 use OpenSwoole\Http\Server;
-
 use Psr\Http\Server\RequestHandlerInterface;
 
 class Helper
