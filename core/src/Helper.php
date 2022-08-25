@@ -10,6 +10,8 @@ namespace OpenSwoole\Core;
 
 use OpenSwoole\Http\Server;
 
+use Psr\Http\Server\RequestHandlerInterface;
+
 class Helper
 {
     public static function handle(Server $server, callable $callback)
@@ -17,6 +19,15 @@ class Helper
         $server->on('request', function (\OpenSwoole\HTTP\Request $request, \OpenSwoole\HTTP\Response $response) use ($callback) {
             $serverRequest  = \OpenSwoole\Core\Psr\ServerRequest::from($request);
             $serverResponse = $callback($serverRequest);
+            \OpenSwoole\Core\Psr\Response::emit($response, $serverResponse);
+        });
+    }
+
+    public static function setHandler(Server $server, RequestHandlerInterface $handler)
+    {
+        $server->on('request', function (\OpenSwoole\HTTP\Request $request, \OpenSwoole\HTTP\Response $response) use ($handler) {
+            $serverRequest  = \OpenSwoole\Core\Psr\ServerRequest::from($request);
+            $serverResponse = $handler->handle($serverRequest);
             \OpenSwoole\Core\Psr\Response::emit($response, $serverResponse);
         });
     }
