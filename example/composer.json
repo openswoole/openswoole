@@ -1,14 +1,23 @@
 {
     "name": "openswoole/example",
+    "description": "Example of openswoole",
     "type": "project",
+    "license": "Apache 2",
+    "autoload": {
+        "psr-4": {
+            "Openswoole\\Example\\": "src/"
+        }
+    },
     "authors": [
         {
             "name": "Bruce Dou",
             "email": "doubaokun@gmail.com"
         }
     ],
+    "minimum-stability": "dev",
     "require": {
-        "openswoole/core": "dev-master"
+        "openswoole/core": "dev-master",
+        "nikic/fast-route": "2.0.x-dev"
     },
     "repositories": [
         {"name": "openswoole/core", "type": "vcs", "url": "https://github.com/openswoole/core"}
