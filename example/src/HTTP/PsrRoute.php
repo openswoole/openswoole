@@ -19,7 +19,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-$server = new Server('127.0.0.1', 9501, SWOOLE_BASE);
+$server = new Server('127.0.0.1', 9501, Server::BASE);
 
 $server->on('start', function (Server $server) {
     echo "OpenSwoole http server is started at http://127.0.0.1:9501\n";
