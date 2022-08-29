@@ -6,12 +6,12 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
-namespace OpenSwoole\Core\Pool;
+namespace OpenSwoole\Core\Coroutine\Client;
 
 use Error;
 use TypeError;
 
-class ObjectProxy
+class ClientProxy
 {
     protected object $__object;
 

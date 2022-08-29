@@ -6,13 +6,13 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
-namespace OpenSwoole\Core\Pool;
+namespace OpenSwoole\Core\Coroutine\Client;
 
 use PDO;
 use PDOException;
 use PDOStatement;
 
-class PDOStatementProxy extends ObjectProxy
+class PDOStatementProxy extends ClientProxy
 {
     /** @var PDOStatement */
     protected $__object;

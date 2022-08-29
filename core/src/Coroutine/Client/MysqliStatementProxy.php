@@ -6,19 +6,12 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
-declare(strict_types=1);
-/**
- * This file is part of OpenSwoole.
- * @see     https://openswoole.com
- * @contact  hello@openswoole.com
- */
-
-namespace OpenSwoole\Core\Pool;
+namespace OpenSwoole\Core\Coroutine\Client;
 
 use mysqli;
 use mysqli_stmt;
 
-class MysqliStatementProxy extends ObjectProxy
+class MysqliStatementProxy extends ClientProxy
 {
     public const IO_METHOD_REGEX = '/^close|execute|fetch|prepare$/i';
 

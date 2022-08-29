@@ -6,11 +6,11 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
-namespace OpenSwoole\Core\Pool;
+namespace OpenSwoole\Core\Coroutine\Client;
 
 use mysqli;
 
-class MysqliProxy extends ObjectProxy
+class MysqliClient extends ClientProxy
 {
     public const IO_METHOD_REGEX = '/^autocommit|begin_transaction|change_user|close|commit|kill|multi_query|ping|prepare|query|real_connect|real_query|reap_async_query|refresh|release_savepoint|rollback|savepoint|select_db|send_query|set_charset|ssl_set$/i';
 
@@ -38,10 +38,13 @@ class MysqliProxy extends ObjectProxy
     /** @var int */
     protected $round = 0;
 
-    public function __construct(callable $constructor)
+    protected $config;
+
+    public function __construct(MysqliConfig $config)
     {
-        parent::__construct($constructor());
-        $this->constructor = $constructor;
+        $this->config = $config;
+        $this->makeClient();
+        return $this;
     }
 
     public function __call(string $name, array $arguments)
@@ -78,8 +81,7 @@ class MysqliProxy extends ObjectProxy
 
     public function reconnect(): void
     {
-        $constructor = $this->constructor;
-        parent::__construct($constructor());
+        $this->makeClient();
         $this->round++;
         /* restore context */
         if ($this->charsetContext) {
@@ -93,6 +95,11 @@ class MysqliProxy extends ObjectProxy
         if ($this->changeUserContext) {
             $this->__object->change_user(...$this->changeUserContext);
         }
+    }
+
+    public function heartbeat(): void
+    {
+        $this->__object->query('SELECT 1');
     }
 
     public function options(int $option, $value): bool
@@ -116,5 +123,25 @@ class MysqliProxy extends ObjectProxy
     {
         $this->changeUserContext = [$user, $password, $database];
         return $this->__object->change_user($user, $password, $database);
+    }
+
+    protected function makeClient()
+    {
+        $client = new mysqli();
+        foreach ($this->config->getOptions() as $option => $value) {
+            $client->set_opt($option, $value);
+        }
+        $client->real_connect(
+            $this->config->getHost(),
+            $this->config->getUsername(),
+            $this->config->getPassword(),
+            $this->config->getDbname(),
+            $this->config->getPort(),
+            $this->config->getUnixSocket()
+        );
+        if ($client->connect_errno) {
+            throw new MysqliException($mysqli->connect_error, $mysqli->connect_errno);
+        }
+        $this->__object = $client;
     }
 }

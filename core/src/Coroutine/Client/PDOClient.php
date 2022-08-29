@@ -6,12 +6,12 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
-namespace OpenSwoole\Core\Pool;
+namespace OpenSwoole\Core\Coroutine\Client;
 
 use PDO;
 use PDOException;
 
-class PDOProxy extends ObjectProxy
+class PDOClient extends ClientProxy
 {
     public const IO_METHOD_REGEX = '/^query|prepare|exec|beginTransaction|commit|rollback$/i';
 
@@ -27,17 +27,17 @@ class PDOProxy extends ObjectProxy
     /** @var array|null */
     protected $setAttributeContext;
 
-    /** @var callable */
-    protected $constructor;
-
     /** @var int */
     protected $round = 0;
 
-    public function __construct(callable $constructor)
+    protected $config = [];
+
+    public function __construct($config)
     {
-        parent::__construct($constructor());
+        $this->config = $config;
+        $this->makeClient();
         $this->__object->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
-        $this->constructor = $constructor;
+        return $this;
     }
 
     public function __call(string $name, array $arguments)
@@ -84,8 +84,7 @@ class PDOProxy extends ObjectProxy
 
     public function reconnect(): void
     {
-        $constructor = $this->constructor;
-        parent::__construct($constructor());
+        $this->makeClient();
         $this->round++;
         /* restore context */
         if ($this->setAttributeContext) {
@@ -93,6 +92,11 @@ class PDOProxy extends ObjectProxy
                 $this->__object->setAttribute($attribute, $value);
             }
         }
+    }
+
+    public function heartbeat(): void
+    {
+        $this->__object->query('SELECT 1')->fetch();
     }
 
     public function setAttribute(int $attribute, $value): bool
@@ -104,5 +108,23 @@ class PDOProxy extends ObjectProxy
     public function inTransaction(): bool
     {
         return $this->__object->inTransaction();
+    }
+
+    protected function makeClient()
+    {
+        $client = new PDO(
+            "{$this->config->getDriver()}:" .
+            (
+                $this->config->hasUnixSocket() ?
+                "unix_socket={$this->config->getUnixSocket()};" :
+                "host={$this->config->getHost()};" . "port={$this->config->getPort()};"
+            ) .
+            "dbname={$this->config->getDbname()};" .
+            "charset={$this->config->getCharset()}",
+            $this->config->getUsername(),
+            $this->config->getPassword(),
+            $this->config->getOptions()
+        );
+        $this->__object = $client;
     }
 }

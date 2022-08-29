@@ -41,7 +41,7 @@ final class Server
 
     private $workerContext;
 
-    public function __construct(string $host, int $port = 0, int $mode = \SWOOLE_BASE, int $sockType = \SWOOLE_SOCK_TCP)
+    public function __construct(string $host, int $port = 0, int $mode = \OpenSwoole\Server::BASE, int $sockType = \OpenSwoole\Constant::SOCK_TCP)
     {
         $this->host     = $host;
         $this->port     = $port;
@@ -49,7 +49,7 @@ final class Server
         $this->sockType = $sockType;
         $server         = new \Swoole\HTTP\Server($this->host, $this->port, $this->mode, $this->sockType);
         $server->on('start', function () {
-            \swoole_error_log(\SWOOLE_LOG_INFO, sprintf("\033[32m%s\033[0m", "OpenSwoole GRPC Server is started grpc://{$this->host}:{$this->port}"));
+            \swoole_error_log(\OpenSwoole\Constant::LOG_INFO, sprintf("\033[32m%s\033[0m", "OpenSwoole GRPC Server is started grpc://{$this->host}:{$this->port}"));
         });
         $this->server   = $server;
         return $this;

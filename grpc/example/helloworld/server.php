@@ -25,7 +25,7 @@ $server = (new Server('127.0.0.1', 9501))
         return time();
     })
     ->set([
-        'log_level' => \SWOOLE_LOG_INFO,
+        'log_level' => \OpenSwoole\Constant::LOG_INFO,
     ])
     ->start()
 ;

@@ -6,15 +6,10 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
-namespace OpenSwoole\Core\Pool;
+namespace OpenSwoole\Core\Coroutine\Client;
 
-class PDOConfig
+class MysqliConfig
 {
-    public const DRIVER_MYSQL = 'mysql';
-
-    /** @var string */
-    protected $driver = self::DRIVER_MYSQL;
-
     /** @var string */
     protected $host = '127.0.0.1';
 
@@ -22,7 +17,7 @@ class PDOConfig
     protected $port = 3306;
 
     /** @var string|null */
-    protected $unixSocket;
+    protected $unixSocket = '';
 
     /** @var string */
     protected $dbname = 'test';
@@ -39,17 +34,6 @@ class PDOConfig
     /** @var array */
     protected $options = [];
 
-    public function getDriver(): string
-    {
-        return $this->driver;
-    }
-
-    public function withDriver(string $driver): self
-    {
-        $this->driver = $driver;
-        return $this;
-    }
-
     public function getHost(): string
     {
         return $this->host;
@@ -64,11 +48,6 @@ class PDOConfig
     public function getPort(): int
     {
         return $this->port;
-    }
-
-    public function hasUnixSocket(): bool
-    {
-        return isset($this->unixSocket);
     }
 
     public function getUnixSocket(): string
@@ -141,17 +120,5 @@ class PDOConfig
     {
         $this->options = $options;
         return $this;
-    }
-
-    /**
-     * Returns the list of available drivers
-     *
-     * @return string[]
-     */
-    public static function getAvailableDrivers()
-    {
-        return [
-            self::DRIVER_MYSQL,
-        ];
     }
 }
