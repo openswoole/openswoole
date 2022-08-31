@@ -10,6 +10,7 @@ namespace OpenSwoole\Core\Coroutine;
 
 use BadMethodCallException;
 use InvalidArgumentException;
+use OpenSwoole\Coroutine\Channel;
 
 class WaitGroup
 {
