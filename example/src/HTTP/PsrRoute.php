@@ -6,8 +6,6 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
-namespace OpenSwoole\Example\HTTP;
-
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use FastRoute\RouteCollector;
