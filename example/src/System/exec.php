@@ -8,6 +8,6 @@ declare(strict_types=1);
  */
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-Co::run(function () {
-	var_dump(co::exec("ls -l ."));
+co::run(function () {
+    var_dump(co::exec('ls -l .'));
 });
