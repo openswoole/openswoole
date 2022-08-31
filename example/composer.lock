@@ -78,12 +78,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:openswoole/core.git",
-                "reference": "cbaf976428737db05f54ac3e00805864ead59ad4"
+                "reference": "e04af6a9b8202216c9fb719cdcfb78705ad700a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openswoole/core/zipball/cbaf976428737db05f54ac3e00805864ead59ad4",
-                "reference": "cbaf976428737db05f54ac3e00805864ead59ad4",
+                "url": "https://api.github.com/repos/openswoole/core/zipball/e04af6a9b8202216c9fb719cdcfb78705ad700a2",
+                "reference": "e04af6a9b8202216c9fb719cdcfb78705ad700a2",
                 "shasum": ""
             },
             "require": {
@@ -141,7 +141,7 @@
                 "pull-request": "https://github.com/openswoole/openswoole/pulls",
                 "source": "https://github.com/openswoole/openswoole"
             },
-            "time": "2022-08-25T16:10:25+00:00"
+            "time": "2022-08-31T16:52:59+00:00"
         },
         {
             "name": "psr/http-message",
