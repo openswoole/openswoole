@@ -10,7 +10,8 @@
         }
     ],
     "require": {
-        "php": ">=7.4"
+        "php": ">=7.4",
+        "openswoole/core": "dev-master"
     },
     "require-dev": {
         "openswoole/ide-helper": "^4.11",
@@ -27,6 +28,12 @@
             "OpenSwoole\\GRPC\\": "src/"
         }
     },
+    "repositories": [
+        {
+            "name": "openswoole/core", 
+            "type": "path", "url": "../core"
+        }
+    ],
     "scripts": {
         "test": [
             "psalm --no-cache"

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OpenSwoole\GRPC;
 
 use OpenSwoole\GRPC\Exception\InvokeException;
+use OpenSwoole\Util;
 
 final class ServiceContainer
 {
@@ -24,13 +25,13 @@ final class ServiceContainer
             $reflection = new \ReflectionClass($interface);
 
             if (!$reflection->hasConstant('NAME')) {
-                \swoole_error_log(\SWOOLE_LOG_ERROR, "Can't find NAME of the service: {$interface}");
+                Util::log(\OpenSwoole\Constant::LOG_ERROR, "Can't find NAME of the service: {$interface}");
             }
 
             $name = $reflection->getConstant('NAME');
 
             if (!\is_string($name)) {
-                \swoole_error_log(\SWOOLE_LOG_ERROR, "Can't find NAME of the service: {$interface}");
+                Util::log(\OpenSwoole\Constant::LOG_ERROR, "Can't find NAME of the service: {$interface}");
             }
 
             $this->name = $name;
@@ -61,7 +62,7 @@ final class ServiceContainer
         return array_values($this->methods);
     }
 
-    public function invoke(Request $request): string
+    public function handle(Request $request): string
     {
         $method  = $request->getMethod();
         $context = $request->getContext();

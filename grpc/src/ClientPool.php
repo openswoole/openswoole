@@ -8,6 +8,9 @@ declare(strict_types=1);
  */
 namespace OpenSwoole\GRPC;
 
+use OpenSwoole\Coroutine;
+use OpenSwoole\Coroutine\Channel;
+
 class ClientPool
 {
     public const DEFAULT_SIZE = 16;
@@ -26,7 +29,7 @@ class ClientPool
 
     public function __construct($factory, $config, int $size = self::DEFAULT_SIZE, bool $heartbeat = false)
     {
-        $this->pool    = new \Swoole\Coroutine\Channel($this->size = $size);
+        $this->pool    = new Channel($this->size = $size);
         $this->num     = 0;
         $this->factory = $factory;
         $this->config  = $config;
@@ -102,7 +105,7 @@ class ClientPool
 
     protected function heartbeat()
     {
-        \Swoole\Coroutine::create(function () {
+        Coroutine::create(function () {
             while ($this->pool && !$this->pool->isEmpty()) {
                 $client = $this->get();
                 $client->heartbeat();

@@ -106,8 +106,8 @@ class ClientPool
     protected function heartbeat()
     {
         Coroutine::create(function () {
-            while ($this->pool && !$this->pool->isEmpty()) {
-                \co::sleep(30);
+            while ($this->pool) {
+                \co::sleep(3);
                 $client = $this->get();
                 $client->heartbeat();
                 $this->put($client);

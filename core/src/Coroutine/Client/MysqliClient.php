@@ -21,7 +21,7 @@ class MysqliClient extends ClientProxy
     ];
 
     /** @var mysqli */
-    protected $__object;
+    protected object $__object;
 
     /** @var string */
     protected $charsetContext;

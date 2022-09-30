@@ -15,7 +15,7 @@ use PDOStatement;
 class PDOStatementProxy extends ClientProxy
 {
     /** @var PDOStatement */
-    protected $__object;
+    protected object $__object;
 
     /** @var array|null */
     protected $setAttributeContext;
@@ -32,13 +32,13 @@ class PDOStatementProxy extends ClientProxy
     /** @var array|null */
     protected $bindValueContext;
 
-    /** @var PDO|PDOProxy */
+    /** @var PDO|PDOClient */
     protected $parent;
 
     /** @var int */
     protected $parentRound;
 
-    public function __construct(PDOStatement $object, PDOProxy $parent)
+    public function __construct(PDOStatement $object, PDOClient $parent)
     {
         parent::__construct($object);
         $this->parent      = $parent;

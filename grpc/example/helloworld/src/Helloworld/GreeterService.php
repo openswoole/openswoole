@@ -21,6 +21,13 @@ class GreeterService implements GreeterInterface
         $out  = new HelloReply();
         $out->setMessage('hello ' . $name);
 
+        // use mysql pool:
+        if ($mysqlPool = $ctx['WORKER_CONTEXT']->getValue('mysql_pool')) {
+            $mysqlClient = $mysqlPool->get();
+            $mysqlClient->query('SELECT SLEEP(10)')->fetch();
+            $mysqlPool->put($mysqlClient);
+        }
+
         return $out;
     }
 }

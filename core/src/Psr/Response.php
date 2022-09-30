@@ -122,7 +122,7 @@ class Response extends Message implements ResponseInterface
         return $this->reasonPhrase;
     }
 
-    public static function emit(\Swoole\HTTP\Response $response, $psrResponse)
+    public static function emit(\OpenSwoole\HTTP\Response $response, $psrResponse)
     {
         $response->status($psrResponse->getStatusCode());
         foreach ($psrResponse->getHeaders() as $name => $values) {

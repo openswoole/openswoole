@@ -6,9 +6,8 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
-namespace OpenSwoole\GRPC;
+namespace OpenSwoole\Core\Coroutine\Client;
 
-interface InterceptorInterface
+interface ClientConfigInterface
 {
-    public function handle(Request $request, $invoker);
 }

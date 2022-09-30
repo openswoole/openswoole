@@ -17,7 +17,8 @@
     "minimum-stability": "dev",
     "require": {
         "openswoole/core": "dev-master",
-        "nikic/fast-route": "2.0.x-dev"
+        "slim/slim": "^4.0",
+        "slim/psr7": "dev-master"
     },
     "repositories": [
         {"name": "openswoole/core", "type": "vcs", "url": "https://github.com/openswoole/core"}

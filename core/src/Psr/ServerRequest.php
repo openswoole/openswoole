@@ -144,7 +144,7 @@ class ServerRequest extends Request implements ServerRequestInterface
         return $request;
     }
 
-    public static function from(\Swoole\HTTP\Request $request)
+    public static function from(\OpenSwoole\HTTP\Request $request)
     {
         $files = [];
 
