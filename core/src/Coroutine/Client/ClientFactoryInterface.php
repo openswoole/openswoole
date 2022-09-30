@@ -10,5 +10,5 @@ namespace OpenSwoole\Core\Coroutine\Client;
 
 interface ClientFactoryInterface
 {
-    public static function make($config);
+    public static function make(ClientConfigInterface $config);
 }

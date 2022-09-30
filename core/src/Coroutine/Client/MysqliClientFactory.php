@@ -10,7 +10,7 @@ namespace OpenSwoole\Core\Coroutine\Client;
 
 final class MysqliClientFactory implements ClientFactoryInterface
 {
-    public static function make(MysqliConfig $config)
+    public static function make($config)
     {
         return new MysqliClient($config);
     }

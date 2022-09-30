@@ -12,10 +12,10 @@ use Helloworld\HelloRequest;
 use OpenSwoole\GRPC\ClientFactory;
 use OpenSwoole\GRPC\ClientPool;
 
-\Swoole\Coroutine::set(['log_level' => SWOOLE_LOG_ERROR]);
-// Co::set(['log_level' => SWOOLE_LOG_DEBUG]);
+\OpenSwoole\Coroutine::set(['log_level' => \OpenSwoole\Constant::LOG_ERROR]);
+// Co::set(['log_level' => \OpenSwoole\Constant::LOG_DEBUG]);
 
-Co\run(function () {
+co::run(function () {
     $connpool = new ClientPool(ClientFactory::class, ['host' => '127.0.0.1', 'port' => 9501], 16);
     $now      = microtime(true);
     $i        = 16;

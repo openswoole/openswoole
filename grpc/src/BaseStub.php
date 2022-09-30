@@ -60,7 +60,7 @@ class BaseStub
     ) {
         $this->deserialize = $deserialize;
         $streamId          = $this->client->send($method, $request);
-        [$data,]           = $this->client->recv($streamId);
+        [$data]            = $this->client->recv($streamId);
 
         $this->streamId    = $streamId;
         return $this->_deserializeResponse($deserialize, $data);
@@ -68,7 +68,7 @@ class BaseStub
 
     protected function _getData()
     {
-        [$data,]     = $this->client->recv($this->streamId);
+        [$data]     = $this->client->recv($this->streamId);
 
         return $this->_deserializeResponse($this->deserialize, $data);
     }

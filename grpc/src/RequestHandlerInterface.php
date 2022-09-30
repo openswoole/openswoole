@@ -8,10 +8,6 @@ declare(strict_types=1);
  */
 namespace OpenSwoole\GRPC;
 
-class TraceInterceptor implements InterceptorInterface
+interface RequestHandlerInterface
 {
-    public function handle($request, $invoker)
-    {
-        return $invoker->handle($request, $invoker);
-    }
 }

@@ -12,7 +12,7 @@ use Redis;
 
 final class RedisClientFactory implements ClientFactoryInterface
 {
-    public static function make(RedisConfig $config)
+    public static function make($config)
     {
         $redis     = new Redis();
         $arguments = [

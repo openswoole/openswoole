@@ -12,18 +12,22 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Helloworld\GreeterService;
 use Helloworld\StreamService;
-use OpenSwoole\GRPC\LoggingInterceptor;
+use OpenSwoole\GRPC\Middleware\LoggingMiddleware;
+use OpenSwoole\GRPC\Middleware\TraceMiddleware;
 use OpenSwoole\GRPC\Server;
-use OpenSwoole\GRPC\TraceInterceptor;
+
+// enable hooks on IO clients
+co::set(['hook_flags' => OpenSwoole\Runtime::HOOK_ALL]);
 
 $server = (new Server('127.0.0.1', 9501))
     ->register(GreeterService::class)
     ->register(StreamService::class)
-    ->withInterceptor(TraceInterceptor::class)
-    ->withInterceptor(LoggingInterceptor::class)
     ->withWorkerContext('worker_start_time', function () {
         return time();
     })
+    // use middlewares
+    ->addMiddleware(new LoggingMiddleware())
+    ->addMiddleware(new TraceMiddleware())
     ->set([
         'log_level' => \OpenSwoole\Constant::LOG_INFO,
     ])

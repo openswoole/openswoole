@@ -22,7 +22,7 @@ class PDOClient extends ClientProxy
     ];
 
     /** @var PDO */
-    protected $__object;
+    protected object $__object;
 
     /** @var array|null */
     protected $setAttributeContext;

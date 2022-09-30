@@ -16,7 +16,7 @@ class MysqliStatementProxy extends ClientProxy
     public const IO_METHOD_REGEX = '/^close|execute|fetch|prepare$/i';
 
     /** @var mysqli_stmt */
-    protected $__object;
+    protected object $__object;
 
     /** @var string|null */
     protected $queryString;
@@ -30,13 +30,13 @@ class MysqliStatementProxy extends ClientProxy
     /** @var array|null */
     protected $bindResultContext;
 
-    /** @var Mysqli|MysqliProxy */
+    /** @var Mysqli|MysqliClient */
     protected $parent;
 
     /** @var int */
     protected $parentRound;
 
-    public function __construct(mysqli_stmt $object, ?string $queryString, MysqliProxy $parent)
+    public function __construct(mysqli_stmt $object, ?string $queryString, MysqliClient $parent)
     {
         parent::__construct($object);
         $this->queryString = $queryString;

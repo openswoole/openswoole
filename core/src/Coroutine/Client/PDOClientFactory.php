@@ -10,7 +10,7 @@ namespace OpenSwoole\Core\Coroutine\Client;
 
 final class PDOClientFactory implements ClientFactoryInterface
 {
-    public static function make(PDOConfig $config)
+    public static function make($config)
     {
         return new PDOClient($config);
     }

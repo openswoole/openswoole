@@ -11,7 +11,10 @@ namespace OpenSwoole\GRPC;
 use Closure;
 use OpenSwoole\GRPC\Exception\GRPCException;
 use OpenSwoole\GRPC\Exception\InvokeException;
-use OpenSwoole\GRPC\Exception\NotFoundException;
+use OpenSwoole\GRPC\Middleware\MiddlewareInterface;
+use OpenSwoole\GRPC\Middleware\ServiceHandler;
+use OpenSwoole\GRPC\Middleware\StackHandler;
+use OpenSwoole\Util;
 
 final class Server
 {
@@ -27,37 +30,47 @@ final class Server
      * @psalm-suppress UndefinedClass
      */
     private array $settings = [
-        \Swoole\Constant::OPTION_OPEN_HTTP2_PROTOCOL => 1,
-        \Swoole\Constant::OPTION_ENABLE_COROUTINE    => true,
+        \OpenSwoole\Constant::OPTION_OPEN_HTTP2_PROTOCOL => 1,
+        \OpenSwoole\Constant::OPTION_ENABLE_COROUTINE    => true,
     ];
 
     private array $services = [];
-
-    private array $interceptors = [];
 
     private array $workerContexts = [];
 
     private $server;
 
+    private $handler;
+
     private $workerContext;
 
-    public function __construct(string $host, int $port = 0, int $mode = \OpenSwoole\Server::BASE, int $sockType = \OpenSwoole\Constant::SOCK_TCP)
+    public function __construct(string $host, int $port = 0, int $mode = \OpenSwoole\Server::SIMPLE_MODE, int $sockType = \OpenSwoole\Constant::SOCK_TCP)
     {
         $this->host     = $host;
         $this->port     = $port;
         $this->mode     = $mode;
         $this->sockType = $sockType;
-        $server         = new \Swoole\HTTP\Server($this->host, $this->port, $this->mode, $this->sockType);
+        $server         = new \OpenSwoole\HTTP\Server($this->host, $this->port, $this->mode, $this->sockType);
         $server->on('start', function () {
-            \swoole_error_log(\OpenSwoole\Constant::LOG_INFO, sprintf("\033[32m%s\033[0m", "OpenSwoole GRPC Server is started grpc://{$this->host}:{$this->port}"));
+            Util::LOG(\OpenSwoole\Constant::LOG_INFO, sprintf("\033[32m%s\033[0m", "OpenSwoole GRPC Server is started grpc://{$this->host}:{$this->port}"));
         });
         $this->server   = $server;
+
+        $handler       = (new StackHandler())->add(new ServiceHandler());
+        $this->handler = $handler;
+
         return $this;
     }
 
     public function withWorkerContext(string $context, Closure $callback): self
     {
         $this->workerContexts[$context] = $callback;
+        return $this;
+    }
+
+    public function addMiddleware(MiddlewareInterface $middleware): self
+    {
+        $this->handler = $this->handler->add($middleware);
         return $this;
     }
 
@@ -70,16 +83,16 @@ final class Server
     public function start()
     {
         $this->server->set($this->settings);
-        $this->server->on('workerStart', function (\Swoole\Server $server, int $workerId) {
+        $this->server->on('workerStart', function (\OpenSwoole\Server $server, int $workerId) {
             $this->workerContext = new Context([
-                \OpenSwoole\GRPC\Server::class          => $this,
-                \Swoole\HTTP\Server::class              => $this->server,
+                \OpenSwoole\GRPC\Server::class              => $this,
+                \OpenSwoole\HTTP\Server::class              => $this->server,
             ]);
             foreach ($this->workerContexts as $context => $callback) {
                 $this->workerContext = $this->workerContext->withValue($context, $callback->call($this));
             }
         });
-        $this->server->on('request', function (\Swoole\HTTP\Request $request, \Swoole\HTTP\Response $response) {
+        $this->server->on('request', function (\OpenSwoole\HTTP\Request $request, \OpenSwoole\HTTP\Response $response) {
             $this->process($request, $response);
         });
         $this->server->start();
@@ -105,30 +118,16 @@ final class Server
         return $this;
     }
 
-    public function withInterceptor(string $interceptor): self
-    {
-        if (!class_exists($interceptor)) {
-            throw new \TypeError("{$interceptor} not found");
-        }
-        $instance = new $interceptor();
-        if (!($instance instanceof InterceptorInterface)) {
-            throw new \TypeError("{$interceptor} is not ServiceInterface");
-        }
-
-        $this->interceptors[] = $instance;
-        return $this;
-    }
-
-    public function process(\Swoole\HTTP\Request $rawRequest, \Swoole\HTTP\Response $rawResponse)
+    public function process(\OpenSwoole\HTTP\Request $rawRequest, \OpenSwoole\HTTP\Response $rawResponse)
     {
         $context = new Context([
-            'WORKER_CONTEXT'                        => $this->workerContext,
-            'INTERCEPTORS'                          => $this->interceptors,
-            \Swoole\Http\Request::class             => $rawRequest,
-            \Swoole\Http\Response::class            => $rawResponse,
-            Constant::CONTENT_TYPE                  => $rawRequest->header[Constant::CONTENT_TYPE] ?? '',
-            Constant::GRPC_STATUS                   => Status::UNKNOWN,
-            Constant::GRPC_MESSAGE                  => '',
+            'WORKER_CONTEXT'                            => $this->workerContext,
+            'SERVICES'                                  => $this->services,
+            \OpenSwoole\Http\Request::class             => $rawRequest,
+            \OpenSwoole\Http\Response::class            => $rawResponse,
+            Constant::CONTENT_TYPE                      => $rawRequest->header[Constant::CONTENT_TYPE] ?? '',
+            Constant::GRPC_STATUS                       => Status::UNKNOWN,
+            Constant::GRPC_MESSAGE                      => '',
         ]);
 
         try {
@@ -137,25 +136,16 @@ final class Server
             [, $service, $method]        = explode('/', $rawRequest->server['request_uri'] ?? '');
             $service                     = '/' . $service;
             $message                     = $rawRequest->getContent() ? substr($rawRequest->getContent(), 5) : '';
+            $request                     = new Request($context, $service, $method, $message);
 
-            $request = new Request($context, $service, $method, $message);
-
-            $output = $this->handle($request);
-
-            $context = $context->withValue(Constant::GRPC_STATUS, Status::OK);
+            $response = $this->handler->handle($request);
         } catch (GRPCException $e) {
-            \swoole_error_log(\SWOOLE_LOG_ERROR, $e->getMessage() . ', error code: ' . $e->getCode() . "\n" . $e->getTraceAsString());
+            Util::log(\OpenSwoole\Constant::LOG_ERROR, $e->getMessage() . ', error code: ' . $e->getCode() . "\n" . $e->getTraceAsString());
             $output          = '';
             $context         = $context->withValue(Constant::GRPC_STATUS, $e->getCode());
             $context         = $context->withValue(Constant::GRPC_MESSAGE, $e->getMessage());
-        } catch (\Swoole\Exception $e) {
-            \swoole_error_log(\SWOOLE_LOG_WARNING, $e->getMessage() . ', error code: ' . $e->getCode() . "\n" . $e->getTraceAsString());
-            $output          = '';
-            $context         = $context->withValue(Constant::GRPC_STATUS, $e->getCode());
-            $context         = $context->withValue(Constant::GRPC_MESSAGE, $e->getMessage());
+            $response        = new Response($context, $output);
         }
-
-        $response = new Response($context, $output);
 
         $this->send($response);
     }
@@ -175,43 +165,31 @@ final class Server
 
         $payload = pack('CN', 0, strlen($payload)) . $payload;
 
-        $ret = $context->getValue(\Swoole\Http\Response::class)->write($payload);
+        $ret = $context->getValue(\OpenSwoole\Http\Response::class)->write($payload);
         if (!$ret) {
-            throw new \Swoole\Exception('Client side is disconnected');
+            throw new \OpenSwoole\Exception('Client side is disconnected');
         }
         return $ret;
     }
 
-    public function handle(Request $request)
+    private function validateRequest(\OpenSwoole\HTTP\Request $request)
     {
-        $context = $request->getContext();
-        if (empty($context->getValue('INTERCEPTORS'))) {
-            return $this->execute($request);
+        if (!isset($request->header['content-type']) || !isset($request->header['te'])) {
+            throw InvokeException::create('illegal GRPC request, missing content-type or te header');
         }
 
-        $interceptor = $context->getValue('INTERCEPTORS')[0];
-        $request->withContext($context->withValue('INTERCEPTORS', array_slice($context->getValue('INTERCEPTORS'), 1)));
-        return $interceptor->handle($request, $this);
-    }
-
-    public function execute(Request $request)
-    {
-        $result = null;
-        try {
-            $result = $this->invoke($request);
-        } catch (\Swoole\Exception $e) {
-            throw $e;
-        } catch (\Throwable $e) {
-            throw InvokeException::create($e->getMessage(), Status::INTERNAL, $e);
+        if ($request->header['content-type'] !== 'application/grpc'
+            && $request->header['content-type'] !== 'application/grpc+proto'
+            && $request->header['content-type'] !== 'application/grpc+json'
+        ) {
+            throw InvokeException::create("Content-type not supported: {$request->header['content-type']}", Status::INTERNAL);
         }
-
-        return $result;
     }
 
     private function send(Response $response)
     {
         $context     = $response->getContext();
-        $rawResponse = $context->getValue(\Swoole\Http\Response::class);
+        $rawResponse = $context->getValue(\OpenSwoole\Http\Response::class);
         $headers     = [
             'content-type' => $context->getValue('content-type'),
             'trailer'      => 'grpc-status, grpc-message',
@@ -233,32 +211,8 @@ final class Server
                 $rawResponse->trailer($name, (string) $value);
             }
             $rawResponse->end($payload);
-        } catch (\Swoole\Exception $e) {
-            \swoole_error_log(\SWOOLE_LOG_WARNING, $e->getMessage() . ', error code: ' . $e->getCode() . "\n" . $e->getTraceAsString());
+        } catch (\OpenSwoole\Exception $e) {
+            Util::log(\OpenSwoole\Constant::LOG_WARNING, $e->getMessage() . ', error code: ' . $e->getCode() . "\n" . $e->getTraceAsString());
         }
-    }
-
-    private function validateRequest(\Swoole\HTTP\Request $request)
-    {
-        if (!isset($request->header['content-type']) || !isset($request->header['te'])) {
-            throw InvokeException::create('illegal GRPC request, missing content-type or te header');
-        }
-
-        if ($request->header['content-type'] !== 'application/grpc'
-            && $request->header['content-type'] !== 'application/grpc+proto'
-            && $request->header['content-type'] !== 'application/grpc+json'
-        ) {
-            throw InvokeException::create("Content-type not supported: {$request->header['content-type']}", Status::INTERNAL);
-        }
-    }
-
-    private function invoke(Request $request): string
-    {
-        $service = $request->getService();
-        $method  = $request->getMethod();
-        if (!isset($this->services[$service])) {
-            throw NotFoundException::create("{$service}::{$method} not found");
-        }
-        return $this->services[$service]->invoke($request);
     }
 }

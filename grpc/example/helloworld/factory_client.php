@@ -11,11 +11,11 @@ require __DIR__ . '/vendor/autoload.php';
 use Helloworld\HelloRequest;
 use OpenSwoole\GRPC\ClientFactory;
 
-\Swoole\Coroutine::set(['log_level' => SWOOLE_LOG_ERROR]);
-// Co::set(['log_level' => SWOOLE_LOG_DEBUG]);
+\OpenSwoole\Coroutine::set(['log_level' => \OpenSwoole\Constant::LOG_ERROR]);
+// Co::set(['log_level' => \OpenSwoole\Constant::LOG_DEBUG]);
 
-Co\run(function () {
-    $conn    = ClientFactory::make('127.0.0.1', 9501)->connect();
+co::run(function () {
+    $conn    = ClientFactory::make(['host' => '127.0.0.1', 'port' => 9501]);
     $client  = new Helloworld\GreeterClient($conn);
     $message = new HelloRequest();
     $message->setName(str_repeat('x', 10));

@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 namespace OpenSwoole\Core\Coroutine\Client;
 
-class PDOConfig
+class PDOConfig implements ClientConfigInterface
 {
     public const DRIVER_MYSQL = 'mysql';
 
@@ -34,7 +34,7 @@ class PDOConfig
     protected $username = 'root';
 
     /** @var string */
-    protected $password = 'root';
+    protected $password = '';
 
     /** @var array */
     protected $options = [];

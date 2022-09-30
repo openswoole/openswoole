@@ -22,7 +22,7 @@
         "ext-curl": "*",
         "ext-sockets": "*",
         "friendsofphp/php-cs-fixer": "^3.6",
-        "openswoole/ide-helper": "^4.11",
+        "openswoole/ide-helper": "*",
         "php-http/psr7-integration-tests": "^1.1",
         "phpunit/phpunit": "^9.5",
         "symplify/monorepo-builder": "^11.1",

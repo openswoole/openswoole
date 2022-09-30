@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 namespace OpenSwoole\Core\Coroutine\Client;
 
-class RedisConfig
+class RedisConfig implements ClientConfigInterface
 {
     /** @var string */
     protected $host = '127.0.0.1';

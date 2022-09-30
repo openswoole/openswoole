@@ -9,12 +9,13 @@ declare(strict_types=1);
 require __DIR__ . '/vendor/autoload.php';
 
 use Helloworld\HelloRequest;
+use OpenSwoole\Constant;
 use OpenSwoole\GRPC\Client;
 
-\Swoole\Coroutine::set(['log_level' => SWOOLE_LOG_ERROR]);
-// Co::set(['log_level' => SWOOLE_LOG_DEBUG]);
+\OpenSwoole\Coroutine::set(['log_level' => Constant::LOG_ERROR]);
+// Co::set(['log_level' => Constant::LOG_DEBUG]);
 
-Co\run(function () {
+co::run(function () {
     $conn    = (new Client('127.0.0.1', 9501))->connect();
     $client  = new Helloworld\GreeterClient($conn);
     $message = new HelloRequest();
