@@ -53,7 +53,7 @@ class Manager
     {
         $this->pool = new Pool(count($this->startFuncMap), $this->ipcType, $this->msgQueueKey, false);
 
-        $this->pool->on(\Swoole\Constant::EVENT_WORKER_START, function (Pool $pool, int $workerId) {
+        $this->pool->on(\OpenSwoole\Constant::EVENT_WORKER_START, function (Pool $pool, int $workerId) {
             [$func, $enableCoroutine] = $this->startFuncMap[$workerId];
             if ($enableCoroutine) {
                 \OpenSwoole\Coroutine::run($func, $pool, $workerId);
