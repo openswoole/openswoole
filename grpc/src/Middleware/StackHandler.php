@@ -27,7 +27,7 @@ class StackHandler implements RequestHandlerInterface
         return $stack;
     }
 
-    public function handle(MessageInterface $request): MessageInterface
+    public function handle(MessageInterface $request): ?MessageInterface
     {
         $middleware = $this->middlewares[0] ?? false;
         return $middleware
