@@ -140,7 +140,7 @@ class MysqliClient extends ClientProxy
             $this->config->getUnixSocket()
         );
         if ($client->connect_errno) {
-            throw new MysqliException($mysqli->connect_error, $mysqli->connect_errno);
+            throw new MysqliException($client->connect_error, $client->connect_errno);
         }
         $this->__object = $client;
     }
