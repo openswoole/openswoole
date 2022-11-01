@@ -18,9 +18,10 @@
     "require": {
         "openswoole/core": "dev-master",
         "slim/slim": "^4.0",
-        "slim/psr7": "dev-master"
+        "slim/psr7": "dev-master",
+        "league/container": "4.x-dev"
     },
     "repositories": [
-        {"name": "openswoole/core", "type": "vcs", "url": "https://github.com/openswoole/core"}
+        {"name": "openswoole/core", "type": "path", "url": "../core"}
     ]
 }
