@@ -22,6 +22,6 @@
         "league/container": "4.x-dev"
     },
     "repositories": [
-        {"name": "openswoole/core", "type": "path", "url": "../core"}
+        {"name": "openswoole/core", "type": "vcs", "url": "https://github.com/openswoole/core"}
     ]
 }
