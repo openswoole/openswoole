@@ -8,8 +8,6 @@ declare(strict_types=1);
  */
 namespace OpenSwoole\Core\Coroutine\Client;
 
-use mysqli;
-
 class MysqliClient extends ClientProxy
 {
     public const IO_METHOD_REGEX = '/^autocommit|begin_transaction|change_user|close|commit|kill|multi_query|ping|prepare|query|real_connect|real_query|reap_async_query|refresh|release_savepoint|rollback|savepoint|select_db|send_query|set_charset|ssl_set$/i';
@@ -20,7 +18,7 @@ class MysqliClient extends ClientProxy
         2013, // MYSQLND_CR_SERVER_LOST
     ];
 
-    /** @var mysqli */
+    /** @var \mysqli */
     protected object $__object;
 
     /** @var string */
@@ -127,7 +125,7 @@ class MysqliClient extends ClientProxy
 
     protected function makeClient()
     {
-        $client = new mysqli();
+        $client = new \mysqli();
         foreach ($this->config->getOptions() as $option => $value) {
             $client->set_opt($option, $value);
         }
