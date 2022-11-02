@@ -8,9 +8,6 @@ declare(strict_types=1);
  */
 namespace OpenSwoole\Core\Coroutine\Client;
 
-use PDO;
-use PDOException;
-
 class PDOClient extends ClientProxy
 {
     public const IO_METHOD_REGEX = '/^query|prepare|exec|beginTransaction|commit|rollback$/i';
@@ -21,7 +18,7 @@ class PDOClient extends ClientProxy
         2013, // MYSQLND_CR_SERVER_LOST
     ];
 
-    /** @var PDO */
+    /** @var \PDO */
     protected object $__object;
 
     /** @var array|null */
@@ -36,7 +33,7 @@ class PDOClient extends ClientProxy
     {
         $this->config = $config;
         $this->makeClient();
-        $this->__object->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
+        $this->__object->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_SILENT);
         return $this;
     }
 
@@ -58,7 +55,7 @@ class PDOClient extends ClientProxy
                 ) {
                     /* '00000' means “no error.”, as specified by ANSI SQL and ODBC. */
                     if (!empty($errorInfo) && $errorInfo[0] !== '00000') {
-                        $exception            = new PDOException($errorInfo[2], $errorInfo[1]);
+                        $exception            = new \PDOException($errorInfo[2], $errorInfo[1]);
                         $exception->errorInfo = $errorInfo;
                         throw $exception;
                     }
@@ -112,7 +109,7 @@ class PDOClient extends ClientProxy
 
     protected function makeClient()
     {
-        $client = new PDO(
+        $client = new \PDO(
             "{$this->config->getDriver()}:" .
             (
                 $this->config->hasUnixSocket() ?

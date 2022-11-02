@@ -8,13 +8,11 @@ declare(strict_types=1);
  */
 namespace OpenSwoole\Core\Coroutine\Client;
 
-use Redis;
-
 final class RedisClientFactory implements ClientFactoryInterface
 {
     public static function make($config)
     {
-        $redis     = new Redis();
+        $redis     = new \Redis();
         $arguments = [
             $config->getHost(),
             $config->getPort(),

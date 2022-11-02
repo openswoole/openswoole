@@ -8,8 +8,6 @@ declare(strict_types=1);
  */
 namespace OpenSwoole\Core\Coroutine;
 
-use BadMethodCallException;
-use InvalidArgumentException;
 use OpenSwoole\Coroutine\Channel;
 
 class WaitGroup
@@ -31,11 +29,11 @@ class WaitGroup
     public function add(int $delta = 1): void
     {
         if ($this->waiting) {
-            throw new BadMethodCallException('WaitGroup misuse: add called concurrently with wait');
+            throw new \BadMethodCallException('WaitGroup misuse: add called concurrently with wait');
         }
         $count = $this->count + $delta;
         if ($count < 0) {
-            throw new InvalidArgumentException('WaitGroup misuse: negative counter');
+            throw new \InvalidArgumentException('WaitGroup misuse: negative counter');
         }
         $this->count = $count;
     }
@@ -44,7 +42,7 @@ class WaitGroup
     {
         $count = $this->count - 1;
         if ($count < 0) {
-            throw new BadMethodCallException('WaitGroup misuse: negative counter');
+            throw new \BadMethodCallException('WaitGroup misuse: negative counter');
         }
         $this->count = $count;
         if ($count === 0 && $this->waiting) {
@@ -55,7 +53,7 @@ class WaitGroup
     public function wait(float $timeout = -1): bool
     {
         if ($this->waiting) {
-            throw new BadMethodCallException('WaitGroup misuse: reused before previous wait has returned');
+            throw new \BadMethodCallException('WaitGroup misuse: reused before previous wait has returned');
         }
         if ($this->count > 0) {
             $this->waiting = true;

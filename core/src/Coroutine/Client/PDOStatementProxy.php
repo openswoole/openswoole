@@ -8,13 +8,9 @@ declare(strict_types=1);
  */
 namespace OpenSwoole\Core\Coroutine\Client;
 
-use PDO;
-use PDOException;
-use PDOStatement;
-
 class PDOStatementProxy extends ClientProxy
 {
-    /** @var PDOStatement */
+    /** @var \PDOStatement */
     protected object $__object;
 
     /** @var array|null */
@@ -32,13 +28,13 @@ class PDOStatementProxy extends ClientProxy
     /** @var array|null */
     protected $bindValueContext;
 
-    /** @var PDO|PDOClient */
+    /** @var \PDO|PDOClient */
     protected $parent;
 
     /** @var int */
     protected $parentRound;
 
-    public function __construct(PDOStatement $object, PDOClient $parent)
+    public function __construct(\PDOStatement $object, PDOClient $parent)
     {
         parent::__construct($object);
         $this->parent      = $parent;
@@ -64,7 +60,7 @@ class PDOStatementProxy extends ClientProxy
 
                     /* '00000' means “no error.”, as specified by ANSI SQL and ODBC. */
                     if (!empty($errorInfo) && $errorInfo[0] !== '00000') {
-                        $exception            = new PDOException($errorInfo[2], $errorInfo[1]);
+                        $exception            = new \PDOException($errorInfo[2], $errorInfo[1]);
                         $exception->errorInfo = $errorInfo;
                         throw $exception;
                     }
@@ -79,7 +75,7 @@ class PDOStatementProxy extends ClientProxy
                 $this->__object = $parent->prepare($this->__object->queryString);
                 if ($this->__object === false) {
                     $errorInfo            = $parent->errorInfo();
-                    $exception            = new PDOException($errorInfo[2], $errorInfo[1]);
+                    $exception            = new \PDOException($errorInfo[2], $errorInfo[1]);
                     $exception->errorInfo = $errorInfo;
                     throw $exception;
                 }
@@ -126,7 +122,7 @@ class PDOStatementProxy extends ClientProxy
         return $this->__object->setFetchMode(...$this->setFetchModeContext);
     }
 
-    public function bindParam($parameter, &$variable, $data_type = PDO::PARAM_STR, $length = 0, $driver_options = null): bool
+    public function bindParam($parameter, &$variable, $data_type = \PDO::PARAM_STR, $length = 0, $driver_options = null): bool
     {
         $this->bindParamContext[$parameter] = [$variable, $data_type, $length, $driver_options];
         return $this->__object->bindParam($parameter, $variable, $data_type, $length, $driver_options);
@@ -138,7 +134,7 @@ class PDOStatementProxy extends ClientProxy
         return $this->__object->bindColumn($column, $param, $type, $maxlen, $driverdata);
     }
 
-    public function bindValue($parameter, $value, $data_type = PDO::PARAM_STR): bool
+    public function bindValue($parameter, $value, $data_type = \PDO::PARAM_STR): bool
     {
         $this->bindValueContext[$parameter] = [$value, $data_type];
         return $this->__object->bindValue($parameter, $value, $data_type);

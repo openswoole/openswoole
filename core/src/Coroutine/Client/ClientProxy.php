@@ -8,9 +8,6 @@ declare(strict_types=1);
  */
 namespace OpenSwoole\Core\Coroutine\Client;
 
-use Error;
-use TypeError;
-
 class ClientProxy
 {
     protected object $__object;
@@ -18,7 +15,7 @@ class ClientProxy
     public function __construct($object)
     {
         if (!is_object($object)) {
-            throw new TypeError('Non-object given');
+            throw new \TypeError('Non-object given');
         }
         $this->__object = $object;
     }
@@ -62,6 +59,6 @@ class ClientProxy
 
     public function __clone()
     {
-        throw new Error('Trying to clone an uncloneable object proxy object');
+        throw new \Error('Trying to clone an uncloneable object proxy object');
     }
 }

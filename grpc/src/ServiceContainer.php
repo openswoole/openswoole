@@ -68,6 +68,7 @@ final class ServiceContainer
         $context = $request->getContext();
         $input   = $request->getPayload();
         if (!isset($this->methods[$method])) {
+            throw new \Exception('Method not found');
         }
 
         $callable = [$this->service, $method];

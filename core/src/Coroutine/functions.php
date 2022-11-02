@@ -10,7 +10,6 @@ namespace OpenSwoole\Core\Coroutine;
 
 use OpenSwoole\Coroutine;
 use OpenSwoole\Coroutine\Socket;
-use RuntimeException;
 
 // std
 function exec(string $command, &$output = null, &$returnVar = null)
@@ -75,7 +74,7 @@ function socket_write(Socket $socket, string $buffer, int $length = 0): int
 function socket_send(Socket $socket, string $buffer, int $length, int $flags): int
 {
     if ($flags != 0) {
-        throw new RuntimeException("\$flags[{$flags}] is not supported");
+        throw new \RuntimeException("\$flags[{$flags}] is not supported");
     }
     return socket_write($socket, $buffer, $length);
 }
@@ -83,7 +82,7 @@ function socket_send(Socket $socket, string $buffer, int $length, int $flags): i
 function socket_recv(Socket $socket, &$buffer, int $length, int $flags)
 {
     if ($flags & MSG_OOB) {
-        throw new RuntimeException('$flags[MSG_OOB] is not supported');
+        throw new \RuntimeException('$flags[MSG_OOB] is not supported');
     }
     if ($flags & MSG_PEEK) {
         $buffer = $socket->peek($length);
@@ -103,10 +102,10 @@ function socket_recv(Socket $socket, &$buffer, int $length, int $flags)
 function socket_sendto(Socket $socket, string $buffer, int $length, int $flags, string $addr, int $port = 0)
 {
     if ($flags != 0) {
-        throw new RuntimeException("\$flags[{$flags}] is not supported");
+        throw new \RuntimeException("\$flags[{$flags}] is not supported");
     }
     if ($socket->type != SOCK_DGRAM) {
-        throw new RuntimeException('only supports dgram type socket');
+        throw new \RuntimeException('only supports dgram type socket');
     }
     if ($length > 0 and $length < strlen($buffer)) {
         $buffer = substr($buffer, 0, $length);
@@ -117,10 +116,10 @@ function socket_sendto(Socket $socket, string $buffer, int $length, int $flags, 
 function socket_recvfrom(Socket $socket, &$buffer, int $length, int $flags, &$name, &$port)
 {
     if ($flags != 0) {
-        throw new RuntimeException("\$flags[{$flags}] is not supported");
+        throw new \RuntimeException("\$flags[{$flags}] is not supported");
     }
     if ($socket->type != SOCK_DGRAM) {
-        throw new RuntimeException('only supports dgram type socket');
+        throw new \RuntimeException('only supports dgram type socket');
     }
     $data = $socket->recvfrom($peer);
     if ($data === false) {
