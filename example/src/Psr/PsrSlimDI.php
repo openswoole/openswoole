@@ -13,7 +13,7 @@ use Slim\Factory\AppFactory;
 
 $container = new League\Container\Container();
 $container->add(AppFactory::class);
-$container->add(Server::class)->addArguments(['127.0.0.1', 9501]);
+//$container->add(Server::class)->addArguments(['127.0.0.1', 9501]);
 
 $app = $container->get(AppFactory::class)->create();
 $app->get('/hello/{name}', function ($request, $response, array $args) {
@@ -22,7 +22,7 @@ $app->get('/hello/{name}', function ($request, $response, array $args) {
     return $response;
 });
 
-$server = $container->get(Server::class);
+$server = new Server('127.0.0.1', 9501);
 $server->handle(function ($request) use ($app) {
     return $app->handle($request);
 });
