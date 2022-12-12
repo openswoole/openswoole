@@ -67,6 +67,6 @@ return (new PhpCsFixer\Config())
         __DIR__ . '/core/src',
         __DIR__ . '/grpc/src',
         __DIR__ . '/example/src',
-        __DIR__ . '/openswoole-ide-helper/src',
+        __DIR__ . '/ide-helper/src',
     ]))
     ->setUsingCache(false);
