@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 /**
- * This file is part of OpenSwoole IDE Helper.
+ * This file is part of OpenSwoole.
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
- * @license  https://github.com/openswoole/library/blob/master/LICENSE
  */
 namespace OpenSwoole\Process;
 
@@ -14,7 +13,9 @@ use OpenSwoole\Process;
 class Pool
 {
     public const IPC_NONE = 0;
+
     public const IPC_UNIXSOCK = 1;
+
     public const IPC_SOCKET = 3;
 
     public ?int $master_pid;

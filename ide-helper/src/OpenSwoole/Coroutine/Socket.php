@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 /**
- * This file is part of OpenSwoole IDE Helper.
+ * This file is part of OpenSwoole.
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
- * @license  https://github.com/openswoole/library/blob/master/LICENSE
  */
 namespace OpenSwoole\Coroutine;
 
 class Socket
 {
     public const EVENT_READ = 512;
+
     public const EVENT_WRITE = 1024;
 
     public $fd;
@@ -213,6 +213,7 @@ class Socket
     public function setOption(int $level, int $name, $value): bool
     {
     }
+
     /**
      * @param int $how [optional] = 0
      */

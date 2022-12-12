@@ -1,7 +1,11 @@
 <?php
 
 declare(strict_types=1);
-
+/**
+ * This file is part of OpenSwoole.
+ * @link     https://openswoole.com
+ * @contact  hello@openswoole.com
+ */
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\MonorepoBuilder\ValueObject\Option;

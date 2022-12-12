@@ -8,9 +8,9 @@ declare(strict_types=1);
  */
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use \OpenSwoole\Core\Coroutine\Pool\ClientPool;
-use \OpenSwoole\Core\Coroutine\Client\RedisClientFactory;
-use \OpenSwoole\Core\Coroutine\Client\RedisConfig;
+use OpenSwoole\Core\Coroutine\Client\RedisClientFactory;
+use OpenSwoole\Core\Coroutine\Client\RedisConfig;
+use OpenSwoole\Core\Coroutine\Pool\ClientPool;
 
 co::run(function () {
     $config = (new RedisConfig())->withDbIndex(8);

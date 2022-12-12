@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 /**
- * This file is part of OpenSwoole IDE Helper.
+ * This file is part of OpenSwoole.
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
- * @license  https://github.com/openswoole/library/blob/master/LICENSE
  */
 namespace OpenSwoole\Http;
 
@@ -20,6 +19,10 @@ final class Response
     public ?array $cookie;
 
     public $trailer;
+
+    public function __destruct()
+    {
+    }
 
     public function write(string $data): bool
     {
@@ -37,11 +40,11 @@ final class Response
     {
     }
 
-    public function cookie(string $key, ?string $value = null, int $expire = 0, string $path = "", string $domain = "", bool $secure = false, bool $httpOnly = false, string $sameSite = "", string $priority = ""): bool
+    public function cookie(string $key, ?string $value = null, int $expire = 0, string $path = '', string $domain = '', bool $secure = false, bool $httpOnly = false, string $sameSite = '', string $priority = ''): bool
     {
     }
 
-    public function rawcookie(string $key, ?string $value = null, int $expire = 0, string $path = "", string $domain = "", bool $secure = false, bool $httpOnly = false, string $sameSite = "", string $priority = ""): bool
+    public function rawcookie(string $key, ?string $value = null, int $expire = 0, string $path = '', string $domain = '', bool $secure = false, bool $httpOnly = false, string $sameSite = '', string $priority = ''): bool
     {
     }
 
@@ -63,7 +66,6 @@ final class Response
 
     /**
      * @param mixed $server
-     * @param int $fd
      * @return Response|bool
      */
     public static function create($server = -1, int $fd = -1)
@@ -76,16 +78,12 @@ final class Response
 
     /**
      * @param \OpenSwoole\WebSocket\Frame|string $data
-     * @param int $opcode
-     * @param int $flags
-     * @return bool
      */
     public function push($data, int $opcode = \OpenSwoole\WebSocket\Server::WEBSOCKET_OPCODE_TEXT, int $flags = \OpenSwoole\WebSocket\Server::WEBSOCKET_FLAG_FIN): bool
     {
     }
 
     /**
-     * @param float $timeout
      * @return \OpenSwoole\WebSocket\Frame|bool|string
      */
     public function recv(float $timeout = 0)
@@ -104,15 +102,11 @@ final class Response
     {
     }
 
-    public function goaway(int $errorCode = \OpenSwoole\Coroutine\Http2\Client::HTTP2_ERROR_NO_ERROR, string $debugData = ""): bool
+    public function goaway(int $errorCode = \OpenSwoole\Coroutine\Http2\Client::HTTP2_ERROR_NO_ERROR, string $debugData = ''): bool
     {
     }
 
-    public function status(int $statusCode, string $reason = ""): bool
-    {
-    }
-
-    public function __destruct()
+    public function status(int $statusCode, string $reason = ''): bool
     {
     }
 }

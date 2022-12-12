@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 /**
- * This file is part of OpenSwoole IDE Helper.
+ * This file is part of OpenSwoole.
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
- * @license  https://github.com/openswoole/library/blob/master/LICENSE
  */
 namespace OpenSwoole;
 
@@ -141,7 +140,7 @@ class Client
     {
     }
 
-    public static function select(array &$readReady, array &$writeReady, array &$errors, float $timeout = 0.5 ): bool
+    public static function select(array &$readReady, array &$writeReady, array &$errors, float $timeout = 0.5): bool
     {
     }
 }

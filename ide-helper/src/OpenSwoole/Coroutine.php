@@ -2,22 +2,28 @@
 
 declare(strict_types=1);
 /**
- * This file is part of OpenSwoole IDE Helper.
+ * This file is part of OpenSwoole.
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
- * @license  https://github.com/openswoole/library/blob/master/LICENSE
  */
 namespace OpenSwoole;
 
 final class Coroutine
 {
     public const DEFAULT_MAX_CORO_NUM = 100000;
+
     public const CORO_MAX_NUM_LIMIT = 9223372036854775807;
+
     public const CORO_INIT = 0;
+
     public const CORO_WAITING = 1;
+
     public const CORO_RUNNING = 2;
+
     public const CORO_END = 3;
+
     public const EXIT_IN_COROUTINE = 2;
+
     public const EXIT_IN_SERVER = 4;
 
     /**

@@ -11,8 +11,10 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 use OpenSwoole\HTTP\Server;
 use Slim\Factory\AppFactory;
 
-class HelloService {
-    public function hello($name) {
+class HelloService
+{
+    public function hello($name)
+    {
         return "Hello, {$name}";
     }
 }
@@ -23,7 +25,7 @@ $container->add(HelloService::class);
 $app = AppFactory::create();
 $app->get('/hello/{name}', function ($request, $response, array $args) use ($container) {
     $sevice = $container->get(HelloService::class);
-    $name = $args['name'];
+    $name   = $args['name'];
     $response->getBody()->write($sevice->hello($name));
     return $response;
 });
