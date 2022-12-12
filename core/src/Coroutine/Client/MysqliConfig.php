@@ -6,7 +6,6 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
-
 namespace OpenSwoole\Core\Coroutine\Client;
 
 class MysqliConfig implements ClientConfigInterface
