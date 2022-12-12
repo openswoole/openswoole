@@ -8,6 +8,8 @@ declare(strict_types=1);
  */
 namespace OpenSwoole\Core\Psr;
 
+use InvalidArgumentException;
+
 class Message
 {
     public $headers = [];
@@ -66,7 +68,7 @@ class Message
     public function withHeader($name, $value)
     {
         if (!is_string($name) || !is_string($value) && !is_array($value) || $name === '' || $value !== '' && empty($value)) {
-            throw new \InvalidArgumentException('Header is not validate.');
+            throw new InvalidArgumentException('Header is not validate.');
         }
         $message = clone $this;
 
@@ -98,7 +100,7 @@ class Message
     public function withAddedHeader($name, $value)
     {
         if (!is_string($name) || !is_string($value) && !is_array($value) || empty($name) || $value !== '' && $value !== '0' && empty($value)) {
-            throw new \InvalidArgumentException('Header is not validate.');
+            throw new InvalidArgumentException('Header is not validate.');
         }
         $message = clone $this;
         if (is_array($value)) {

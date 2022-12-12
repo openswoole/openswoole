@@ -16,6 +16,7 @@ use OpenSwoole\GRPC\RequestHandlerInterface;
 use OpenSwoole\GRPC\Response;
 use OpenSwoole\GRPC\Status;
 use OpenSwoole\Util;
+use Throwable;
 
 class ServiceHandler implements MiddlewareInterface
 {
@@ -42,7 +43,7 @@ class ServiceHandler implements MiddlewareInterface
             $output          = '';
             $context         = $context->withValue(Constant::GRPC_STATUS, $e->getCode());
             $context         = $context->withValue(Constant::GRPC_MESSAGE, $e->getMessage());
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             throw InvokeException::create($e->getMessage(), Status::INTERNAL, $e);
         }
 

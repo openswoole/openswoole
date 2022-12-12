@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 /**
- * This file is part of OpenSwoole IDE Helper.
+ * This file is part of OpenSwoole.
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
- * @license  https://github.com/openswoole/library/blob/master/LICENSE
  */
 namespace OpenSwoole;
+
+use const SWOOLE_EVENT_READ;
 
 class Event
 {
@@ -17,7 +18,7 @@ class Event
      * @param callable|null $writeCallback [optional] = null
      * @param int $flags [optional] = \SWOOLE_EVENT_READ
      */
-    public static function add($sock, ?callable $readCallback = null, ?callable $writeCallback = null, int $flags = \SWOOLE_EVENT_READ)
+    public static function add($sock, ?callable $readCallback = null, ?callable $writeCallback = null, int $flags = SWOOLE_EVENT_READ)
     {
     }
 
@@ -34,7 +35,7 @@ class Event
      * @param callable|null $writeCallback [optional] = null
      * @param int $flags [optional] = \SWOOLE_EVENT_READ
      */
-    public static function set($sock, ?callable $readCallback = null, ?callable $writeCallback = null, int $flags = \SWOOLE_EVENT_READ): bool
+    public static function set($sock, ?callable $readCallback = null, ?callable $writeCallback = null, int $flags = SWOOLE_EVENT_READ): bool
     {
     }
 

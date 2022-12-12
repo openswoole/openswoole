@@ -1,9 +1,15 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of OpenSwoole.
+ * @link     https://openswoole.com
+ * @contact  hello@openswoole.com
+ */
 co::run(function () {
     function BatchExecMethodByCo()
     {
-        $args = func_get_args();
+        $args    = func_get_args();
         $channel = new OpenSwoole\Coroutine\Channel(count($args));
 
         foreach ($args as $key => $func) {
@@ -34,9 +40,9 @@ co::run(function () {
     function test2($value = '')
     {
         co::sleep(1);
-        return "test2 " . rand(1, 10) . "\n";
+        return 'test2 ' . rand(1, 10) . "\n";
     }
 
-    $r = BatchExecMethodByCo("test", "test2", "test");
+    $r = BatchExecMethodByCo('test', 'test2', 'test');
     var_dump($r);
 });

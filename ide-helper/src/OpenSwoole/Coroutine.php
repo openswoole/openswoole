@@ -2,22 +2,33 @@
 
 declare(strict_types=1);
 /**
- * This file is part of OpenSwoole IDE Helper.
+ * This file is part of OpenSwoole.
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
- * @license  https://github.com/openswoole/library/blob/master/LICENSE
  */
 namespace OpenSwoole;
+
+use const AF_INET;
+use const DEBUG_BACKTRACE_PROVIDE_OBJECT;
+use const SOCK_STREAM;
+use const STREAM_IPPROTO_TCP;
 
 final class Coroutine
 {
     public const DEFAULT_MAX_CORO_NUM = 100000;
+
     public const CORO_MAX_NUM_LIMIT = 9223372036854775807;
+
     public const CORO_INIT = 0;
+
     public const CORO_WAITING = 1;
+
     public const CORO_RUNNING = 2;
+
     public const CORO_END = 3;
+
     public const EXIT_IN_COROUTINE = 2;
+
     public const EXIT_IN_SERVER = 4;
 
     /**
@@ -124,7 +135,7 @@ final class Coroutine
      * @param int $limit [optional] = 0
      * @return array|false
      */
-    public static function getBackTrace(int $cid = 0, int $options = \DEBUG_BACKTRACE_PROVIDE_OBJECT, int $limit = 0)
+    public static function getBackTrace(int $cid = 0, int $options = DEBUG_BACKTRACE_PROVIDE_OBJECT, int $limit = 0)
     {
     }
 
@@ -133,7 +144,7 @@ final class Coroutine
      * @param int $options [optional] = \DEBUG_BACKTRACE_PROVIDE_OBJECT
      * @param int $limit [optional] = 0
      */
-    public static function printBackTrace(int $cid = 0, int $options = \DEBUG_BACKTRACE_PROVIDE_OBJECT, int $limit = 0): void
+    public static function printBackTrace(int $cid = 0, int $options = DEBUG_BACKTRACE_PROVIDE_OBJECT, int $limit = 0): void
     {
     }
 
@@ -179,7 +190,7 @@ final class Coroutine
      * @param float $timeout [optional] = -1
      * @return string|false
      */
-    public static function gethostbyname(string $domain, int $family = \AF_INET, float $timeout = -1)
+    public static function gethostbyname(string $domain, int $family = AF_INET, float $timeout = -1)
     {
     }
 
@@ -224,7 +235,7 @@ final class Coroutine
      * @param float $timeout [optional] = -1
      * @return array|false
      */
-    public static function getaddrinfo(string $domain, int $family = \AF_INET, int $sockType = \SOCK_STREAM, int $protocol = \STREAM_IPPROTO_TCP, string $service = null, float $timeout = -1)
+    public static function getaddrinfo(string $domain, int $family = AF_INET, int $sockType = SOCK_STREAM, int $protocol = STREAM_IPPROTO_TCP, string $service = null, float $timeout = -1)
     {
     }
 

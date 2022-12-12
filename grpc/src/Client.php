@@ -12,6 +12,8 @@ use OpenSwoole\Coroutine;
 use OpenSwoole\GRPC\Exception\ClientException;
 use OpenSwoole\Util;
 
+use const OPENSWOOLE_VERSION;
+
 class Client implements ClientInterface
 {
     private $client;
@@ -147,7 +149,7 @@ class Client implements ClientInterface
         $request->method   = 'POST';
         $request->path     = $method;
         $request->headers  = [
-            'user-agent'     => 'grpc-openswoole/' . \OPENSWOOLE_VERSION,
+            'user-agent'     => 'grpc-openswoole/' . OPENSWOOLE_VERSION,
             'content-type'   => 'application/grpc+' . $type,
             'te'             => 'trailers',
         ];

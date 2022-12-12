@@ -8,7 +8,18 @@ declare(strict_types=1);
  */
 namespace OpenSwoole\GRPC;
 
-final class Context implements ContextInterface, \IteratorAggregate, \Countable, \ArrayAccess
+use ArrayAccess;
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+use ReturnTypeWillChange;
+use Traversable;
+
+use function array_key_exists;
+use function count;
+use function is_string;
+
+final class Context implements ContextInterface, IteratorAggregate, Countable, ArrayAccess
 {
     private $values;
 
@@ -34,45 +45,45 @@ final class Context implements ContextInterface, \IteratorAggregate, \Countable,
         return $this->values;
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetExists($offset): bool
     {
-        assert(\is_string($offset), 'Offset argument must be a type of string');
+        assert(is_string($offset), 'Offset argument must be a type of string');
 
-        return isset($this->values[$offset]) || \array_key_exists($offset, $this->values);
+        return isset($this->values[$offset]) || array_key_exists($offset, $this->values);
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet($offset)
     {
-        assert(\is_string($offset), 'Offset argument must be a type of string');
+        assert(is_string($offset), 'Offset argument must be a type of string');
 
         return $this->values[$offset] ?? null;
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetSet($offset, $value): void
     {
-        assert(\is_string($offset), 'Offset argument must be a type of string');
+        assert(is_string($offset), 'Offset argument must be a type of string');
 
         $this->values[$offset] = $value;
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetUnset($offset): void
     {
-        assert(\is_string($offset), 'Offset argument must be a type of string');
+        assert(is_string($offset), 'Offset argument must be a type of string');
 
         unset($this->values[$offset]);
     }
 
-    public function getIterator(): \Traversable
+    public function getIterator(): Traversable
     {
-        return new \ArrayIterator($this->values);
+        return new ArrayIterator($this->values);
     }
 
     public function count(): int
     {
-        return \count($this->values);
+        return count($this->values);
     }
 }
