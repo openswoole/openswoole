@@ -8,8 +8,17 @@ declare(strict_types=1);
  */
 namespace OpenSwoole\GRPC;
 
+use Exception;
 use OpenSwoole\GRPC\Exception\InvokeException;
 use OpenSwoole\Util;
+use ReflectionClass;
+use ReflectionException;
+use ReflectionMethod;
+use ReflectionObject;
+use Throwable;
+use TypeError;
+
+use function is_string;
 
 final class ServiceContainer
 {
@@ -22,7 +31,7 @@ final class ServiceContainer
     public function __construct(string $interface, ServiceInterface $service)
     {
         try {
-            $reflection = new \ReflectionClass($interface);
+            $reflection = new ReflectionClass($interface);
 
             if (!$reflection->hasConstant('NAME')) {
                 Util::log(\OpenSwoole\Constant::LOG_ERROR, "Can't find NAME of the service: {$interface}");
@@ -30,12 +39,12 @@ final class ServiceContainer
 
             $name = $reflection->getConstant('NAME');
 
-            if (!\is_string($name)) {
+            if (!is_string($name)) {
                 Util::log(\OpenSwoole\Constant::LOG_ERROR, "Can't find NAME of the service: {$interface}");
             }
 
             $this->name = $name;
-        } catch (\ReflectionException $e) {
+        } catch (ReflectionException $e) {
             throw InvokeException::create($e->getMessage(), Status::INTERNAL, $e);
         }
 
@@ -86,7 +95,7 @@ final class ServiceContainer
 
         try {
             $result = $callable($context, $message);
-        } catch (\TypeError $e) {
+        } catch (TypeError $e) {
             throw InvokeException::create($e->getMessage(), Status::INTERNAL, $e);
         }
 
@@ -96,7 +105,7 @@ final class ServiceContainer
             } else {
                 $output = $result->serializeToJsonString();
             }
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             throw InvokeException::create($e->getMessage(), Status::INTERNAL, $e);
         }
 
@@ -105,12 +114,12 @@ final class ServiceContainer
 
     private function discoverMethods(ServiceInterface $service): array
     {
-        $reflection = new \ReflectionObject($service);
+        $reflection = new ReflectionObject($service);
 
         $methods = [];
-        foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
+        foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
             if ($method->getNumberOfParameters() !== 2) {
-                throw new \Exception('error method');
+                throw new Exception('error method');
             }
 
             [, $input] = $method->getParameters();

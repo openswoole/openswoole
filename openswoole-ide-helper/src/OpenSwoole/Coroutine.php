@@ -8,6 +8,11 @@ declare(strict_types=1);
  */
 namespace OpenSwoole;
 
+use const AF_INET;
+use const DEBUG_BACKTRACE_PROVIDE_OBJECT;
+use const SOCK_STREAM;
+use const STREAM_IPPROTO_TCP;
+
 final class Coroutine
 {
     public const DEFAULT_MAX_CORO_NUM = 100000;
@@ -130,7 +135,7 @@ final class Coroutine
      * @param int $limit [optional] = 0
      * @return array|false
      */
-    public static function getBackTrace(int $cid = 0, int $options = \DEBUG_BACKTRACE_PROVIDE_OBJECT, int $limit = 0)
+    public static function getBackTrace(int $cid = 0, int $options = DEBUG_BACKTRACE_PROVIDE_OBJECT, int $limit = 0)
     {
     }
 
@@ -139,7 +144,7 @@ final class Coroutine
      * @param int $options [optional] = \DEBUG_BACKTRACE_PROVIDE_OBJECT
      * @param int $limit [optional] = 0
      */
-    public static function printBackTrace(int $cid = 0, int $options = \DEBUG_BACKTRACE_PROVIDE_OBJECT, int $limit = 0): void
+    public static function printBackTrace(int $cid = 0, int $options = DEBUG_BACKTRACE_PROVIDE_OBJECT, int $limit = 0): void
     {
     }
 
@@ -185,7 +190,7 @@ final class Coroutine
      * @param float $timeout [optional] = -1
      * @return string|false
      */
-    public static function gethostbyname(string $domain, int $family = \AF_INET, float $timeout = -1)
+    public static function gethostbyname(string $domain, int $family = AF_INET, float $timeout = -1)
     {
     }
 
@@ -230,7 +235,7 @@ final class Coroutine
      * @param float $timeout [optional] = -1
      * @return array|false
      */
-    public static function getaddrinfo(string $domain, int $family = \AF_INET, int $sockType = \SOCK_STREAM, int $protocol = \STREAM_IPPROTO_TCP, string $service = null, float $timeout = -1)
+    public static function getaddrinfo(string $domain, int $family = AF_INET, int $sockType = SOCK_STREAM, int $protocol = STREAM_IPPROTO_TCP, string $service = null, float $timeout = -1)
     {
     }
 

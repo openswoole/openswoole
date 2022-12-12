@@ -10,6 +10,9 @@ namespace OpenSwoole;
 
 use Closure;
 
+use const SIGTERM;
+use const SOCK_DGRAM;
+
 class Process
 {
     public const IPC_NOWAIT = 256;
@@ -40,7 +43,7 @@ class Process
      * @param int $pipeType [optional] = \SOCK_DGRAM
      * @param bool $enableCoroutine [optional] = false
      */
-    public function __construct(callable $callback, bool $redirectStdIO = false, int $pipeType = \SOCK_DGRAM, bool $enableCoroutine = false)
+    public function __construct(callable $callback, bool $redirectStdIO = false, int $pipeType = SOCK_DGRAM, bool $enableCoroutine = false)
     {
     }
 
@@ -76,7 +79,7 @@ class Process
      * @param int $pid [required]
      * @param int $sigNo [optional] = \SIGTERM
      */
-    public static function kill(int $pid, int $sigNo = \SIGTERM): bool
+    public static function kill(int $pid, int $sigNo = SIGTERM): bool
     {
     }
 

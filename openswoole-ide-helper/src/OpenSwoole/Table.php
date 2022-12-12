@@ -8,7 +8,10 @@ declare(strict_types=1);
  */
 namespace OpenSwoole;
 
-final class Table implements \Iterator, \Countable
+use Countable;
+use Iterator;
+
+final class Table implements Iterator, Countable
 {
     public const TYPE_INT = 1;
 

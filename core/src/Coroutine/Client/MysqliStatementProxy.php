@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 namespace OpenSwoole\Core\Coroutine\Client;
 
-use mysqli;
+use Mysqli;
 use mysqli_stmt;
 
 class MysqliStatementProxy extends ClientProxy

@@ -10,6 +10,8 @@ namespace OpenSwoole\Process;
 
 use OpenSwoole\Process;
 
+use const SWOOLE_IPC_NONE;
+
 class Pool
 {
     public const IPC_NONE = 0;
@@ -28,7 +30,7 @@ class Pool
      * @param int $msgqueue_key [optional] = 0
      * @param bool $enableCoroutine [optional] = false
      */
-    public function __construct(int $workerNum, int $ipcType = \SWOOLE_IPC_NONE, int $msgqueue_key = 0, bool $enableCoroutine = false)
+    public function __construct(int $workerNum, int $ipcType = SWOOLE_IPC_NONE, int $msgqueue_key = 0, bool $enableCoroutine = false)
     {
     }
 

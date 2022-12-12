@@ -8,6 +8,8 @@ declare(strict_types=1);
  */
 namespace OpenSwoole\Coroutine;
 
+use const IPPROTO_IP;
+
 class Socket
 {
     public const EVENT_READ = 512;
@@ -31,7 +33,7 @@ class Socket
      * @param int $type [required]
      * @param int $protocol [optional] = \IPPROTO_IP
      */
-    public function __construct(int $domain, int $type, int $protocol = \IPPROTO_IP)
+    public function __construct(int $domain, int $type, int $protocol = IPPROTO_IP)
     {
     }
 

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OpenSwoole\Core\Psr;
 
 use Psr\Http\Message\UploadedFileInterface;
+use RuntimeException;
 
 class UploadedFile implements UploadedFileInterface
 {
@@ -58,7 +59,7 @@ class UploadedFile implements UploadedFileInterface
     public function getStream()
     {
         if ($this->isMoved) {
-            throw new \RuntimeException('File moved.');
+            throw new RuntimeException('File moved.');
         }
 
         if ($this->stream !== null) {
@@ -88,7 +89,7 @@ class UploadedFile implements UploadedFileInterface
         }
 
         if ($this->isMoved === false) {
-            throw new \RuntimeException('Can not move to ' . $targetPath);
+            throw new RuntimeException('Can not move to ' . $targetPath);
         }
     }
 

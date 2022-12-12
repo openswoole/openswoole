@@ -8,6 +8,10 @@ declare(strict_types=1);
  */
 namespace OpenSwoole\Coroutine;
 
+use const AF_INET;
+use const SOCK_STREAM;
+use const STREAM_IPPROTO_TCP;
+
 final class System
 {
     /**
@@ -16,7 +20,7 @@ final class System
      * @param float $timeout [optional] = -1
      * @return string|false
      */
-    public static function gethostbyname(string $domain, int $family = \AF_INET, float $timeout = -1)
+    public static function gethostbyname(string $domain, int $family = AF_INET, float $timeout = -1)
     {
     }
 
@@ -60,7 +64,7 @@ final class System
      * @param float $timeout [optional] = -1
      * @return array|false
      */
-    public static function getaddrinfo(string $domain, int $family = \AF_INET, int $sockType = \SOCK_STREAM, int $protocol = \STREAM_IPPROTO_TCP, string $service = null, float $timeout = -1)
+    public static function getaddrinfo(string $domain, int $family = AF_INET, int $sockType = SOCK_STREAM, int $protocol = STREAM_IPPROTO_TCP, string $service = null, float $timeout = -1)
     {
     }
 

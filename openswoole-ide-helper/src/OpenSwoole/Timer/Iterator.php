@@ -6,9 +6,11 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
-namespace OpenSwoole\Coroutine;
+namespace OpenSwoole\Timer;
 
-class Iterator extends \ArrayIterator
+use ArrayIterator;
+
+class Iterator extends ArrayIterator
 {
     public const STD_PROP_LIST = 1;
 

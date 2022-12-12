@@ -8,7 +8,10 @@ declare(strict_types=1);
  */
 namespace OpenSwoole\Connection;
 
-class Iterator implements \Iterator, \ArrayAccess, \Countable
+use ArrayAccess;
+use Countable;
+
+class Iterator implements \Iterator, ArrayAccess, Countable
 {
     public function __construct()
     {

@@ -8,7 +8,9 @@ declare(strict_types=1);
  */
 namespace OpenSwoole\WebSocket;
 
-class Frame implements \Stringable
+use Stringable;
+
+class Frame implements Stringable
 {
     public int $fd;
 
