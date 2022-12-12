@@ -21,7 +21,7 @@
     "require-dev": {
         "ext-curl": "*",
         "ext-sockets": "*",
-        "friendsofphp/php-cs-fixer": "^4.11",
+        "friendsofphp/php-cs-fixer": "^3.6",
         "openswoole/ide-helper": "*",
         "php-http/psr7-integration-tests": "^1.1",
         "phpunit/phpunit": "^9.5",
