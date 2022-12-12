@@ -17,7 +17,7 @@
         "openswoole/ide-helper": "*",
         "phpunit/phpunit": "^9.5",
         "vimeo/psalm": "^4.6",
-        "friendsofphp/php-cs-fixer": "^3.6",
+        "friendsofphp/php-cs-fixer": "^3.6"
     },
     "suggest": {
         "ext-openswoole": "*",
