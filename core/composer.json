@@ -26,7 +26,7 @@
         "ext-sockets": "*",
         "phpunit/phpunit": "^9.5",
         "openswoole/ide-helper": "*",
-        "friendsofphp/php-cs-fixer": "^4.11",
+        "friendsofphp/php-cs-fixer": "^3.6",
         "php-http/psr7-integration-tests": "^1.1"
     },
     "suggest": {
