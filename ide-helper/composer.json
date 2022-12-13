@@ -1,7 +1,7 @@
 {
     "name": "openswoole/ide-helper",
     "type": "library",
-    "description": "IDE help files for Open Swoole.",
+    "description": "IDE helper for OpenSwoole.",
     "license": "Apache-2.0",
     "authors": [
         {

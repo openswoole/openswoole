@@ -1,7 +1,7 @@
 {
     "name": "openswoole/core",
-    "description": "Openswoole core addons",
-    "license": "Apache 2",
+    "description": "Openswoole core library",
+    "license": "Apache-2.0",
     "authors": [
         {
             "name": "OpenSwoole Group",

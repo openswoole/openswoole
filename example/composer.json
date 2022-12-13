@@ -1,8 +1,8 @@
 {
     "name": "openswoole/example",
-    "description": "Example of openswoole",
+    "description": "Example of Openswoole",
     "type": "project",
-    "license": "Apache 2",
+    "license": "Apache-2.0",
     "autoload": {
         "psr-4": {
             "Openswoole\\Example\\": "src/"
