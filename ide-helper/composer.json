@@ -5,12 +5,13 @@
     "license": "Apache-2.0",
     "authors": [
         {
-            "name": "Open Swoole Group",
+            "name": "OpenSwoole Group",
             "email": "hello@openswoole.com"
         }
     ],
     "require": {
-        "php": ">=7.4"
+        "php": ">=7.4",
+        "ext-openswoole": ">=22.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.6"
