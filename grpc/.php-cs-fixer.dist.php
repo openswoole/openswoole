@@ -57,6 +57,11 @@ return (new PhpCsFixer\Config())
         'standardize_increment'                  => false,
         'standardize_not_equals'                 => true,
         'yoda_style'                             => ['always_move_variable' => false, 'equal' => false, 'identical' => false],
+        'global_namespace_import' => [
+            'import_classes'   => true,
+            'import_constants' => true,
+            'import_functions' => true,
+        ],
     ])
     ->setFinder(PhpCsFixer\Finder::create()->in([
         __DIR__ . '/src',
