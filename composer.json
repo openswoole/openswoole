@@ -7,7 +7,6 @@
         }
     ],
     "require": {
-        "ext-openswoole": ">=22.0",
         "google/protobuf": "^3.21",
         "league/container": "4.x-dev",
         "php": ">=7.4",
@@ -17,6 +16,7 @@
         "slim/slim": "^4.0"
     },
     "require-dev": {
+        "ext-openswoole": ">=22.0",
         "ext-curl": "*",
         "ext-sockets": "*",
         "friendsofphp/php-cs-fixer": "^3.6",
