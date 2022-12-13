@@ -1,1 +1,1 @@
-# OpenSwoole core addons
+# OpenSwoole core library
