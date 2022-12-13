@@ -7,7 +7,6 @@
         }
     ],
     "require": {
-        "ext-openswoole": "*",
         "google/protobuf": "^3.21",
         "league/container": "4.x-dev",
         "php": ">=7.4",
