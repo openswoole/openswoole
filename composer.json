@@ -36,28 +36,6 @@
             "Openswoole\\Example\\": "example/src/"
         }
     },
-    "repositories": [
-        {
-            "name": "openswoole/core",
-            "type": "path",
-            "url": "../../../core"
-        },
-        {
-            "name": "openswoole/core",
-            "type": "path",
-            "url": "../core"
-        },
-        {
-            "name": "openswoole/core",
-            "type": "vcs",
-            "url": "https://github.com/openswoole/core"
-        },
-        {
-            "name": "openswoole/grpc",
-            "type": "path",
-            "url": "../.."
-        }
-    ],
     "replace": {
         "openswoole/core": "*",
         "openswoole/example": "*",
