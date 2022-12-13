@@ -5,23 +5,24 @@
     "license": "Apache 2.0",
     "authors": [
         {
-            "name": "Open Swoole Group",
+            "name": "OpenSwoole Group",
             "email": "hello@openswoole.com"
         }
     ],
     "require": {
         "php": ">=7.4",
-        "openswoole/core": "dev-master"
+        "ext-openswoole": ">=22.0",
+        "openswoole/core": "^22.0"
     },
     "require-dev": {
-        "openswoole/ide-helper": "*",
+        "openswoole/ide-helper": "^22.0",
         "phpunit/phpunit": "^9.5",
         "vimeo/psalm": "^4.6",
         "friendsofphp/php-cs-fixer": "^3.6"
     },
     "suggest": {
         "ext-openswoole": "*",
-        "google/protobuf": "^3.19"
+        "google/protobuf": "^3.21"
     },
     "autoload": {
         "psr-4": {
@@ -30,8 +31,9 @@
     },
     "repositories": [
         {
-            "name": "openswoole/core", 
-            "type": "path", "url": "../core"
+            "name": "openswoole/core",
+            "type": "path",
+            "url": "../core"
         }
     ],
     "scripts": {
