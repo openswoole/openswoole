@@ -15,17 +15,19 @@ This package contains IDE help files for [Open Swoole](https://openswoole.com). 
 You can add this package to your project using [Composer](https://getcomposer.org):
 
 ```bash
-composer require openswoole/ide-helper:@dev
-# or you can install a specific version, like:
-composer require openswoole/ide-helper:~4.11.0
+# v22.x
+composer require openswoole/ide-helper:~22.0.0
+# v4.x
+composer require openswoole/ide-helper:~4.11.6
 ```
 
 It's better to install this package on only development systems by adding the `--dev` flag to your Composer commands:
 
 ```bash
-composer require --dev openswoole/ide-helper:@dev
-# or you can install a specific version, like:
-composer require --dev openswoole/ide-helper:~4.11.0
+# v22.x
+composer require --dev openswoole/ide-helper:~22.0.0
+# v4.x
+composer require --dev openswoole/ide-helper:~4.11.6
 ```
 
 ## PHP Intelephense extension users
