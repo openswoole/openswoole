@@ -12,13 +12,20 @@ Get started to learn building OpenSwoole applications from the OpenSwoole exampl
 + __Discord__: <https://discord.gg/5QC57RNPpw>
 + __IDE Helper__: <https://github.com/openswoole/ide-helper>
 
-## Run examples
+## Run OpenSwoole examples
 
 ```bash
+composer create-project openswoole/example
+
+cd example
+
 # HTTP Psr
-php src/HTTP/PsrHandle.php
-php src/HTTP/PsrRoute.php
-php src/HTTP/PsrSetHandler.php
+php src/Psr/PsrHandle.php
+php src/Psr/PsrRoute.php
+php src/Psr/PsrSetHandler.php
+
+# Other examples
+
 ```
 
 ## Documentation
