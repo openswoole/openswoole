@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OpenSwoole\Core\Coroutine\Pool;
 
+use co;
 use OpenSwoole\Coroutine;
 use OpenSwoole\Coroutine\Channel;
 
@@ -80,7 +81,7 @@ class ClientPool
         }
         while (1) {
             if ($this->active > 0) {
-                \co::sleep(1);
+                co::sleep(1);
                 continue;
             }
             if (!$this->pool->isEmpty()) {
@@ -107,7 +108,7 @@ class ClientPool
     {
         Coroutine::create(function () {
             while ($this->pool) {
-                \co::sleep(3);
+                co::sleep(3);
                 $client = $this->get();
                 $client->heartbeat();
                 $this->put($client);

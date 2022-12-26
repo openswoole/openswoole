@@ -2,19 +2,22 @@
 
 declare(strict_types=1);
 /**
- * This file is part of OpenSwoole IDE Helper.
+ * This file is part of OpenSwoole.
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
- * @license  https://github.com/openswoole/library/blob/master/LICENSE
  */
 namespace OpenSwoole\Process;
 
 use OpenSwoole\Process;
 
+use const SWOOLE_IPC_NONE;
+
 class Pool
 {
     public const IPC_NONE = 0;
+
     public const IPC_UNIXSOCK = 1;
+
     public const IPC_SOCKET = 3;
 
     public ?int $master_pid;
@@ -27,7 +30,7 @@ class Pool
      * @param int $msgqueue_key [optional] = 0
      * @param bool $enableCoroutine [optional] = false
      */
-    public function __construct(int $workerNum, int $ipcType = \SWOOLE_IPC_NONE, int $msgqueue_key = 0, bool $enableCoroutine = false)
+    public function __construct(int $workerNum, int $ipcType = SWOOLE_IPC_NONE, int $msgqueue_key = 0, bool $enableCoroutine = false)
     {
     }
 

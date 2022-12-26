@@ -2,72 +2,59 @@
 
 declare(strict_types=1);
 /**
- * This file is part of OpenSwoole IDE Helper.
+ * This file is part of OpenSwoole.
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
- * @license  https://github.com/openswoole/library/blob/master/LICENSE
  */
 namespace OpenSwoole;
 
-use Closure;
-use OpenSwoole\Connection\Iterator;
 use OpenSwoole\Server\Port;
 
 class Server
 {
     public const SIMPLE_MODE = 1;
+
     public const POOL_MODE = 2;
 
     public const IPC_UNSOCK = 1;
+
     public const IPC_MSGQUEUE = 2;
+
     public const IPC_PREEMPTIVE = 3;
 
     public const DISPATCH_RESULT_DISCARD_PACKET = -1;
+
     public const DISPATCH_RESULT_CLOSE_CONNECTION = -2;
+
     public const DISPATCH_RESULT_USERFUNC_FALLBACK = -3;
 
     public const TASK_TMPFILE = 1;
+
     public const TASK_SERIALIZE = 2;
+
     public const TASK_NONBLOCK = 4;
+
     public const TASK_CALLBACK = 8;
+
     public const TASK_WAITALL = 16;
+
     public const TASK_COROUTINE = 32;
+
     public const TASK_PEEK = 64;
+
     public const TASK_NOREPLY = 128;
 
     public const WORKER_BUSY = 1;
+
     public const WORKER_IDLE = 2;
+
     public const WORKER_EXIT = 3;
 
     public const STATS_DEFAULT = 0;
+
     public const STATS_JSON = 1;
+
     public const STATS_OPENMETRICS = 2;
-
-    private $onStart;
-
-    private $onShutdown;
-
-    private $onWorkerStart;
-
-    private $onWorkerStop;
-
-    private $onBeforeReload;
-
-    private $onAfterReload;
-
-    private $onWorkerExit;
-
-    private $onWorkerError;
-
-    private $onTask;
-
-    private $onFinish;
-
-    private $onManagerStart;
-
-    private $onManagerStop;
-
-    private $onPipeMessage;
 
     public $setting;
 
@@ -95,6 +82,32 @@ class Server
 
     public $stats_timer;
 
+    private $onStart;
+
+    private $onShutdown;
+
+    private $onWorkerStart;
+
+    private $onWorkerStop;
+
+    private $onBeforeReload;
+
+    private $onAfterReload;
+
+    private $onWorkerExit;
+
+    private $onWorkerError;
+
+    private $onTask;
+
+    private $onFinish;
+
+    private $onManagerStart;
+
+    private $onManagerStop;
+
+    private $onPipeMessage;
+
     public function __construct(string $host, int $port = 0, int $mode = \OpenSwoole\Server::SIMPLE_MODE, int $sockType = \OpenSwoole\Constant::SOCK_TCP)
     {
     }
@@ -104,9 +117,6 @@ class Server
     }
 
     /**
-     * @param string $host
-     * @param int $port
-     * @param int $sockType
      * @return false|Port
      */
     public function listen(string $host, int $port, int $sockType)
@@ -114,9 +124,6 @@ class Server
     }
 
     /**
-     * @param string $host
-     * @param int $port
-     * @param int $sockType
      * @return false|Port
      */
     public function addlistener(string $host, int $port, int $sockType)
@@ -133,14 +140,12 @@ class Server
 
     /**
      * @param mixed $handler
-     * @return bool
      */
     public function setHandler($handler): bool
     {
     }
 
     /**
-     * @param string $event
      * @return mixed
      */
     public function getCallback(string $event)
@@ -158,8 +163,6 @@ class Server
     /**
      * @param string|int $fd
      * @param mixed $data
-     * @param int $serverSocket
-     * @return bool
      */
     public function send($fd, $data, int $serverSocket = -1): bool
     {
@@ -211,8 +214,6 @@ class Server
 
     /**
      * @param mixed $data
-     * @param int $workerId
-     * @param callable|null $finishCallback
      * @return bool|int
      */
     public function task($data, int $workerId = -1, ?callable $finishCallback = null)
@@ -221,8 +222,6 @@ class Server
 
     /**
      * @param mixed $data
-     * @param float $timeout
-     * @param int $workerId
      * @return bool|string
      */
     public function taskwait($data, float $timeout = 0.5, int $workerId = -1)
@@ -230,8 +229,6 @@ class Server
     }
 
     /**
-     * @param array $tasks
-     * @param float $timeout
      * @return bool|array
      */
     public function taskWaitMulti(array $tasks, float $timeout = 0.5)
@@ -239,8 +236,6 @@ class Server
     }
 
     /**
-     * @param array $tasks
-     * @param float $timeout
      * @return bool|array
      */
     public function taskCo(array $tasks, float $timeout = 0.5)
@@ -249,7 +244,6 @@ class Server
 
     /**
      * @param mixed $data
-     * @return bool
      */
     public function finish($data): bool
     {
@@ -264,7 +258,6 @@ class Server
     }
 
     /**
-     * @param bool $closeConn
      * @return false|array
      */
     public function heartbeat(bool $closeConn = false)
@@ -272,9 +265,6 @@ class Server
     }
 
     /**
-     * @param int $fd
-     * @param int $reactorId
-     * @param bool $noCheckConn
      * @return bool|array
      */
     public function getClientInfo(int $fd, int $reactorId = -1, bool $noCheckConn = false)
@@ -282,8 +272,6 @@ class Server
     }
 
     /**
-     * @param int $startFd
-     * @param int $pageSize
      * @return bool|array
      */
     public function getClientList(int $startFd = 0, int $pageSize = 10)
@@ -295,7 +283,6 @@ class Server
     }
 
     /**
-     * @param int $workerId
      * @return int|false
      */
     public function getWorkerPid(int $workerId = -1)
@@ -303,7 +290,6 @@ class Server
     }
 
     /**
-     * @param int $workerId
      * @return bool|int
      */
     public function getWorkerStatus(int $workerId = -1)
@@ -319,9 +305,6 @@ class Server
     }
 
     /**
-     * @param int $fd
-     * @param int $reactorId
-     * @param bool $noCheckConn
      * @return bool|array
      */
     public function connection_info(int $fd, int $reactorId = -1, bool $noCheckConn = false)
@@ -329,8 +312,6 @@ class Server
     }
 
     /**
-     * @param int $startFd
-     * @param int $pageSize
      * @return bool|array
      */
     public function connection_list(int $startFd = 0, int $pageSize = 10)
@@ -339,23 +320,19 @@ class Server
 
     /**
      * @param mixed $message
-     * @param int $workerId
-     * @return bool
      */
     public function sendMessage($message, int $workerId): bool
     {
     }
 
     /**
-     * @param Process $process
      * @return bool|int
      */
-    public function addProcess(\OpenSwoole\Process $process)
+    public function addProcess(Process $process)
     {
     }
 
     /**
-     * @param int $mode
      * @return string|array|false
      */
     public function stats(int $mode = 0)
@@ -363,7 +340,6 @@ class Server
     }
 
     /**
-     * @param int $port
      * @return mixed
      */
     public function getSocket(int $port = -1)
@@ -378,7 +354,7 @@ class Server
     {
     }
 
-    public function tick(int $ms, callable $callback) : void
+    public function tick(int $ms, callable $callback): void
     {
     }
 

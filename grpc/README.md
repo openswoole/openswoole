@@ -25,6 +25,6 @@ You can find example helloworld project at [/example](https://github.com/openswo
 3. Implement your own service
 4. Integrate with GRPC service with GRPC client
 
-## License
+## Documentation
 
-OpenSwoole GRPC is open-sourced software licensed under the [Apache 2.0 license](https://github.com/openswoole/grpc/blob/main/LICENSE).
+Documentation for Open Swoole can be found on the [Open Swoole website](https://openswoole.com/docs).

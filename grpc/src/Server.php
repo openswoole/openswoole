@@ -15,6 +15,8 @@ use OpenSwoole\GRPC\Middleware\MiddlewareInterface;
 use OpenSwoole\GRPC\Middleware\ServiceHandler;
 use OpenSwoole\GRPC\Middleware\StackHandler;
 use OpenSwoole\Util;
+use Throwable;
+use TypeError;
 
 final class Server
 {
@@ -107,11 +109,11 @@ final class Server
     public function register(string $class): self
     {
         if (!class_exists($class)) {
-            throw new \TypeError("{$class} not found");
+            throw new TypeError("{$class} not found");
         }
         $instance = new $class();
         if (!($instance instanceof ServiceInterface)) {
-            throw new \TypeError("{$class} is not ServiceInterface");
+            throw new TypeError("{$class} is not ServiceInterface");
         }
         $service                             = new ServiceContainer($class, $instance);
         $this->services[$service->getName()] = $service;
@@ -159,7 +161,7 @@ final class Server
             } else {
                 $payload = $message->getMessage()->serializeToJsonString();
             }
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             throw InvokeException::create($e->getMessage(), Status::INTERNAL, $e);
         }
 

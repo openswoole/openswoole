@@ -8,7 +8,9 @@ declare(strict_types=1);
  */
 namespace OpenSwoole\Core\Psr;
 
+use InvalidArgumentException;
 use Psr\Http\Message\UriInterface;
+use stdClass;
 
 class Uri implements UriInterface
 {
@@ -77,7 +79,7 @@ class Uri implements UriInterface
     public function withScheme($scheme): self
     {
         if (!is_string($scheme)) {
-            throw new \InvalidArgumentException('Error HTTP schema.');
+            throw new InvalidArgumentException('Error HTTP schema.');
         }
         $scheme      = $this->normalizeScheme($scheme);
         $uri         = clone $this;
@@ -230,7 +232,7 @@ class Uri implements UriInterface
         $scheme = strtolower($scheme);
 
         if (!array_key_exists($scheme, static::DEFAULT_SCHEME_PORT)) {
-            throw new \InvalidArgumentException(sprintf('%s not supported', $scheme));
+            throw new InvalidArgumentException(sprintf('%s not supported', $scheme));
         }
 
         return $scheme;
@@ -265,9 +267,9 @@ class Uri implements UriInterface
         return rawurlencode($matches[0]);
     }
 
-    private function parse(string $uri): \stdClass
+    private function parse(string $uri): stdClass
     {
-        $res = new \stdClass();
+        $res = new stdClass();
 
         $parsed = parse_url($uri);
 
@@ -288,7 +290,7 @@ class Uri implements UriInterface
         return $res;
     }
 
-    private function apply(\stdClass $obj)
+    private function apply(stdClass $obj)
     {
         foreach ($obj as $key => $value) {
             $this->{$key} = $value;

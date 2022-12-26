@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 /**
- * This file is part of OpenSwoole IDE Helper.
+ * This file is part of OpenSwoole.
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
- * @license  https://github.com/openswoole/library/blob/master/LICENSE
  */
 namespace OpenSwoole\Coroutine\Http;
 
@@ -14,8 +13,11 @@ use OpenSwoole\WebSocket\Frame;
 final class Client
 {
     public const HTTP_CLIENT_ESTATUS_CONNECT_FAILED = -1;
+
     public const HTTP_CLIENT_ESTATUS_REQUEST_TIMEOUT = -2;
+
     public const HTTP_CLIENT_ESTATUS_SERVER_RESET = -3;
+
     public const HTTP_CLIENT_ESTATUS_SEND_FAILED = -4;
 
     public int $errCode;

@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of OpenSwoole.
+ * @link     https://openswoole.com
+ * @contact  hello@openswoole.com
+ */
 $lock = new OpenSwoole\Lock(\OpenSwoole\Constant::MUTEX);
 echo "[Master] Create lock\n";
 $lock->lock();
-if (pcntl_fork() > 0)
-{
+if (pcntl_fork() > 0) {
     sleep(1);
     $lock->unlock();
-}
-else
-{
+} else {
     echo "[Child] Wait Lock\n";
     $lock->lock();
     echo "[Child] Get Lock\n";

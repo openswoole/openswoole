@@ -2,18 +2,20 @@
 
 declare(strict_types=1);
 /**
- * This file is part of OpenSwoole IDE Helper.
+ * This file is part of OpenSwoole.
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
- * @license  https://github.com/openswoole/library/blob/master/LICENSE
  */
 namespace OpenSwoole;
 
 class Lock
 {
     public const FILELOCK = 2;
+
     public const MUTEX = 3;
+
     public const SEM = 4;
+
     public const RWLOCK = 1;
 
     public $errCode;

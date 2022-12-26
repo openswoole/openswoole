@@ -13,6 +13,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Core\Psr7Test\Tests;
 
 use Http\Psr7Test\ResponseIntegrationTest;

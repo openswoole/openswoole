@@ -1,5 +1,11 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of OpenSwoole.
+ * @link     https://openswoole.com
+ * @contact  hello@openswoole.com
+ */
 namespace OpenSwoole;
 
 class Util
@@ -41,8 +47,6 @@ class Util
     }
 
     /**
-     * @param string $content
-     * @param int $type
      * @return int|bool
      */
     public static function hashcode(string $content, int $type)

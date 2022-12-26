@@ -2,14 +2,16 @@
 
 declare(strict_types=1);
 /**
- * This file is part of OpenSwoole IDE Helper.
+ * This file is part of OpenSwoole.
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
- * @license  https://github.com/openswoole/library/blob/master/LICENSE
  */
 namespace OpenSwoole;
 
-final class Table implements \Iterator, \Countable
+use Countable;
+use Iterator;
+
+final class Table implements Iterator, Countable
 {
     public const TYPE_INT = 1;
 
