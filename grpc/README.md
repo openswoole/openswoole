@@ -4,6 +4,14 @@ OpenSwoole GRPC is an open-source high-performance GRPC solution for PHP includi
 
 [GRPC](https://grpc.io/) is a high performance, open source universal RPC framework. OpenSwoole GRPC is a high performance integration solution for building cloud-native multiple language microservices architecture.
 
+## Install
+
+You can add this package to your project using [Composer](https://getcomposer.org):
+
+```bash
+composer require openswoole/grpc
+```
+
 ## Features
 
 * Native GRPC implementation compliant
