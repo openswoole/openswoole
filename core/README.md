@@ -10,6 +10,14 @@ OpenSwoole is a programmatic platform building modernized systems with async IO,
 + __Discord__: <https://discord.gg/5QC57RNPpw>
 + __IDE Helper__: <https://github.com/openswoole/ide-helper>
 
+## Install
+
+You can add this package to your project using [Composer](https://getcomposer.org):
+
+```bash
+composer require openswoole/core
+```
+
 ## Documentation
 
 Documentation for Open Swoole can be found on the [Open Swoole website](https://openswoole.com/docs).
