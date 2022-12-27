@@ -14,12 +14,11 @@ use OpenSwoole\Core\Coroutine\Pool\ClientPool;
 
 co::run(function () {
     $config = (new PostgresConfig());
-
-    $pool = new ClientPool(PostgresClientFactory::class, $config);
+    $pool   = new ClientPool(PostgresClientFactory::class, $config);
     $pool->fill();
 
     $postgresClient = $pool->get();
-    $sql            = 'SELECT * FROM test';
+    $sql            = 'SELECT version()';
     $result         = $postgresClient->query($sql);
     var_dump($postgresClient->fetchAll($result));
     $pool->put($postgresClient);
