@@ -35,7 +35,7 @@ class Request extends Message implements RequestInterface
         }
     }
 
-    public function getMethod(): ?string
+    public function getMethod(): string
     {
         return $this->method;
     }
