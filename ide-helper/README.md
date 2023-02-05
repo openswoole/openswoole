@@ -8,15 +8,13 @@
 
 This package contains IDE help files for [Open Swoole](https://openswoole.com). You may use it in your IDE to provide accurate autocompletion.
 
-<img width="800" alt="openswoole-ide-helper" src="https://user-images.githubusercontent.com/313478/145558998-eecf96c7-08a1-4119-a1eb-2141436d4521.png">
-
 ## Install
 
 You can add this package to your project using [Composer](https://getcomposer.org):
 
 ```bash
 # v22.x
-composer require openswoole/ide-helper:~22.0.0
+composer require openswoole/ide-helper:~22.0.1
 # v4.x
 composer require openswoole/ide-helper:~4.11.6
 ```
@@ -25,7 +23,7 @@ It's better to install this package on only development systems by adding the `-
 
 ```bash
 # v22.x
-composer require --dev openswoole/ide-helper:~22.0.0
+composer require --dev openswoole/ide-helper:~22.0.1
 # v4.x
 composer require --dev openswoole/ide-helper:~4.11.6
 ```
