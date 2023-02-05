@@ -27,14 +27,14 @@ class Frame implements Stringable
     }
 
     /**
-     * @param \Swoole\WebSocket\Frame|string $data
+     * @param \OpenSwoole\WebSocket\Frame|string $data
      */
     public static function pack($data, int $opcode = Server::WEBSOCKET_OPCODE_TEXT, int $flags = Server::WEBSOCKET_FLAG_FIN): string
     {
     }
 
     /**
-     * @return \Swoole\WebSocket\Frame|false
+     * @return \OpenSwoole\WebSocket\Frame|false
      */
     public static function unpack(string $data)
     {

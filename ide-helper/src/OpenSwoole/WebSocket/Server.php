@@ -67,7 +67,7 @@ class Server extends \OpenSwoole\Http\Server
     public const WEBSOCKET_CLOSE_TLS = 1015;
 
     /**
-     * @param \Swoole\WebSocket\Frame|string $data
+     * @param \OpenSwoole\WebSocket\Frame|string $data
      */
     public function push(int $fd, $data, int $opcode = Server::WEBSOCKET_OPCODE_TEXT, int $flags = Server::WEBSOCKET_FLAG_FIN): bool
     {
@@ -82,14 +82,14 @@ class Server extends \OpenSwoole\Http\Server
     }
 
     /**
-     * @param \Swoole\WebSocket\Frame|string $data
+     * @param \OpenSwoole\WebSocket\Frame|string $data
      */
     public static function pack($data, int $opcode = Server::WEBSOCKET_OPCODE_TEXT, int $flags = Server::WEBSOCKET_FLAG_FIN): string
     {
     }
 
     /**
-     * @return \Swoole\WebSocket\Frame|false
+     * @return \OpenSwoole\WebSocket\Frame|false
      */
     public static function unpack(string $data)
     {

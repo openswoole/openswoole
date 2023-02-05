@@ -123,7 +123,7 @@ final class Coroutine
 
     /**
      * @param int $cid [optional] = 0
-     * @return \Swoole\Coroutine\Context|null
+     * @return \OpenSwoole\Coroutine\Context|null
      */
     public static function getContext(int $cid = 0): ?Coroutine\Context
     {
@@ -163,14 +163,14 @@ final class Coroutine
     }
 
     /**
-     * @return \Swoole\Coroutine\Iterator
+     * @return \OpenSwoole\Coroutine\Iterator
      */
     public static function list(): Coroutine\Iterator
     {
     }
 
     /**
-     * @return \Swoole\Coroutine\Iterator
+     * @return \OpenSwoole\Coroutine\Iterator
      */
     public static function listCoroutines(): Coroutine\Iterator
     {
