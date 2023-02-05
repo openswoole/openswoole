@@ -1,4 +1,4 @@
-# Open Swoole IDE Helper
+# OpenSwoole IDE Helper
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/openswoole/ide-helper.svg)](https://packagist.org/packages/openswoole/ide-helper)
 [![License](https://poser.pugx.org/openswoole/ide-helper/license)](LICENSE)
@@ -6,7 +6,7 @@
 [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/openswoole.svg?style=social&label=Follow%20%40OpenSwoole)](https://twitter.com/openswoole)
 
 
-This package contains IDE help files for [Open Swoole](https://openswoole.com). You may use it in your IDE to provide accurate autocompletion.
+This package contains IDE help files for [OpenSwoole](https://openswoole.com). You may use it in your IDE to provide accurate autocompletion.
 
 ## Install
 
