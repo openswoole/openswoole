@@ -51,15 +51,15 @@ jobs:
                 if: "!startsWith(github.ref, 'refs/tags/')"
                 # Uses an action in the root directory
                 name: Monorepo Split of ${{ matrix.package }}
-                uses: symplify/github-action-monorepo-split@2.0
+                uses: symplify/github-action-monorepo-split@v2.3.0
                 env:
                     GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
                 with:
-                    package-directory: '${{ matrix.package }}'
-                    split-repository-organization: 'openswoole'
-                    split-repository-name: '${{ matrix.package }}'
-                    user-name: "doubaokun"
-                    user-email: "doubaokun@gmail.com"
+                    package_directory: '${{ matrix.package }}'
+                    repository_organization: 'openswoole'
+                    repository_name: '${{ matrix.package }}'
+                    user_name: "doubaokun"
+                    user_email: "doubaokun@gmail.com"
                     branch: "master"
 
             # with tag
@@ -67,15 +67,15 @@ jobs:
                 if: "startsWith(github.ref, 'refs/tags/')"
                 # Uses an action in the root directory
                 name: Monorepo Tagged Split of ${{ matrix.package }}
-                uses: symplify/github-action-monorepo-split@2.0
+                uses: symplify/github-action-monorepo-split@v2.3.0
                 env:
                     GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
                 with:
                     tag: ${GITHUB_REF#refs/tags/}
 
-                    package-directory: '${{ matrix.package }}'
-                    split-repository-organization: 'openswoole'
-                    split-repository-name: '${{ matrix.package }}'
-                    user-name: "doubaokun"
-                    user-email: "doubaokun@gmail.com"
+                    package_directory: '${{ matrix.package }}'
+                    repository_organization: 'openswoole'
+                    repository_name: '${{ matrix.package }}'
+                    user_name: "doubaokun"
+                    user_email: "doubaokun@gmail.com"
                     branch: "master"
