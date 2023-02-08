@@ -8,6 +8,8 @@ declare(strict_types=1);
  */
 namespace OpenSwoole\Core\Process;
 
+use OpenSwoole\Process\Pool;
+
 class Manager
 {
     /**
