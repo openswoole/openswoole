@@ -104,18 +104,6 @@ final class ServiceContainer
         } catch (TypeError $e) {
             throw InvokeException::create($e->getMessage(), Status::INTERNAL, $e);
         }
-
-        try {
-            if ($context->getValue('content-type') !== 'application/grpc+json') {
-                $output = $result->serializeToString();
-            } else {
-                $output = $result->serializeToJsonString();
-            }
-        } catch (Throwable $e) {
-            throw InvokeException::create($e->getMessage(), Status::INTERNAL, $e);
-        }
-
-        return $output;
     }
 
     private function discoverMethods(ServiceInterface $service): array
