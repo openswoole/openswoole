@@ -8,21 +8,18 @@ declare(strict_types=1);
  */
 namespace OpenSwoole\GRPC;
 
-final class Response implements ResponseInterface
+final class StreamResponse implements ResponseInterface
 {
     use ResponseTrait;
 
     private Context $context;
 
-    private ?string $contentType;
+    private iterable $payload;
 
-    private string $payload;
-
-    public function __construct(Context $context, ?\Google\Protobuf\Internal\Message $payload = null)
+    public function __construct(Context $context, iterable $payload)
     {
         $this->context = $context;
-        $this->contentType = $context->getValue('content-type');
-        $this->payload = $payload === null ? '' : $this->preparePayload($payload, $this->contentType);
+        $this->payload = $payload;
     }
 
     public function getContext(): Context
@@ -30,13 +27,23 @@ final class Response implements ResponseInterface
         return $this->context;
     }
 
+    /**
+     * @return void
+     * @throws \OpenSwoole\Exception
+     */
     public function send(): void
     {
         /** @var \OpenSwoole\Http\Response $response */
         $rawResponse = $this->context->getValue(\OpenSwoole\Http\Response::class);
+        $contentType = $this->context->getValue('content-type');
 
-        $this->sendHeaders($rawResponse, $this->contentType);
-        $this->sendPayload($rawResponse, $this->payload);
+        $this->sendHeaders($rawResponse, $contentType);
+        foreach ($this->payload as $payload) {
+            $this->sendPayload(
+                $rawResponse,
+                $this->preparePayload($payload, $contentType)
+            );
+        }
 
         $this->sendTrailers($rawResponse, $this->context);
         $rawResponse->end();
