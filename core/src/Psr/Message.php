@@ -62,7 +62,7 @@ class Message
             return '';
         }
 
-        return implode(',', $value);
+        return is_array($value) ? implode(',', $value) : $value;
     }
 
     public function withHeader($name, $value)
