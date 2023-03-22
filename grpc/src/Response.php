@@ -20,9 +20,9 @@ final class Response implements ResponseInterface
 
     public function __construct(Context $context, ?\Google\Protobuf\Internal\Message $payload = null)
     {
-        $this->context = $context;
+        $this->context     = $context;
         $this->contentType = $context->getValue('content-type');
-        $this->payload = $payload === null ? '' : $this->preparePayload($payload, $this->contentType);
+        $this->payload     = $payload === null ? '' : $this->preparePayload($payload, $this->contentType);
     }
 
     public function getContext(): Context

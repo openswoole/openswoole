@@ -13,7 +13,6 @@ interface ResponseInterface extends MessageInterface
     public function getContext(): Context;
 
     /**
-     * @return void
      * @throws \OpenSwoole\Exception
      */
     public function send(): void;

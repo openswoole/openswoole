@@ -28,7 +28,6 @@ final class StreamResponse implements ResponseInterface
     }
 
     /**
-     * @return void
      * @throws \OpenSwoole\Exception
      */
     public function send(): void

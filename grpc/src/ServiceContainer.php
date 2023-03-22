@@ -16,7 +16,6 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
 use ReflectionObject;
-use Throwable;
 use TypeError;
 
 use function is_string;
@@ -73,7 +72,6 @@ final class ServiceContainer
     }
 
     /**
-     * @param Request $request
      * @return \Google\Protobuf\Internal\Message|iterable<\Google\Protobuf\Internal\Message>
      */
     public function handle(Request $request)

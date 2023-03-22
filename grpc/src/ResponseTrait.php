@@ -1,9 +1,15 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
+/**
+ * This file is part of OpenSwoole.
+ * @link     https://openswoole.com
+ * @contact  hello@openswoole.com
+ */
 namespace OpenSwoole\GRPC;
 
 use OpenSwoole\GRPC\Exception\InvokeException;
+use Throwable;
 
 trait ResponseTrait
 {
@@ -17,7 +23,7 @@ trait ResponseTrait
             }
 
             return pack('CN', 0, strlen($payload)) . $payload;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             throw InvokeException::create($e->getMessage(), Status::INTERNAL, $e);
         }
     }
@@ -29,7 +35,7 @@ trait ResponseTrait
     ): void {
         $headers = array_merge([
             'content-type' => $contentType,
-            'trailer' => 'grpc-status, grpc-message',
+            'trailer'      => 'grpc-status, grpc-message',
         ], $headers);
 
         foreach ($headers as $key => $value) {
@@ -57,7 +63,7 @@ trait ResponseTrait
         ], $trailers);
 
         foreach ($trailers as $key => $value) {
-            $rawResponse->trailer($key, (string)$value);
+            $rawResponse->trailer($key, (string) $value);
         }
     }
 }

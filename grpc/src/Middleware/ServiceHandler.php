@@ -32,7 +32,7 @@ class ServiceHandler implements MiddlewareInterface
                 throw NotFoundException::create("{$service}::{$method} not found");
             }
 
-            $output = $context->getValue('SERVICES')[$service]->handle($request);
+            $output  = $context->getValue('SERVICES')[$service]->handle($request);
             $context = $context->withValue(Constant::GRPC_STATUS, Status::OK);
 
             return is_iterable($output) ? new StreamResponse($context, $output) : new Response($context, $output);
