@@ -36,7 +36,6 @@ jobs:
 
     split_monorepo:
         needs: provide_packages_json
-
         runs-on: ubuntu-latest
         strategy:
             fail-fast: false
@@ -44,7 +43,7 @@ jobs:
                 package: ${{fromJson(needs.provide_packages_json.outputs.matrix)}}
 
         steps:
-            -   uses: actions/checkout@v2
+            -   uses: actions/checkout@v3
 
             # no tag
             -
