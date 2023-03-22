@@ -106,12 +106,15 @@ final class Server
         return $this;
     }
 
-    public function register(string $class): self
+    public function register(string $class, ServiceInterface $instance = null): self
     {
         if (!class_exists($class)) {
             throw new TypeError("{$class} not found");
         }
-        $instance = new $class();
+        // Only recreate the class if the users dont pass in their initialized class
+        if (!$instance) {
+            $instance = new $class();
+        }
         if (!($instance instanceof ServiceInterface)) {
             throw new TypeError("{$class} is not ServiceInterface");
         }
