@@ -169,13 +169,6 @@ final class Coroutine
     {
     }
 
-    /**
-     * @return \OpenSwoole\Coroutine\Iterator
-     */
-    public static function listCoroutines(): Coroutine\Iterator
-    {
-    }
-
     public static function enableScheduler(): bool
     {
     }
