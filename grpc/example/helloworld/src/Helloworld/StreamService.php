@@ -13,18 +13,18 @@ use OpenSwoole\GRPC;
 class StreamService implements StreamInterface
 {
     /**
+     * @return iterable<HelloReply>
      * @throws GRPC\Exception\InvokeException
      */
-    public function FetchResponse(GRPC\ContextInterface $ctx, HelloRequest $request): HelloReply
+    public function FetchResponse(GRPC\ContextInterface $ctx, HelloRequest $request): iterable
     {
         while (1) {
             $name = $request->getName();
             $out  = new HelloReply();
             $out->setMessage('hello ' . $name . time());
 
-            $message = new GRPC\Message($ctx, $out);
+            yield $out;
 
-            $ctx['WORKER_CONTEXT']->getValue(\OpenSwoole\GRPC\Server::class)->push($message);
             \Swoole\Coroutine::sleep(1);
         }
     }

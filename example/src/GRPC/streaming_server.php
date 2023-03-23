@@ -6,22 +6,19 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
-ini_set('memory_limit', '-1');
-
-require __DIR__ . '/vendor/autoload.php';
-
-use Helloworld\GreeterService;
-use Helloworld\StreamService;
+use Hello\StreamGreeterService;
+use OpenSwoole\Constant;
 use OpenSwoole\GRPC\Middleware\LoggingMiddleware;
 use OpenSwoole\GRPC\Middleware\TraceMiddleware;
 use OpenSwoole\GRPC\Server;
+
+require_once __DIR__ . '/../../../vendor/autoload.php';
 
 // enable hooks on IO clients
 co::set(['hook_flags' => OpenSwoole\Runtime::HOOK_ALL]);
 
 $server = (new Server('127.0.0.1', 9501))
-    ->register(GreeterService::class)
-    ->register(StreamService::class)
+    ->register(StreamGreeterService::class)
     ->withWorkerContext('worker_start_time', function () {
         return time();
     })
@@ -29,7 +26,8 @@ $server = (new Server('127.0.0.1', 9501))
     ->addMiddleware(new LoggingMiddleware())
     ->addMiddleware(new TraceMiddleware())
     ->set([
-        'log_level' => \OpenSwoole\Constant::LOG_INFO,
-    ]);
+        'log_level' => Constant::LOG_INFO,
+    ])
+;
 
 $server->start();
