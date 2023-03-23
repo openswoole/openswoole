@@ -18,7 +18,7 @@ final class Response implements ResponseInterface
 
     private string $payload;
 
-    public function __construct(Context $context, ?\Google\Protobuf\Internal\Message $payload = null)
+    public function __construct(Context $context, $payload = null)
     {
         $this->context     = $context;
         $this->contentType = $context->getValue('content-type');

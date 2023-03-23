@@ -71,9 +71,6 @@ final class ServiceContainer
         return array_values($this->methods);
     }
 
-    /**
-     * @return \Google\Protobuf\Internal\Message|iterable<\Google\Protobuf\Internal\Message>
-     */
     public function handle(Request $request)
     {
         $method  = $request->getMethod();

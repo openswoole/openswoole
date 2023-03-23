@@ -13,7 +13,7 @@ use Throwable;
 
 trait ResponseTrait
 {
-    private function preparePayload(\Google\Protobuf\Internal\Message $message, ?string $contentType): string
+    private function preparePayload($message, ?string $contentType): string
     {
         try {
             if ($contentType !== 'application/grpc+json') {
