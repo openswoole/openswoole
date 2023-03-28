@@ -41,7 +41,11 @@ class Message
 
     public function getHeaders()
     {
-        return $this->headers;
+        $headers = [];
+        foreach ($this->headers as $header => $line) {
+            $headers[$header] = is_array($line) ? $line : [$line];
+        }
+        return $headers;
     }
 
     public function hasHeader($name)
