@@ -142,4 +142,11 @@ class Message
         $message->stream = $stream;
         return $message;
     }
+
+    protected function setHeaders(array $headers): void
+    {
+        $this->headers = $this->withHeaders($headers)
+            ->getHeaders()
+        ;
+    }
 }
