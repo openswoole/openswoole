@@ -97,7 +97,7 @@ class Response extends Message implements ResponseInterface
         $this->stream = is_string($body) ? Stream::streamFor($body) : $body;
         $this->setStatusCode($statusCode);
         $this->setReasonPhrase($reasonPhrase);
-        $this->withHeaders($headers);
+        $this->setHeaders($headers);
         $this->protocolVersion = $protocolVersion;
     }
 
