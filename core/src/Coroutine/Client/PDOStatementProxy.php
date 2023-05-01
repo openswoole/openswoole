@@ -64,7 +64,11 @@ class PDOStatementProxy extends ClientProxy
 
                     /* '00000' means “no error.”, as specified by ANSI SQL and ODBC. */
                     if (!empty($errorInfo) && $errorInfo[0] !== '00000') {
-                        $exception            = new PDOException($errorInfo[2], $errorInfo[1]);
+                        if (is_int($errorInfo[1]) && is_string($errorInfo[2])) {
+                            $exception = new PDOException($errorInfo[2], $errorInfo[1]);
+                        } else {
+                            $exception = new PDOException('Unknown database error');
+                        }
                         $exception->errorInfo = $errorInfo;
                         throw $exception;
                     }
