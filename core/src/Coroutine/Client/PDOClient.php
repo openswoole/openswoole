@@ -114,6 +114,13 @@ class PDOClient extends ClientProxy
         return $this->__object->inTransaction();
     }
 
+    public function close()
+    {
+        if (isset($this->__object)) {
+            unset($this->__object);
+        }
+    }
+
     protected function makeClient()
     {
         $driver = $this->config->getDriver();
@@ -135,12 +142,5 @@ class PDOClient extends ClientProxy
             $this->config->getOptions()
         );
         $this->__object = $client;
-    }
-
-    public function close()
-    {
-        if (isset($this->__object)) {
-            unset($this->__object);
-        }
     }
 }
