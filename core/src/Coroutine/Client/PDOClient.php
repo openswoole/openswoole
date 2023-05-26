@@ -136,4 +136,11 @@ class PDOClient extends ClientProxy
         );
         $this->__object = $client;
     }
+
+    public function close()
+    {
+        if (isset($this->__object)) {
+            unset($this->__object);
+        }
+    }
 }
