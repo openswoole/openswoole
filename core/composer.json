@@ -19,7 +19,7 @@
     "require": {
         "php": ">=7.4",
         "ext-openswoole": ">=22.0",
-        "psr/http-message": "^1.0",
+        "psr/http-message": "^1.0 || ^2.0",
         "psr/http-server-middleware": "^1.0.0"
     },
     "require-dev": {
