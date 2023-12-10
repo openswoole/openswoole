@@ -42,6 +42,7 @@ class PDOClient extends ClientProxy
 
     public function __call(string $name, array $arguments)
     {
+        $this->assertNotClosed();
         for ($n = 3; $n--;) {
             $ret = @$this->__object->{$name}(...$arguments);
             if ($ret === false) {
@@ -100,18 +101,33 @@ class PDOClient extends ClientProxy
 
     public function heartbeat(): void
     {
+        $this->assertNotClosed();
         $this->__object->query('SELECT 1')->fetch();
     }
 
     public function setAttribute(int $attribute, $value): bool
     {
+        $this->assertNotClosed();
         $this->setAttributeContext[$attribute] = $value;
         return $this->__object->setAttribute($attribute, $value);
     }
 
     public function inTransaction(): bool
     {
+        $this->assertNotClosed();
         return $this->__object->inTransaction();
+    }
+
+    public function close()
+    {
+        $this->__object = null;
+    }
+
+    protected function assertNotClosed(): void
+    {
+        if (is_null($this->__object)) {
+            throw new PDOException('The database connection has been intentionally closed. Please call the \'reconnect\' method before using it again');
+        }
     }
 
     protected function makeClient()
