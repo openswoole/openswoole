@@ -124,8 +124,6 @@ class PDOClient extends ClientProxy
         $this->__object = null;
     }
 
-    public function close() {}
-
     protected function assertNotClosed(): void
     {
         if (is_null($this->__object)) {
