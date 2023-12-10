@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Server;
 
 final class Task
@@ -23,15 +24,11 @@ final class Task
     /**
      * @param mixed $data [required]
      */
-    public function finish($data): bool
-    {
-    }
+    public function finish($data): bool {}
 
     /**
      * @param mixed $data [required]
      * @return bool|string
      */
-    public static function pack($data)
-    {
-    }
+    public static function pack($data) {}
 }

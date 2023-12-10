@@ -6,8 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\GRPC\Exception;
 
-class ClientException extends GRPCException
-{
-}
+class ClientException extends GRPCException {}

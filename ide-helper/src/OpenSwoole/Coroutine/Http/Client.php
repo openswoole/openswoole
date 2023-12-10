@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Coroutine\Http;
 
 use OpenSwoole\WebSocket\Frame;
@@ -43,14 +44,8 @@ final class Client
      */
     public $requestBody;
 
-    /**
-     * @var mixed
-     */
     public $uploadFiles;
 
-    /**
-     * @var mixed
-     */
     public $downloadFile;
 
     public int $downloadOffset;
@@ -59,9 +54,6 @@ final class Client
 
     public $headers;
 
-    /**
-     * @var mixed
-     */
     public $set_cookie_headers;
 
     public $cookies;
@@ -73,67 +65,47 @@ final class Client
      * @param int $port [optional]
      * @param bool $ssl [optional]
      */
-    public function __construct(string $host, int $port, bool $ssl = false)
-    {
-    }
+    public function __construct(string $host, int $port, bool $ssl = false) {}
 
-    public function __destruct()
-    {
-    }
+    public function __destruct() {}
 
     /**
      * @param array $settings [required]
      */
-    public function set(array $settings): bool
-    {
-    }
+    public function set(array $settings): bool {}
 
-    public function getDefer(): bool
-    {
-    }
+    public function getDefer(): bool {}
 
     /**
      * @param bool $defer [optional]
      */
-    public function setDefer(bool $defer = true): void
-    {
-    }
+    public function setDefer(bool $defer = true): void {}
 
     /**
      * @param mixed $method [required]
      */
-    public function setMethod(string $method): void
-    {
-    }
+    public function setMethod(string $method): void {}
 
     /**
      * @param array $headers [required]
      */
-    public function setHeaders(array $headers): void
-    {
-    }
+    public function setHeaders(array $headers): void {}
 
     /**
      * @param mixed $username [required]
      * @param mixed $password [required]
      */
-    public function setBasicAuth(string $username, string $password): void
-    {
-    }
+    public function setBasicAuth(string $username, string $password): void {}
 
     /**
      * @param array $cookies [required]
      */
-    public function setCookies(array $cookies): void
-    {
-    }
+    public function setCookies(array $cookies): void {}
 
     /**
      * @param string|array $data [required]
      */
-    public function setData($data): void
-    {
-    }
+    public function setData($data): void {}
 
     /**
      * @param string $path [required]
@@ -143,9 +115,7 @@ final class Client
      * @param int $offset [optional]
      * @param int $length [optional]
      */
-    public function addFile(string $path, string $name, ?string $type = null, ?string $filename = null, int $offset = 0, int $length = 0): void
-    {
-    }
+    public function addFile(string $path, string $name, string $type = null, string $filename = null, int $offset = 0, int $length = 0): void {}
 
     /**
      * @param string $path [required]
@@ -153,123 +123,89 @@ final class Client
      * @param string|null $type [optional]
      * @param string|null $filename [optional]
      */
-    public function addData(string $path, string $name, ?string $type, ?string $filename): void
-    {
-    }
+    public function addData(string $path, string $name, ?string $type, ?string $filename): void {}
 
     /**
      * @param string $path [required]
      * @return int|bool
      */
-    public function execute(string $path)
-    {
-    }
+    public function execute(string $path) {}
 
     /**
      * @return array|false
      */
-    public function getpeername()
-    {
-    }
+    public function getpeername() {}
 
     /**
      * @return array|false
      */
-    public function getsockname()
-    {
-    }
+    public function getsockname() {}
 
     /**
      * @param string $path [required]
      */
-    public function get(string $path): void
-    {
-    }
+    public function get(string $path): void {}
 
     /**
      * @param mixed $path [required]
      * @param string|array $data [required]
      */
-    public function post(string $path, $data): void
-    {
-    }
+    public function post(string $path, $data): void {}
 
     /**
      * @param string $path [required]
      * @param string $file [required]
      * @param int $offset [optional]
      */
-    public function download(string $path, string $file, int $offset = 0): bool
-    {
-    }
+    public function download(string $path, string $file, int $offset = 0): bool {}
 
     /**
      * @return string|bool
      */
-    public function getBody()
-    {
-    }
+    public function getBody() {}
 
     /**
      * @return array|bool
      */
-    public function getHeaders()
-    {
-    }
+    public function getHeaders() {}
 
     /**
      * @return array|bool
      */
-    public function getCookies()
-    {
-    }
+    public function getCookies() {}
 
     /**
      * @return int|bool
      */
-    public function getStatusCode()
-    {
-    }
+    public function getStatusCode() {}
 
     /**
      * @return string|bool
      */
-    public function getHeaderOut()
-    {
-    }
+    public function getHeaderOut() {}
 
     /**
      * @return string|false
      */
-    public function getPeerCert()
-    {
-    }
+    public function getPeerCert() {}
 
     /**
      * @param string $path [required]
      */
-    public function upgrade(string $path): bool
-    {
-    }
+    public function upgrade(string $path): bool {}
 
     /**
      * @param mixed $data [required]
      * @param int $opcode [optional]
      * @param int $flags [optional]
      */
-    public function push($data, int $opcode = \OpenSwoole\WebSocket\Server::WEBSOCKET_OPCODE_TEXT, int $flags = \OpenSwoole\WebSocket\Server::WEBSOCKET_FLAG_FIN): bool
-    {
-    }
+    public function push($data, int $opcode = \OpenSwoole\WebSocket\Server::WEBSOCKET_OPCODE_TEXT, int $flags = \OpenSwoole\WebSocket\Server::WEBSOCKET_FLAG_FIN): bool {}
 
     /**
      * @param mixed $timeout [optional]
      * @return bool|Frame
      */
-    public function recv(float $timeout = 0)
-    {
-    }
+    public function recv(float $timeout = 0) {}
 
-    public function close(): bool
-    {
-    }
+    public function close(): bool {}
 }

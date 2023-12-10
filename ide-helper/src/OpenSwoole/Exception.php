@@ -6,8 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole;
 
-class Exception extends \Exception
-{
-}
+class Exception extends \Exception {}

@@ -6,8 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Http;
 
-class Server extends \OpenSwoole\Server
-{
-}
+class Server extends \OpenSwoole\Server {}

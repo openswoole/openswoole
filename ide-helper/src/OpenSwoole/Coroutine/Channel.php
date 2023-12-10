@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Coroutine;
 
 class Channel
@@ -27,46 +28,28 @@ class Channel
     /**
      * @param int $capacity [optional] = 1
      */
-    public function __construct(int $capacity = 1)
-    {
-    }
+    public function __construct(int $capacity = 1) {}
 
     /**
      * @param mixed $data [required]
      * @param float $timeout [optional] = -1
      */
-    public function push($data, float $timeout = -1): bool
-    {
-    }
+    public function push($data, float $timeout = -1): bool {}
 
     /**
      * @param float $timeout [optional] = -1
      */
-    public function pop(float $timeout = -1): mixed
-    {
-    }
+    public function pop(float $timeout = -1): mixed {}
 
-    public function isEmpty(): bool
-    {
-    }
+    public function isEmpty(): bool {}
 
-    public function isFull(): bool
-    {
-    }
+    public function isFull(): bool {}
 
-    public function close(): bool
-    {
-    }
+    public function close(): bool {}
 
-    public function stats(): array
-    {
-    }
+    public function stats(): array {}
 
-    public function length(): int
-    {
-    }
+    public function length(): int {}
 
-    public function getId(): int
-    {
-    }
+    public function getId(): int {}
 }

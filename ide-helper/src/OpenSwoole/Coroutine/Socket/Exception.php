@@ -6,8 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Coroutine\Socket;
 
-class Exception extends \OpenSwoole\Exception
-{
-}
+class Exception extends \OpenSwoole\Exception {}

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Server;
 
 final class Port
@@ -44,46 +45,29 @@ final class Port
 
     private $onDisconnect;
 
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
-    public function __destruct()
-    {
-    }
+    public function __destruct() {}
 
     /**
      * @param array $settings [required]
      * @return ?bool
      */
-    public function set(array $settings): ?bool
-    {
-    }
+    public function set(array $settings): ?bool {}
 
     /**
      * @param string $event [required]
      * @param callable $callback [required]
      */
-    public function on(string $event, callable $callback): bool
-    {
-    }
+    public function on(string $event, callable $callback): bool {}
 
     /**
      * @param string $event [required]
      * @return ?callable
      */
-    public function getCallback(string $event): ?callable
-    {
-    }
+    public function getCallback(string $event): ?callable {}
 
-    public function handle(callable $callback): bool
-    {
-    }
+    public function handle(callable $callback): bool {}
 
-    /**
-     * @param mixed $handler
-     */
-    public function setHandler($handler): bool
-    {
-    }
+    public function setHandler($handler): bool {}
 }
