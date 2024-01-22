@@ -22,8 +22,17 @@ class Container implements ContainerInterface
      */
     public function get(string $id)
     {
+        if(!$this->has($id))
+        {
+            $this->set($id);
+        }
         $concrete = $this->instance[$id];
         return $this->resolve($concrete);
+    }
+
+    public function set($id, $concrete = null)
+    {
+        $this->instance[$id] = $concrete ?? $id;
     }
 
     /**
@@ -61,8 +70,9 @@ class Container implements ContainerInterface
     /**
      * @throws DependencyHasNoDefaultValueException
      */
-    private function getDependencies(array $parameters, ReflectionClass $reflection)
+    private function getDependencies(array $parameters, ReflectionClass $reflection): array
     {
+        // Autowired
         $dependencies = [];
         foreach ($parameters as $parameter)
         {
@@ -80,6 +90,7 @@ class Container implements ContainerInterface
             }
             else
             {
+                // Recursively get dependencies
                 $dependencies[] = $this->get($dependency->name);
             }
         }
