@@ -1,5 +1,11 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of OpenSwoole.
+ * @link     https://openswoole.com
+ * @contact  hello@openswoole.com
+ */
 $client = new OpenSwoole\Client(\OpenSwoole\Constant::SOCK_TCP6);
 if (!$client->connect('::1', 9501, -1)) {
     exit("connect failed. Error: {$client->errCode}\n");

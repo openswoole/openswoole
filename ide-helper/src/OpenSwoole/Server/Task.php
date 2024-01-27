@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 /**
- * This file is part of OpenSwoole IDE Helper.
+ * This file is part of OpenSwoole.
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
- * @license  https://github.com/openswoole/library/blob/master/LICENSE
  */
+
 namespace OpenSwoole\Server;
 
 final class Task
@@ -24,15 +24,11 @@ final class Task
     /**
      * @param mixed $data [required]
      */
-    public function finish($data): bool
-    {
-    }
+    public function finish($data): bool {}
 
     /**
      * @param mixed $data [required]
      * @return bool|string
      */
-    public static function pack($data)
-    {
-    }
+    public static function pack($data) {}
 }

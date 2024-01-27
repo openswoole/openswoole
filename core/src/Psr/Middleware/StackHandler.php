@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Core\Psr\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
@@ -29,7 +30,7 @@ class StackHandler implements RequestHandlerInterface
         return $stack;
     }
 
-    public function handle(ServerRequestInterface $request): ?ResponseInterface
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $middleware = $this->middlewares[0] ?? false;
         return $middleware

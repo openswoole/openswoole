@@ -6,9 +6,10 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Core\Coroutine\Client;
 
-use mysqli;
+use Mysqli;
 use mysqli_stmt;
 
 class MysqliStatementProxy extends ClientProxy

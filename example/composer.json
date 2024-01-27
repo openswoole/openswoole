@@ -1,26 +1,19 @@
 {
     "name": "openswoole/example",
-    "description": "Example of openswoole",
+    "description": "Example of Openswoole",
     "type": "project",
-    "license": "Apache 2",
+    "license": "Apache-2.0",
     "autoload": {
         "psr-4": {
             "Openswoole\\Example\\": "src/"
         }
     },
-    "authors": [
-        {
-            "name": "Bruce Dou",
-            "email": "doubaokun@gmail.com"
-        }
-    ],
     "minimum-stability": "dev",
     "require": {
-        "openswoole/core": "dev-master",
+        "ext-openswoole": ">=22.0",
+        "openswoole/core": ">=22.0",
         "slim/slim": "^4.0",
-        "slim/psr7": "dev-master"
-    },
-    "repositories": [
-        {"name": "openswoole/core", "type": "vcs", "url": "https://github.com/openswoole/core"}
-    ]
+        "slim/psr7": "dev-master",
+        "league/container": "4.x-dev"
+    }
 }

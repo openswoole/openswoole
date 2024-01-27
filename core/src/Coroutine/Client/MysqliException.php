@@ -6,10 +6,9 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Core\Coroutine\Client;
 
 use Exception;
 
-class MysqliException extends Exception
-{
-}
+class MysqliException extends Exception {}

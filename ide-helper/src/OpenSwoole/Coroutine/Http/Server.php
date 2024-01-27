@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 /**
- * This file is part of OpenSwoole IDE Helper.
+ * This file is part of OpenSwoole.
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
- * @license  https://github.com/openswoole/library/blob/master/LICENSE
  */
+
 namespace OpenSwoole\Coroutine\Http;
 
 final class Server
@@ -31,41 +31,24 @@ final class Server
      * @param bool $ssl [optional]
      * @param bool $reuse_port [optional]
      */
-    public function __construct(string $host, int $port = 0, bool $ssl = false, bool $reuse_port = false)
-    {
-    }
+    public function __construct(string $host, int $port = 0, bool $ssl = false, bool $reuse_port = false) {}
 
-    public function __destruct()
-    {
-    }
+    public function __destruct() {}
 
     /**
      * @param array $settings [required]
      */
-    public function set(array $settings): bool
-    {
-    }
+    public function set(array $settings): bool {}
 
     /**
      * @param string $pattern [required]
      * @param callable $callback [required]
      */
-    public function handle(string $pattern, callable $callback): void
-    {
-    }
+    public function handle(string $pattern, callable $callback): void {}
 
-    public function start(): void
-    {
-    }
+    public function start(): void {}
 
-    public function shutdown(): void
-    {
-    }
+    public function shutdown(): void {}
 
-    /**
-     * @return mixed
-     */
-    private function onAccept()
-    {
-    }
+    private function onAccept() {}
 }

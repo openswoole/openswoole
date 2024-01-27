@@ -12,4 +12,4 @@ OpenSwoole is a programmatic platform building modernized systems with async IO,
 
 ## Documentation
 
-Documentation for Open Swoole can be found on the [Open Swoole website](https://openswoole.com/docs).
+Documentation for Openswoole can be found on the [Openswoole website](https://openswoole.com/docs).

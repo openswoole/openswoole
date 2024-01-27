@@ -2,72 +2,60 @@
 
 declare(strict_types=1);
 /**
- * This file is part of OpenSwoole IDE Helper.
+ * This file is part of OpenSwoole.
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
- * @license  https://github.com/openswoole/library/blob/master/LICENSE
  */
+
 namespace OpenSwoole;
 
-use Closure;
-use OpenSwoole\Connection\Iterator;
 use OpenSwoole\Server\Port;
 
 class Server
 {
     public const SIMPLE_MODE = 1;
+
     public const POOL_MODE = 2;
 
     public const IPC_UNSOCK = 1;
+
     public const IPC_MSGQUEUE = 2;
+
     public const IPC_PREEMPTIVE = 3;
 
     public const DISPATCH_RESULT_DISCARD_PACKET = -1;
+
     public const DISPATCH_RESULT_CLOSE_CONNECTION = -2;
+
     public const DISPATCH_RESULT_USERFUNC_FALLBACK = -3;
 
     public const TASK_TMPFILE = 1;
+
     public const TASK_SERIALIZE = 2;
+
     public const TASK_NONBLOCK = 4;
+
     public const TASK_CALLBACK = 8;
+
     public const TASK_WAITALL = 16;
+
     public const TASK_COROUTINE = 32;
+
     public const TASK_PEEK = 64;
+
     public const TASK_NOREPLY = 128;
 
     public const WORKER_BUSY = 1;
+
     public const WORKER_IDLE = 2;
+
     public const WORKER_EXIT = 3;
 
     public const STATS_DEFAULT = 0;
+
     public const STATS_JSON = 1;
+
     public const STATS_OPENMETRICS = 2;
-
-    private $onStart;
-
-    private $onShutdown;
-
-    private $onWorkerStart;
-
-    private $onWorkerStop;
-
-    private $onBeforeReload;
-
-    private $onAfterReload;
-
-    private $onWorkerExit;
-
-    private $onWorkerError;
-
-    private $onTask;
-
-    private $onFinish;
-
-    private $onManagerStart;
-
-    private $onManagerStop;
-
-    private $onPipeMessage;
 
     public $setting;
 
@@ -95,298 +83,173 @@ class Server
 
     public $stats_timer;
 
-    public function __construct(string $host, int $port = 0, int $mode = \OpenSwoole\Server::SIMPLE_MODE, int $sockType = \OpenSwoole\Constant::SOCK_TCP)
-    {
-    }
+    private $onStart;
 
-    public function __destruct()
-    {
-    }
+    private $onShutdown;
+
+    private $onWorkerStart;
+
+    private $onWorkerStop;
+
+    private $onBeforeReload;
+
+    private $onAfterReload;
+
+    private $onWorkerExit;
+
+    private $onWorkerError;
+
+    private $onTask;
+
+    private $onFinish;
+
+    private $onManagerStart;
+
+    private $onManagerStop;
+
+    private $onPipeMessage;
+
+    public function __construct(string $host, int $port = 0, int $mode = \OpenSwoole\Server::SIMPLE_MODE, int $sockType = \OpenSwoole\Constant::SOCK_TCP) {}
+
+    public function __destruct() {}
 
     /**
-     * @param string $host
-     * @param int $port
-     * @param int $sockType
      * @return false|Port
      */
-    public function listen(string $host, int $port, int $sockType)
-    {
-    }
+    public function listen(string $host, int $port, int $sockType) {}
 
     /**
-     * @param string $host
-     * @param int $port
-     * @param int $sockType
      * @return false|Port
      */
-    public function addlistener(string $host, int $port, int $sockType)
-    {
-    }
+    public function addlistener(string $host, int $port, int $sockType) {}
 
-    public function on(string $event, callable $callback): bool
-    {
-    }
+    public function on(string $event, callable $callback): bool {}
 
-    public function handle(callable $callback): bool
-    {
-    }
+    public function handle(callable $callback): bool {}
 
-    /**
-     * @param mixed $handler
-     * @return bool
-     */
-    public function setHandler($handler): bool
-    {
-    }
+    public function setHandler($handler): bool {}
 
-    /**
-     * @param string $event
-     * @return mixed
-     */
-    public function getCallback(string $event)
-    {
-    }
+    public function getCallback(string $event) {}
 
-    public function set(array $settings): bool
-    {
-    }
+    public function set(array $settings): bool {}
 
-    public function start(): bool
-    {
-    }
+    public function start(): bool {}
 
     /**
      * @param string|int $fd
-     * @param mixed $data
-     * @param int $serverSocket
-     * @return bool
      */
-    public function send($fd, $data, int $serverSocket = -1): bool
-    {
-    }
+    public function send($fd, $data, int $serverSocket = -1): bool {}
 
-    public function sendto(string $ip, int $port, string $data, int $serverSocket = -1): bool
-    {
-    }
+    public function sendto(string $ip, int $port, string $data, int $serverSocket = -1): bool {}
 
-    public function sendwait(int $fd, string $data): bool
-    {
-    }
+    public function sendwait(int $fd, string $data): bool {}
 
-    public function exists(int $fd): bool
-    {
-    }
+    public function exists(int $fd): bool {}
 
-    public function protect(int $fd, bool $isProtected = true): bool
-    {
-    }
+    public function protect(int $fd, bool $isProtected = true): bool {}
 
-    public function sendfile(int $fd, string $fileName, int $offset = 0, int $length = 0): bool
-    {
-    }
+    public function sendfile(int $fd, string $fileName, int $offset = 0, int $length = 0): bool {}
 
-    public function close(int $fd, bool $reset = false): bool
-    {
-    }
+    public function close(int $fd, bool $reset = false): bool {}
 
-    public function confirm(int $fd): bool
-    {
-    }
+    public function confirm(int $fd): bool {}
 
-    public function pause(int $fd): bool
-    {
-    }
+    public function pause(int $fd): bool {}
 
-    public function resume(int $fd): bool
-    {
-    }
+    public function resume(int $fd): bool {}
 
-    public function reload(): bool
-    {
-    }
+    public function reload(): bool {}
 
-    public function shutdown(): bool
-    {
-    }
+    public function shutdown(): bool {}
 
     /**
-     * @param mixed $data
-     * @param int $workerId
-     * @param callable|null $finishCallback
      * @return bool|int
      */
-    public function task($data, int $workerId = -1, ?callable $finishCallback = null)
-    {
-    }
+    public function task($data, int $workerId = -1, callable $finishCallback = null) {}
 
     /**
-     * @param mixed $data
-     * @param float $timeout
-     * @param int $workerId
      * @return bool|string
      */
-    public function taskwait($data, float $timeout = 0.5, int $workerId = -1)
-    {
-    }
+    public function taskwait($data, float $timeout = 0.5, int $workerId = -1) {}
 
     /**
-     * @param array $tasks
-     * @param float $timeout
      * @return bool|array
      */
-    public function taskWaitMulti(array $tasks, float $timeout = 0.5)
-    {
-    }
+    public function taskWaitMulti(array $tasks, float $timeout = 0.5) {}
 
     /**
-     * @param array $tasks
-     * @param float $timeout
      * @return bool|array
      */
-    public function taskCo(array $tasks, float $timeout = 0.5)
-    {
-    }
+    public function taskCo(array $tasks, float $timeout = 0.5) {}
+
+    public function finish($data): bool {}
+
+    public function stop(int $workerId, bool $waitEvent = false): bool {}
+
+    public function getLastError(): int {}
 
     /**
-     * @param mixed $data
-     * @return bool
-     */
-    public function finish($data): bool
-    {
-    }
-
-    public function stop(int $workerId, bool $waitEvent = false): bool
-    {
-    }
-
-    public function getLastError(): int
-    {
-    }
-
-    /**
-     * @param bool $closeConn
      * @return false|array
      */
-    public function heartbeat(bool $closeConn = false)
-    {
-    }
+    public function heartbeat(bool $closeConn = false) {}
 
     /**
-     * @param int $fd
-     * @param int $reactorId
-     * @param bool $noCheckConn
      * @return bool|array
      */
-    public function getClientInfo(int $fd, int $reactorId = -1, bool $noCheckConn = false)
-    {
-    }
+    public function getClientInfo(int $fd, int $reactorId = -1, bool $noCheckConn = false) {}
 
     /**
-     * @param int $startFd
-     * @param int $pageSize
      * @return bool|array
      */
-    public function getClientList(int $startFd = 0, int $pageSize = 10)
-    {
-    }
+    public function getClientList(int $startFd = 0, int $pageSize = 10) {}
 
-    public function getWorkerId(): int
-    {
-    }
+    public function getWorkerId(): int {}
 
     /**
-     * @param int $workerId
      * @return int|false
      */
-    public function getWorkerPid(int $workerId = -1)
-    {
-    }
+    public function getWorkerPid(int $workerId = -1) {}
 
     /**
-     * @param int $workerId
      * @return bool|int
      */
-    public function getWorkerStatus(int $workerId = -1)
-    {
-    }
+    public function getWorkerStatus(int $workerId = -1) {}
 
-    public function getManagerPid(): int
-    {
-    }
+    public function getManagerPid(): int {}
 
-    public function getMasterPid(): int
-    {
-    }
+    public function getMasterPid(): int {}
 
     /**
-     * @param int $fd
-     * @param int $reactorId
-     * @param bool $noCheckConn
      * @return bool|array
      */
-    public function connection_info(int $fd, int $reactorId = -1, bool $noCheckConn = false)
-    {
-    }
+    public function connection_info(int $fd, int $reactorId = -1, bool $noCheckConn = false) {}
 
     /**
-     * @param int $startFd
-     * @param int $pageSize
      * @return bool|array
      */
-    public function connection_list(int $startFd = 0, int $pageSize = 10)
-    {
-    }
+    public function connection_list(int $startFd = 0, int $pageSize = 10) {}
+
+    public function sendMessage($message, int $workerId): bool {}
 
     /**
-     * @param mixed $message
-     * @param int $workerId
-     * @return bool
-     */
-    public function sendMessage($message, int $workerId): bool
-    {
-    }
-
-    /**
-     * @param Process $process
      * @return bool|int
      */
-    public function addProcess(\OpenSwoole\Process $process)
-    {
-    }
+    public function addProcess(Process $process) {}
 
     /**
-     * @param int $mode
      * @return string|array|false
      */
-    public function stats(int $mode = 0)
-    {
-    }
+    public function stats(int $mode = 0) {}
 
-    /**
-     * @param int $port
-     * @return mixed
-     */
-    public function getSocket(int $port = -1)
-    {
-    }
+    public function getSocket(int $port = -1) {}
 
-    public function bind(int $fd, int $uid): bool
-    {
-    }
+    public function bind(int $fd, int $uid): bool {}
 
-    public function after(int $ms, callable $callback): void
-    {
-    }
+    public function after(int $ms, callable $callback): void {}
 
-    public function tick(int $ms, callable $callback) : void
-    {
-    }
+    public function tick(int $ms, callable $callback): void {}
 
-    public function clearTimer(): void
-    {
-    }
+    public function clearTimer(): void {}
 
-    public function defer(callable $callback): void
-    {
-    }
+    public function defer(callable $callback): void {}
 }

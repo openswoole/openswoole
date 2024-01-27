@@ -6,8 +6,10 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Core\Psr;
 
+use InvalidArgumentException;
 use Psr\Http\Message\ServerRequestInterface;
 
 class ServerRequest extends Request implements ServerRequestInterface
@@ -137,7 +139,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     public function withParsedBody($data)
     {
         if (!is_array($data) && !is_object($data) && !is_null($data)) {
-            throw new \InvalidArgumentException('Error HTTP body.');
+            throw new InvalidArgumentException('Error HTTP body.');
         }
         $request             = clone $this;
         $request->parsedBody = $data;

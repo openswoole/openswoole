@@ -6,8 +6,10 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Core\Psr;
 
+use InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
 
 class Request extends Message implements RequestInterface
@@ -34,7 +36,7 @@ class Request extends Message implements RequestInterface
         }
     }
 
-    public function getMethod(): ?string
+    public function getMethod(): string
     {
         return $this->method;
     }
@@ -42,7 +44,7 @@ class Request extends Message implements RequestInterface
     public function withMethod($method): self
     {
         if (!is_string($method)) {
-            throw new \InvalidArgumentException('Method is not validate.');
+            throw new InvalidArgumentException('Method is not validate.');
         }
         $request         = clone $this;
         $request->method = $method;
@@ -102,7 +104,7 @@ class Request extends Message implements RequestInterface
     public function withRequestTarget($requestTarget): self
     {
         if (preg_match('/\s/', $requestTarget)) {
-            throw new \InvalidArgumentException('Request target can\'t contain whitespaces');
+            throw new InvalidArgumentException('Request target can\'t contain whitespaces');
         }
 
         $request                = clone $this;

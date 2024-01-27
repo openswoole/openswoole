@@ -13,6 +13,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Core\Psr7Test\Tests;
 
 use Http\Psr7Test\ResponseIntegrationTest;
@@ -26,6 +27,15 @@ class ResponseTest extends ResponseIntegrationTest
 {
     public function createSubject()
     {
-        return new Response('');
+        return new Response('', 200, '', ['X-Foo' => 'Bar']);
+    }
+
+    public function testCreationWillSetHeaders(): void
+    {
+        $response = $this->createSubject();
+
+        self::assertEquals(200, $response->getStatusCode());
+        self::assertEquals('OK', $response->getReasonPhrase());
+        self::assertEquals(['x-foo' => ['Bar']], $response->getHeaders());
     }
 }

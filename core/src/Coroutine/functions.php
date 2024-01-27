@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Core\Coroutine;
 
 use OpenSwoole\Coroutine;
@@ -302,7 +303,7 @@ function map(array $list, callable $fn, float $timeout = -1): array
 
 function deadlock_check()
 {
-    $all_coroutines = Coroutine::listCoroutines();
+    $all_coroutines = Coroutine::list();
     $count          = Coroutine::stats()['coroutine_num'];
     echo "\n===================================================================",
     "\n [FATAL ERROR]: all coroutines (count: {$count}) are asleep - deadlock!",

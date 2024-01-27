@@ -6,7 +6,10 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Core\Process;
+
+use OpenSwoole\Process\Pool;
 
 class Manager
 {

@@ -1,4 +1,11 @@
 <?php
+
+declare(strict_types=1);
+/**
+ * This file is part of OpenSwoole.
+ * @link     https://openswoole.com
+ * @contact  hello@openswoole.com
+ */
 ini_set('memory_limit', '8M');
 
 $table = new OpenSwoole\Table(1024);
@@ -14,7 +21,7 @@ if (pcntl_fork() == 0) {
 } else {
     $mu1 = memory_get_usage();
     var_dump($mu1);
-    $str = str_repeat('A', 1024 * 1024 * 5);
+    $str  = str_repeat('A', 1024 * 1024 * 5);
     $str2 = str_repeat('A', 1024 * 1024);
     $str3 = str_repeat('A', 1024 * 64);
     var_dump(memory_get_usage());
@@ -23,4 +30,3 @@ if (pcntl_fork() == 0) {
     echo substr($str, 0, 8);
     pcntl_wait($status);
 }
-

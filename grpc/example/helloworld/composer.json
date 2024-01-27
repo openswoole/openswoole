@@ -3,8 +3,9 @@
     "description": "Example OpenSwoole RPC project",
     "repositories": [
         {
-            "name": "openswoole/core", 
-            "type": "path", "url": "../../../core"
+            "name": "openswoole/core",
+            "type": "path",
+            "url": "../../../core"
         },
         {
             "name": "openswoole/grpc",
@@ -13,9 +14,9 @@
         }
     ],
     "require": {
-        "openswoole/grpc": "dev-master",
+        "openswoole/grpc": "^22.0",
         "google/protobuf": "^3.21",
-        "openswoole/core": "dev-master"
+        "openswoole/core": "^22.0"
     },
     "suggest": {
         "ext-openswoole": "*"

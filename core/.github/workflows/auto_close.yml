@@ -1,0 +1,12 @@
+name: Autocloser
+on: [issues, pull_request]
+jobs:
+  autoclose:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Autoclose issues
+      uses: roots/issue-closer@v1.1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        issue-close-message: "@${issue.user.login} this repo is read only. Please post your issues or PR at https://github.com/openswoole/openswoole"
+        issue-pattern: ".*READONLY REPO.*"

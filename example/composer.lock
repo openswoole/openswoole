@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7a8200fef72ea9d8aa5228a3f75ace24",
+    "content-hash": "26383dddd656f99f0b8c990f5ce74105",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -64,6 +64,89 @@
             "time": "2020-11-24T22:02:12+00:00"
         },
         {
+            "name": "league/container",
+            "version": "4.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/container.git",
+                "reference": "388e992884ab75632d93dbaf4d29ec024d64b964"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/container/zipball/388e992884ab75632d93dbaf4d29ec024d64b964",
+                "reference": "388e992884ab75632d93dbaf4d29ec024d64b964",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2 || ^8.0",
+                "psr/container": "^1.1 || ^2.0"
+            },
+            "provide": {
+                "psr/container-implementation": "^1.0"
+            },
+            "replace": {
+                "orno/di": "~2.0"
+            },
+            "require-dev": {
+                "nette/php-generator": "^3.4",
+                "nikic/php-parser": "^4.10",
+                "phpstan/phpstan": "^0.12.47",
+                "phpunit/phpunit": "^8.5.17",
+                "roave/security-advisories": "dev-latest",
+                "scrutinizer/ocular": "^1.8",
+                "squizlabs/php_codesniffer": "^3.6"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.x-dev",
+                    "dev-4.x": "4.x-dev",
+                    "dev-3.x": "3.x-dev",
+                    "dev-2.x": "2.x-dev",
+                    "dev-1.x": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Container\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Phil Bennett",
+                    "email": "mail@philbennett.co.uk",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A fast and intuitive dependency injection container.",
+            "homepage": "https://github.com/thephpleague/container",
+            "keywords": [
+                "container",
+                "dependency",
+                "di",
+                "injection",
+                "league",
+                "provider",
+                "service"
+            ],
+            "support": {
+                "issues": "https://github.com/thephpleague/container/issues",
+                "source": "https://github.com/thephpleague/container/tree/4.x"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/philipobenito",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-02-02T09:18:15+00:00"
+        },
+        {
             "name": "nikic/fast-route",
             "version": "v1.x-dev",
             "source": {
@@ -118,16 +201,17 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "git@github.com:openswoole/core.git",
-                "reference": "e04af6a9b8202216c9fb719cdcfb78705ad700a2"
+                "url": "https://github.com/openswoole/core.git",
+                "reference": "0f13386fdc590c1897782bf13584affc34d917b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openswoole/core/zipball/e04af6a9b8202216c9fb719cdcfb78705ad700a2",
-                "reference": "e04af6a9b8202216c9fb719cdcfb78705ad700a2",
+                "url": "https://api.github.com/repos/openswoole/core/zipball/0f13386fdc590c1897782bf13584affc34d917b7",
+                "reference": "0f13386fdc590c1897782bf13584affc34d917b7",
                 "shasum": ""
             },
             "require": {
+                "ext-openswoole": ">=22.0",
                 "php": ">=7.4",
                 "psr/http-message": "^1.0",
                 "psr/http-server-middleware": "^1.0.0"
@@ -136,28 +220,28 @@
                 "ext-curl": "*",
                 "ext-sockets": "*",
                 "friendsofphp/php-cs-fixer": "^3.6",
-                "openswoole/ide-helper": "^4.11",
+                "openswoole/ide-helper": "^22.0",
                 "php-http/psr7-integration-tests": "^1.1",
                 "phpunit/phpunit": "^9.5"
             },
             "suggest": {
                 "ext-mysqli": "*",
-                "ext-openswoole": "*",
                 "ext-pdo": "*",
                 "ext-redis": "Required to use redis database, and the required version is greater than or equal to 3.1.3"
             },
             "default-branch": true,
             "type": "library",
             "autoload": {
-                "psr-4": {
-                    "OpenSwoole\\Core\\": "src/"
-                },
                 "files": [
                     "src/Coroutine/functions.php"
-                ]
+                ],
+                "psr-4": {
+                    "OpenSwoole\\Core\\": "src/"
+                }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "Apache 2"
+                "Apache-2.0"
             ],
             "authors": [
                 {
@@ -165,7 +249,7 @@
                     "email": "hello@openswoole.com"
                 }
             ],
-            "description": "Openswoole core addons",
+            "description": "Openswoole core library",
             "homepage": "https://openswoole.com",
             "keywords": [
                 "http",
@@ -182,7 +266,7 @@
                 "pull-request": "https://github.com/openswoole/openswoole/pulls",
                 "source": "https://github.com/openswoole/openswoole"
             },
-            "time": "2022-08-31T16:52:59+00:00"
+            "time": "2023-01-16T22:25:10+00:00"
         },
         {
             "name": "psr/container",
@@ -564,12 +648,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/slimphp/Slim-Psr7.git",
-                "reference": "ca10cc4ee1a649c08a071d619f0ff0ef1ff507b0"
+                "reference": "7e7e63e3b624ed07bde14fbd9f91ab8904402375"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slimphp/Slim-Psr7/zipball/ca10cc4ee1a649c08a071d619f0ff0ef1ff507b0",
-                "reference": "ca10cc4ee1a649c08a071d619f0ff0ef1ff507b0",
+                "url": "https://api.github.com/repos/slimphp/Slim-Psr7/zipball/7e7e63e3b624ed07bde14fbd9f91ab8904402375",
+                "reference": "7e7e63e3b624ed07bde14fbd9f91ab8904402375",
                 "shasum": ""
             },
             "require": {
@@ -578,20 +662,20 @@
                 "psr/http-factory": "^1.0",
                 "psr/http-message": "^1.0",
                 "ralouphie/getallheaders": "^3.0",
-                "symfony/polyfill-php80": "^1.26"
+                "symfony/polyfill-php80": "^1.27"
             },
             "provide": {
                 "psr/http-factory-implementation": "1.0",
                 "psr/http-message-implementation": "1.0"
             },
             "require-dev": {
-                "adriansuter/php-autoload-override": "^1.3",
+                "adriansuter/php-autoload-override": "^1.4",
                 "ext-json": "*",
                 "http-interop/http-factory-tests": "^0.9.0",
                 "php-http/psr7-integration-tests": "dev-master",
-                "phpspec/prophecy": "^1.15",
+                "phpspec/prophecy": "^1.16",
                 "phpspec/prophecy-phpunit": "^2.0",
-                "phpstan/phpstan": "^1.8",
+                "phpstan/phpstan": "^1.9",
                 "phpunit/phpunit": "^9.5",
                 "squizlabs/php_codesniffer": "^3.7"
             },
@@ -639,7 +723,7 @@
                 "issues": "https://github.com/slimphp/Slim-Psr7/issues",
                 "source": "https://github.com/slimphp/Slim-Psr7/tree/master"
             },
-            "time": "2022-07-06T14:29:03+00:00"
+            "time": "2022-12-02T21:19:55+00:00"
         },
         {
             "name": "slim/slim",
@@ -647,12 +731,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/slimphp/Slim.git",
-                "reference": "3d7ea05dfa8e4b29d4300cae410573f4b8b5b9cb"
+                "reference": "a44d0a70d49ae86d1177503b7d734303d30ea9a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slimphp/Slim/zipball/3d7ea05dfa8e4b29d4300cae410573f4b8b5b9cb",
-                "reference": "3d7ea05dfa8e4b29d4300cae410573f4b8b5b9cb",
+                "url": "https://api.github.com/repos/slimphp/Slim/zipball/a44d0a70d49ae86d1177503b7d734303d30ea9a6",
+                "reference": "a44d0a70d49ae86d1177503b7d734303d30ea9a6",
                 "shasum": ""
             },
             "require": {
@@ -667,7 +751,7 @@
                 "psr/log": "^1.1 || ^2.0 || ^3.0"
             },
             "require-dev": {
-                "adriansuter/php-autoload-override": "^1.3",
+                "adriansuter/php-autoload-override": "^1.4",
                 "ext-simplexml": "*",
                 "guzzlehttp/psr7": "^2.4",
                 "httpsoft/http-message": "^1.0",
@@ -675,12 +759,12 @@
                 "laminas/laminas-diactoros": "^2.17",
                 "nyholm/psr7": "^1.5",
                 "nyholm/psr7-server": "^1.0",
-                "phpspec/prophecy": "^1.15",
+                "phpspec/prophecy": "^1.16",
                 "phpspec/prophecy-phpunit": "^2.0",
-                "phpstan/phpstan": "^1.8",
+                "phpstan/phpstan": "^1.9",
                 "phpunit/phpunit": "^9.5",
-                "slim/http": "^1.2",
-                "slim/psr7": "^1.5",
+                "slim/http": "^1.3",
+                "slim/psr7": "^1.6",
                 "squizlabs/php_codesniffer": "^3.7"
             },
             "suggest": {
@@ -755,7 +839,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-09-14T15:46:06+00:00"
+            "time": "2022-12-01T16:30:46+00:00"
         },
         {
             "name": "symfony/polyfill-php80",
@@ -763,12 +847,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php80.git",
-                "reference": "cfa0ae98841b9e461207c13ab093d76b0fa7bace"
+                "reference": "7a6ff3f1959bb01aefccb463a0f2cd3d3d2fd936"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/cfa0ae98841b9e461207c13ab093d76b0fa7bace",
-                "reference": "cfa0ae98841b9e461207c13ab093d76b0fa7bace",
+                "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/7a6ff3f1959bb01aefccb463a0f2cd3d3d2fd936",
+                "reference": "7a6ff3f1959bb01aefccb463a0f2cd3d3d2fd936",
                 "shasum": ""
             },
             "require": {
@@ -778,7 +862,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.26-dev"
+                    "dev-main": "1.27-dev"
                 },
                 "thanks": {
                     "name": "symfony/polyfill",
@@ -823,7 +907,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php80/tree/v1.26.0"
+                "source": "https://github.com/symfony/polyfill-php80/tree/v1.27.0"
             },
             "funding": [
                 {
@@ -839,19 +923,21 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-10T07:21:04+00:00"
+            "time": "2022-11-03T14:55:06+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "openswoole/core": 20,
-        "slim/psr7": 20
+        "slim/psr7": 20,
+        "league/container": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "ext-openswoole": ">=22.0"
+    },
     "platform-dev": [],
     "plugin-api-version": "2.1.0"
 }

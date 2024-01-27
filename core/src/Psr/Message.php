@@ -6,7 +6,10 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Core\Psr;
+
+use InvalidArgumentException;
 
 class Message
 {
@@ -39,7 +42,11 @@ class Message
 
     public function getHeaders()
     {
-        return $this->headers;
+        $headers = [];
+        foreach ($this->headers as $header => $line) {
+            $headers[$header] = is_array($line) ? $line : [$line];
+        }
+        return $headers;
     }
 
     public function hasHeader($name)
@@ -60,13 +67,13 @@ class Message
             return '';
         }
 
-        return implode(',', $value);
+        return is_array($value) ? implode(',', $value) : $value;
     }
 
     public function withHeader($name, $value)
     {
         if (!is_string($name) || !is_string($value) && !is_array($value) || $name === '' || $value !== '' && empty($value)) {
-            throw new \InvalidArgumentException('Header is not validate.');
+            throw new InvalidArgumentException('Header is not validate.');
         }
         $message = clone $this;
 
@@ -98,7 +105,7 @@ class Message
     public function withAddedHeader($name, $value)
     {
         if (!is_string($name) || !is_string($value) && !is_array($value) || empty($name) || $value !== '' && $value !== '0' && empty($value)) {
-            throw new \InvalidArgumentException('Header is not validate.');
+            throw new InvalidArgumentException('Header is not validate.');
         }
         $message = clone $this;
         if (is_array($value)) {
@@ -135,5 +142,12 @@ class Message
         $message         = clone $this;
         $message->stream = $stream;
         return $message;
+    }
+
+    protected function setHeaders(array $headers): void
+    {
+        $this->headers = $this->withHeaders($headers)
+            ->getHeaders()
+        ;
     }
 }

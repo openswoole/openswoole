@@ -6,8 +6,10 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Core\Psr;
 
+use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 
 class Response extends Message implements ResponseInterface
@@ -96,7 +98,7 @@ class Response extends Message implements ResponseInterface
         $this->stream = is_string($body) ? Stream::streamFor($body) : $body;
         $this->setStatusCode($statusCode);
         $this->setReasonPhrase($reasonPhrase);
-        $this->withHeaders($headers);
+        $this->setHeaders($headers);
         $this->protocolVersion = $protocolVersion;
     }
 
@@ -108,7 +110,7 @@ class Response extends Message implements ResponseInterface
     public function withStatus($code, $reasonPhrase = ''): self
     {
         if (!is_int($code) && !is_string($code) || !array_key_exists($code, static::$statusPhrases)) {
-            throw new \InvalidArgumentException('Error HTTP status code.');
+            throw new InvalidArgumentException('Error HTTP status code.');
         }
         $response = clone $this;
         $response->setStatusCode($code);

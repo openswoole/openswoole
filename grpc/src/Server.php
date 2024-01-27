@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\GRPC;
 
 use Closure;
@@ -15,6 +16,8 @@ use OpenSwoole\GRPC\Middleware\MiddlewareInterface;
 use OpenSwoole\GRPC\Middleware\ServiceHandler;
 use OpenSwoole\GRPC\Middleware\StackHandler;
 use OpenSwoole\Util;
+use Throwable;
+use TypeError;
 
 final class Server
 {
@@ -104,14 +107,17 @@ final class Server
         return $this;
     }
 
-    public function register(string $class): self
+    public function register(string $class, ServiceInterface $instance = null): self
     {
         if (!class_exists($class)) {
-            throw new \TypeError("{$class} not found");
+            throw new TypeError("{$class} not found");
         }
-        $instance = new $class();
+        // Only recreate the class if the users dont pass in their initialized class
+        if (!$instance) {
+            $instance = new $class();
+        }
         if (!($instance instanceof ServiceInterface)) {
-            throw new \TypeError("{$class} is not ServiceInterface");
+            throw new TypeError("{$class} is not ServiceInterface");
         }
         $service                             = new ServiceContainer($class, $instance);
         $this->services[$service->getName()] = $service;
@@ -159,7 +165,7 @@ final class Server
             } else {
                 $payload = $message->getMessage()->serializeToJsonString();
             }
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             throw InvokeException::create($e->getMessage(), Status::INTERNAL, $e);
         }
 
