@@ -6,9 +6,7 @@ namespace OpenSwoole\Injection;
 
 use OpenSwoole\Injection\Exceptions\DependencyHasNoDefaultValueException;
 use OpenSwoole\Injection\Exceptions\DependencyIsNotInstantiableException;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use ReflectionClass;
 use ReflectionException;
 
@@ -16,11 +14,15 @@ class Container implements ContainerInterface
 {
 
     private array $instance = [];
+
     /**
      * @param string $id
-     * @return mixed
+     * @return object
+     * @throws DependencyHasNoDefaultValueException
+     * @throws DependencyIsNotInstantiableException
+     * @throws ReflectionException
      */
-    public function get(string $id)
+    public function get(string $id): object
     {
         if(!$this->has($id))
         {
@@ -45,10 +47,13 @@ class Container implements ContainerInterface
     }
 
     /**
+     * @param $concrete
+     * @return object
+     * @throws DependencyHasNoDefaultValueException
      * @throws DependencyIsNotInstantiableException
      * @throws ReflectionException
      */
-    private function resolve($concrete)
+    private function resolve($concrete): object
     {
         // Reflection
         $reflection = new ReflectionClass($concrete);
@@ -64,11 +69,16 @@ class Container implements ContainerInterface
 
         $parameters = $constructor->getParameters();
         $dependencies = $this->getDependencies($parameters, $reflection);
-        return $reflection->newInstance($dependencies);
+        return $reflection->newInstance(...$dependencies);
     }
 
     /**
+     * @param array $parameters
+     * @param ReflectionClass $reflection
+     * @return array
      * @throws DependencyHasNoDefaultValueException
+     * @throws DependencyIsNotInstantiableException
+     * @throws ReflectionException
      */
     private function getDependencies(array $parameters, ReflectionClass $reflection): array
     {
