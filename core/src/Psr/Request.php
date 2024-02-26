@@ -30,9 +30,9 @@ class Request extends Message implements RequestInterface
             $stream = new Stream('php://memory', 'wb+');
             $this->withBody($stream);
         } elseif (is_resource($body)) {
-            $this->stream = new Stream($body);
+            $this->body = new Stream($body);
         } else {
-            $this->stream = Stream::streamFor($body);
+            $this->body = Stream::streamFor($body);
         }
     }
 
