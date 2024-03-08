@@ -52,19 +52,19 @@ class ServerRequest extends Request implements ServerRequestInterface
         return $this->attributes;
     }
 
-    public function getAttribute($name, $default = null)
+    public function getAttribute(string $name, $default = null)
     {
         return $this->hasAttribute($name) ? $this->attributes[$name] : $default;
     }
 
-    public function withAttribute($name, $value): ServerRequestInterface
+    public function withAttribute(string $name, $value): ServerRequestInterface
     {
         $request                    = clone $this;
         $request->attributes[$name] = $value;
         return $request;
     }
 
-    public function withoutAttribute($name): ServerRequestInterface
+    public function withoutAttribute(string $name): ServerRequestInterface
     {
         if (!isset($this->attributes[$name])) {
             return $this;
@@ -80,7 +80,7 @@ class ServerRequest extends Request implements ServerRequestInterface
         return $this->serverParams;
     }
 
-    public function withServerParams(array $server): static
+    public function withServerParams(array $server): ServerRequestInterface
     {
         $this->serverParams = $server;
         return $this;
@@ -112,7 +112,7 @@ class ServerRequest extends Request implements ServerRequestInterface
         return $default;
     }
 
-    public function withQueryParams(array $query): ServerRequest
+    public function withQueryParams(array $query): ServerRequestInterface
     {
         $request              = clone $this;
         $request->queryParams = $query;
@@ -124,7 +124,7 @@ class ServerRequest extends Request implements ServerRequestInterface
         return $this->uploadedFiles;
     }
 
-    public function withUploadedFiles(array $uploadedFiles): ServerRequest
+    public function withUploadedFiles(array $uploadedFiles): ServerRequestInterface
     {
         $request                = clone $this;
         $request->uploadedFiles = $uploadedFiles;
@@ -136,7 +136,7 @@ class ServerRequest extends Request implements ServerRequestInterface
         return $this->parsedBody;
     }
 
-    public function withParsedBody($data): ServerRequest
+    public function withParsedBody($data): ServerRequestInterface
     {
         if (!is_array($data) && !is_object($data) && !is_null($data)) {
             throw new InvalidArgumentException('Error HTTP body.');
@@ -146,7 +146,7 @@ class ServerRequest extends Request implements ServerRequestInterface
         return $request;
     }
 
-    public static function from(\OpenSwoole\HTTP\Request $request): ServerRequest
+    public static function from(\OpenSwoole\HTTP\Request $request): ServerRequestInterface
     {
         $files = [];
 
