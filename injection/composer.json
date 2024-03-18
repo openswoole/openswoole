@@ -1,0 +1,22 @@
+{
+    "name": "openswoole/injection",
+    "description": "OpenSwoole Dependency Injection frame work",
+    "type": "library",
+    "license": "Apache 2.0",
+    "authors": [
+        {
+            "name": "Open Swoole Group",
+            "email": "hello@openswoole.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Openswoole\\Injection\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.4",
+        "psr/container": "^1.0"
+    }
+}
