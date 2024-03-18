@@ -6,19 +6,20 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
-# source: helloworld.proto
+# source: hello.proto
 
-namespace Helloworld;
+namespace Hello;
 
 use OpenSwoole\GRPC;
 
-interface StreamInterface extends GRPC\ServiceInterface
+interface StreamGreeterInterface extends GRPC\ServiceInterface
 {
-    public const NAME = '/helloworld.Stream';
+    public const NAME = '/hello.StreamGreeter';
 
     /**
      * @return iterable<HelloReply>
+     *
      * @throws GRPC\Exception\InvokeException
      */
-    public function FetchResponse(GRPC\ContextInterface $ctx, HelloRequest $request): iterable;
+    public function Hello(GRPC\ContextInterface $ctx, HelloRequest $request): iterable;
 }
