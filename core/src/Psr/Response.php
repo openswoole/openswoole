@@ -95,7 +95,7 @@ class Response extends Message implements ResponseInterface
 
     public function __construct($body, int $statusCode = 200, string $reasonPhrase = '', array $headers = [], string $protocolVersion = '1.1')
     {
-        $this->stream = is_string($body) ? Stream::streamFor($body) : $body;
+        $this->body = is_string($body) ? Stream::streamFor($body) : $body;
         $this->setStatusCode($statusCode);
         $this->setReasonPhrase($reasonPhrase);
         $this->setHeaders($headers);
