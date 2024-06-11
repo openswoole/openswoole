@@ -40,6 +40,12 @@ final class Coroutine
 
     /**
      * @param callable $callback [required]
+     * @return void
+     */
+    public static function go(callable $callback) {}
+
+    /**
+     * @param callable $callback [required]
      */
     public static function defer(callable $callback): void {}
 
