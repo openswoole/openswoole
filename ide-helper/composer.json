@@ -12,7 +12,7 @@
     "autoload": {
         "files": ["src/functions.php"],
         "psr-4": {
-            "OpenSwoole\\": "src"
+            "OpenSwoole\\": "src/"
         }
     },
     "require": {
