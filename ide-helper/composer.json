@@ -9,6 +9,12 @@
             "email": "hello@openswoole.com"
         }
     ],
+    "autoload": {
+        "files": ["src/functions.php"],
+        "psr-4": {
+            "OpenSwoole\\": "src"
+        }
+    },
     "require": {
         "php": ">=7.4",
         "ext-openswoole": ">=22.0"
