@@ -18,6 +18,7 @@ namespace OpenSwoole\Core\Psr7Test\Tests;
 
 use Http\Psr7Test\RequestIntegrationTest;
 use OpenSwoole\Core\Psr\Request;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * @internal
@@ -25,8 +26,13 @@ use OpenSwoole\Core\Psr\Request;
  */
 class RequestTest extends RequestIntegrationTest
 {
-    public function createSubject()
+    public function createSubject(): RequestInterface
     {
-        return new Request('/', 'GET');
+        return new Request('/', 'GET', null, ['X-Foo' => 'Bar']);
+    }
+
+    public function testGetHeader(): void
+    {
+        $this->assertEquals(['Bar'], $this->request->getHeader('X-Foo'));
     }
 }
