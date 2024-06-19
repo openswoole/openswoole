@@ -8,7 +8,6 @@
     ],
     "require": {
         "google/protobuf": "^3.21",
-        "league/container": "4.x-dev",
         "php": ">=7.4",
         "psr/http-message": "^1.0",
         "psr/http-server-middleware": "^1.0.0",
