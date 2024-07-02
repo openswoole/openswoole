@@ -21,7 +21,7 @@ class Request extends Message implements RequestInterface
 
     private ?string $requestTarget;
 
-    public function __construct($uri, string $method = null, $body = null, array $headers = [], string $protocolVersion = '1.1')
+    public function __construct($uri, ?string $method = null, $body = null, array $headers = [], string $protocolVersion = '1.1')
     {
         $this->uri             = is_string($uri) ? new Uri($uri) : $uri;
         $this->method          = $method;
