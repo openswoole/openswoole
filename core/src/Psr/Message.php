@@ -16,6 +16,7 @@ use Psr\Http\Message\StreamInterface;
 class Message implements MessageInterface
 {
     public array $headers = [];
+
     public array $header_keys = [];
 
     protected string $protocolVersion = '1.1';
@@ -46,7 +47,7 @@ class Message implements MessageInterface
     {
         $headers = [];
         foreach ($this->header_keys as $key => $header) {
-            $line = $this->headers[$key];
+            $line             = $this->headers[$key];
             $headers[$header] = is_array($line) ? $line : [$line];
         }
         return $headers;
@@ -109,7 +110,7 @@ class Message implements MessageInterface
 
     public function getHeader(string $name): array
     {
-        echo $name . " " . json_encode($this->headers);
+        echo $name . ' ' . json_encode($this->headers);
 
         return $this->hasHeader($name) ? $this->headers[strtolower($name)] : [];
     }
@@ -127,8 +128,8 @@ class Message implements MessageInterface
             return $this;
         }
 
-        unset($this->headers[$name]);
-        unset($this->header_keys[$name]);
+        unset($this->headers[$name], $this->header_keys[$name]);
+
         return $this;
     }
 
@@ -146,8 +147,8 @@ class Message implements MessageInterface
 
     protected function setHeaders(array $headers): void
     {
-        $copy = $this->withHeaders($headers);
-        $this->headers = $copy->headers;
+        $copy              = $this->withHeaders($headers);
+        $this->headers     = $copy->headers;
         $this->header_keys = $copy->header_keys;
     }
 }
