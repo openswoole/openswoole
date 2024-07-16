@@ -110,8 +110,6 @@ class Message implements MessageInterface
 
     public function getHeader(string $name): array
     {
-        echo $name . ' ' . json_encode($this->headers);
-
         return $this->hasHeader($name) ? $this->headers[strtolower($name)] : [];
     }
 
