@@ -35,4 +35,10 @@ class RequestTest extends RequestIntegrationTest
     {
         $this->assertEquals(['Bar'], $this->request->getHeader('X-Foo'));
     }
+
+    public function testZeroValueHeaderIsValid(): void
+    {
+        $request = new Request('/', 'GET', null, ['content-length' => '0']);
+        $this->assertEquals(['0'], $request->getHeader('content-length'));
+    }
 }
