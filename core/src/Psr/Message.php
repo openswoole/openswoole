@@ -16,6 +16,7 @@ use Psr\Http\Message\StreamInterface;
 class Message implements MessageInterface
 {
     public array $headers = [];
+    public array $header_keys = [];
 
     protected string $protocolVersion = '1.1';
 
@@ -44,7 +45,8 @@ class Message implements MessageInterface
     public function getHeaders(): array
     {
         $headers = [];
-        foreach ($this->headers as $header => $line) {
+        foreach ($this->header_keys as $key => $header) {
+            $line = $this->headers[$key];
             $headers[$header] = is_array($line) ? $line : [$line];
         }
         return $headers;
@@ -62,7 +64,6 @@ class Message implements MessageInterface
                 $message = $message->withHeader($key, $header);
             }
         }
-
         return $message;
     }
 
@@ -79,7 +80,7 @@ class Message implements MessageInterface
         } else {
             $message->headers[strtolower($name)][] = $value;
         }
-
+        $message->header_keys[strtolower($name)] = $name;
         return $message;
     }
 
@@ -95,7 +96,7 @@ class Message implements MessageInterface
         } else {
             $message->headers[strtolower($name)] = [$value];
         }
-
+        $message->header_keys[strtolower($name)] = $name;
         return $message;
     }
 
@@ -108,6 +109,8 @@ class Message implements MessageInterface
 
     public function getHeader(string $name): array
     {
+        echo $name . " " . json_encode($this->headers);
+
         return $this->hasHeader($name) ? $this->headers[strtolower($name)] : [];
     }
 
@@ -125,7 +128,7 @@ class Message implements MessageInterface
         }
 
         unset($this->headers[$name]);
-
+        unset($this->header_keys[$name]);
         return $this;
     }
 
@@ -143,8 +146,8 @@ class Message implements MessageInterface
 
     protected function setHeaders(array $headers): void
     {
-        $this->headers = $this->withHeaders($headers)
-            ->getHeaders()
-        ;
+        $copy = $this->withHeaders($headers);
+        $this->headers = $copy->headers;
+        $this->header_keys = $copy->header_keys;
     }
 }
