@@ -36,7 +36,7 @@ class ServerRequest extends Request implements ServerRequestInterface
         array $serverParams = [],
         array $uploadedFiles = [],
         $parsedBody = null,
-        string $protocolVersion = '1.1'
+        string $protocolVersion = '1.1',
     ) {
         parent::__construct($uri, $method, $body, $headers, $protocolVersion);
 

@@ -9,4 +9,6 @@ declare(strict_types=1);
 
 namespace OpenSwoole\Core\Coroutine\Client;
 
-interface ClientConfigInterface {}
+interface ClientConfigInterface
+{
+}

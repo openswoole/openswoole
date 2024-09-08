@@ -222,7 +222,7 @@ function socket_close(Socket $socket)
     $socket->close();
 }
 
-function socket_clear_error(Socket $socket = null)
+function socket_clear_error(?Socket $socket = null)
 {
     if ($socket) {
         $socket->errCode = 0;
@@ -230,7 +230,7 @@ function socket_clear_error(Socket $socket = null)
     clear_error();
 }
 
-function socket_last_error(Socket $socket = null): int
+function socket_last_error(?Socket $socket = null): int
 {
     if ($socket) {
         return $socket->errCode;

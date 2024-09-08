@@ -9,4 +9,6 @@ declare(strict_types=1);
 
 namespace OpenSwoole\GRPC;
 
-interface MessageInterface {}
+interface MessageInterface
+{
+}

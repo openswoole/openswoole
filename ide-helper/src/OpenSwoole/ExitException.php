@@ -9,13 +9,17 @@ declare(strict_types=1);
 
 namespace OpenSwoole;
 
-class ExitException extends \OpenSwoole\Exception
+class ExitException extends Exception
 {
     private $flags;
 
     private $status;
 
-    public function getFlags() {}
+    public function getFlags()
+    {
+    }
 
-    public function getStatus() {}
+    public function getStatus()
+    {
+    }
 }

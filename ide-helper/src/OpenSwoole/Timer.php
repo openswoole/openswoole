@@ -22,34 +22,52 @@ final class Timer
     /**
      * @param array $settings [required]
      */
-    public static function set(array $settings): bool {}
+    public static function set(array $settings): bool
+    {
+    }
 
     /**
      * @param int $ms [required]
      * @param callable $callback [required]
      * @return int|false
      */
-    public static function after(int $ms, callable $callback, ...$params) {}
+    public static function after(int $ms, callable $callback, ...$params)
+    {
+    }
 
     /**
      * @param int $ms [required]
      * @param callable $callback [required]
      * @return int|false
      */
-    public static function tick(int $ms, callable $callback, ...$params) {}
+    public static function tick(int $ms, callable $callback, ...$params)
+    {
+    }
 
-    public static function exists(): bool {}
+    public static function exists(): bool
+    {
+    }
 
     /**
      * @return array|false
      */
-    public static function info() {}
+    public static function info()
+    {
+    }
 
-    public static function stats(): array {}
+    public static function stats(): array
+    {
+    }
 
-    public static function list(): Timer\Iterator {}
+    public static function list(): Timer\Iterator
+    {
+    }
 
-    public static function clear(int $timerId): bool {}
+    public static function clear(int $timerId): bool
+    {
+    }
 
-    public static function clearAll(): bool {}
+    public static function clearAll(): bool
+    {
+    }
 }

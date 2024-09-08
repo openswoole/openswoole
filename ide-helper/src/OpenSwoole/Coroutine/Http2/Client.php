@@ -81,41 +81,67 @@ class Client
 
     public bool $ssl = false;
 
-    public function __construct(string $host, int $port = 80, bool $openSSL = false) {}
+    public function __construct(string $host, int $port = 80, bool $openSSL = false)
+    {
+    }
 
-    public function __destruct() {}
+    public function __destruct()
+    {
+    }
 
-    public function set(array $options): void {}
+    public function set(array $options): void
+    {
+    }
 
-    public function connect(): bool {}
+    public function connect(): bool
+    {
+    }
 
     /**
      * @return array|bool|int
      */
-    public function stats(string $key = null) {}
+    public function stats(?string $key = null)
+    {
+    }
 
-    public function isStreamExist(int $stream_id): bool {}
+    public function isStreamExist(int $stream_id): bool
+    {
+    }
 
     /**
      * @return int|bool
      */
-    public function send(Request $request) {}
+    public function send(Request $request)
+    {
+    }
 
-    public function write(int $streamId, $data, bool $end = false): bool {}
+    public function write(int $streamId, $data, bool $end = false): bool
+    {
+    }
 
     /**
      * @return Response|false
      */
-    public function recv(?float $timeout = 0) {}
+    public function recv(?float $timeout = 0)
+    {
+    }
 
     /**
      * @return Response|false
      */
-    public function read(?float $timeout = 0) {}
+    public function read(?float $timeout = 0)
+    {
+    }
 
-    public function goaway(int $errorCode = Client::HTTP2_ERROR_NO_ERROR, string $debugData): bool {}
+    public function goaway(int $errorCode = Client::HTTP2_ERROR_NO_ERROR, string $debugData): bool
+    {
+    }
 
-    public function ping(): bool {}
+    public function ping(): bool
+    {
+    }
 
-    public function close(): bool {}
+    public function close(): bool
+    {
+    }
 }

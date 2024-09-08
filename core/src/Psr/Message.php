@@ -21,7 +21,7 @@ class Message implements MessageInterface
 
     protected StreamInterface $body;
 
-    public function __construct(StreamInterface $stream = null)
+    public function __construct(?StreamInterface $stream = null)
     {
         if ($stream === null) {
             $stream = new Stream('php://memory', 'wb+');
@@ -36,7 +36,7 @@ class Message implements MessageInterface
 
     public function withProtocolVersion(string $version): MessageInterface
     {
-        $message = clone $this;
+        $message                  = clone $this;
         $message->protocolVersion = $version;
         return $message;
     }
@@ -48,12 +48,6 @@ class Message implements MessageInterface
             $headers[$header] = is_array($line) ? $line : [$line];
         }
         return $headers;
-    }
-
-    protected function setHeaders(array $headers): void
-    {
-        $this->headers = $this->withHeaders($headers)
-            ->getHeaders();
     }
 
     public function withHeaders(array $headers): MessageInterface
@@ -142,8 +136,15 @@ class Message implements MessageInterface
 
     public function withBody(StreamInterface $body): MessageInterface
     {
-        $message = clone $this;
+        $message       = clone $this;
         $message->body = $body;
         return $message;
+    }
+
+    protected function setHeaders(array $headers): void
+    {
+        $this->headers = $this->withHeaders($headers)
+            ->getHeaders()
+        ;
     }
 }
