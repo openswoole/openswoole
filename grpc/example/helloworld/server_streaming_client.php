@@ -13,7 +13,7 @@ use OpenSwoole\GRPC\Client;
 use OpenSwoole\GRPC\ClientFactory;
 use OpenSwoole\GRPC\Constant;
 
-\OpenSwoole\Coroutine::set(['log_level' => \OpenSwoole\Constant::LOG_ERROR]);
+OpenSwoole\Coroutine::set(['log_level' => OpenSwoole\Constant::LOG_ERROR]);
 // Co::set(['log_level' => SWOOLE_LOG_DEBUG]);
 
 co::run(function () {
