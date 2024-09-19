@@ -42,5 +42,10 @@
         "files": [
             "src/Coroutine/functions.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "OpenSwoole\\Core\\Tests\\": "tests/"
+        }
     }
 }
