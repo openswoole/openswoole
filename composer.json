@@ -32,6 +32,7 @@
         "psr-4": {
             "OpenSwoole\\Core\\": "core/src/",
             "OpenSwoole\\GRPC\\": "grpc/src/",
+            "OpenSwoole\\Injection\\": "injection/src/"
             "Openswoole\\Example\\": "example/src/"
         }
     },
