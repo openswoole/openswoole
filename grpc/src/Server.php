@@ -88,7 +88,7 @@ final class Server
         $this->server->set($this->settings);
         $this->server->on('workerStart', function (\OpenSwoole\Server $server, int $workerId) {
             $this->workerContext = new Context([
-                \OpenSwoole\GRPC\Server::class              => $this,
+                Server::class                               => $this,
                 \OpenSwoole\HTTP\Server::class              => $this->server,
             ]);
             foreach ($this->workerContexts as $context => $callback) {
@@ -107,7 +107,7 @@ final class Server
         return $this;
     }
 
-    public function register(string $class, ServiceInterface $instance = null): self
+    public function register(string $class, ?ServiceInterface $instance = null): self
     {
         if (!class_exists($class)) {
             throw new TypeError("{$class} not found");

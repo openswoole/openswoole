@@ -6,7 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
-$serv = new OpenSwoole\Server(__DIR__ . '/svr.sock', 9501, \OpenSwoole\Server::SIMPLE_MODE, \OpenSwoole\Constant::SOCK_UNIX_DGRAM);
+$serv = new OpenSwoole\Server(__DIR__ . '/svr.sock', 9501, OpenSwoole\Server::SIMPLE_MODE, OpenSwoole\Constant::SOCK_UNIX_DGRAM);
 $serv->set([
     // 'tcp_defer_accept' => 5,
     'worker_num' => 1,

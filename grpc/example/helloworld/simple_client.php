@@ -12,7 +12,7 @@ use Helloworld\HelloRequest;
 use OpenSwoole\Constant;
 use OpenSwoole\GRPC\Client;
 
-\OpenSwoole\Coroutine::set(['log_level' => Constant::LOG_ERROR]);
+OpenSwoole\Coroutine::set(['log_level' => Constant::LOG_ERROR]);
 // Co::set(['log_level' => Constant::LOG_DEBUG]);
 
 co::run(function () {

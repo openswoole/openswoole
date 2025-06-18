@@ -13,8 +13,6 @@ namespace Helloworld;
 class GreeterClient extends \OpenSwoole\GRPC\BaseStub
 {
     /**
-     * @param mixed $metadata
-     *
      * @throws \OpenSwooleGRPC\Exception\InvokeException
      */
     public function SayHello(HelloRequest $request, $metadata = []): HelloReply

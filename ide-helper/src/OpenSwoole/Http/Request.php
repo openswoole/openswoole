@@ -27,39 +27,55 @@ final class Request
 
     public ?array $tmpfiles;
 
-    public function __destruct() {}
+    public function __destruct()
+    {
+    }
 
     /**
      * @return string|bool
      */
-    public function rawContent() {}
+    public function rawContent()
+    {
+    }
 
     /**
      * @return string|bool
      */
-    public function getContent() {}
+    public function getContent()
+    {
+    }
 
     /**
      * @return string|bool
      */
-    public function getData() {}
+    public function getData()
+    {
+    }
 
     /**
      * @param array|null $options [required]
      * @return Request|bool
      */
-    public static function create(?array $options) {}
+    public static function create(?array $options)
+    {
+    }
 
     /**
      * @param string $data [required]
      * @return int|false
      */
-    public function parse(string $data) {}
+    public function parse(string $data)
+    {
+    }
 
-    public function isCompleted(): bool {}
+    public function isCompleted(): bool
+    {
+    }
 
     /**
      * @return string|bool
      */
-    public function getMethod() {}
+    public function getMethod()
+    {
+    }
 }

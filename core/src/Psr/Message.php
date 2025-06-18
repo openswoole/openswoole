@@ -10,37 +10,38 @@ declare(strict_types=1);
 namespace OpenSwoole\Core\Psr;
 
 use InvalidArgumentException;
+use Psr\Http\Message\MessageInterface;
+use Psr\Http\Message\StreamInterface;
 
-class Message
+class Message implements MessageInterface
 {
-    public $headers = [];
+    public array $headers = [];
 
-    protected $protocolVersion = '1.1';
+    protected string $protocolVersion = '1.1';
 
-    protected $stream;
+    protected StreamInterface $body;
 
-    public function __construct($stream = null)
+    public function __construct(?StreamInterface $stream = null)
     {
         if ($stream === null) {
             $stream = new Stream('php://memory', 'wb+');
         }
-
-        $this->withBody($stream);
+        $this->body = $stream;
     }
 
-    public function getProtocolVersion()
+    public function getProtocolVersion(): string
     {
         return $this->protocolVersion;
     }
 
-    public function withProtocolVersion($version)
+    public function withProtocolVersion(string $version): MessageInterface
     {
         $message                  = clone $this;
         $message->protocolVersion = $version;
         return $message;
     }
 
-    public function getHeaders()
+    public function getHeaders(): array
     {
         $headers = [];
         foreach ($this->headers as $header => $line) {
@@ -49,44 +50,7 @@ class Message
         return $headers;
     }
 
-    public function hasHeader($name)
-    {
-        return isset($this->headers[strtolower($name)]);
-    }
-
-    public function getHeader($name)
-    {
-        return $this->hasHeader($name) ? $this->headers[strtolower($name)] : [];
-    }
-
-    public function getHeaderLine($name)
-    {
-        $value = $this->getHeader($name);
-
-        if (empty($value)) {
-            return '';
-        }
-
-        return is_array($value) ? implode(',', $value) : $value;
-    }
-
-    public function withHeader($name, $value)
-    {
-        if (!is_string($name) || !is_string($value) && !is_array($value) || $name === '' || $value !== '' && empty($value)) {
-            throw new InvalidArgumentException('Header is not validate.');
-        }
-        $message = clone $this;
-
-        if (is_array($value)) {
-            $message->headers[strtolower($name)] = $value;
-        } else {
-            $message->headers[strtolower($name)] = [$value];
-        }
-
-        return $message;
-    }
-
-    public function withHeaders(array $headers)
+    public function withHeaders(array $headers): MessageInterface
     {
         $message = clone $this;
         foreach ($headers as $key => $header) {
@@ -102,9 +66,9 @@ class Message
         return $message;
     }
 
-    public function withAddedHeader($name, $value)
+    public function withAddedHeader(string $name, $value): MessageInterface
     {
-        if (!is_string($name) || !is_string($value) && !is_array($value) || empty($name) || $value !== '' && $value !== '0' && empty($value)) {
+        if (!is_string($value) && !is_array($value) || empty($name) || $value !== '' && $value !== '0' && empty($value)) {
             throw new InvalidArgumentException('Header is not validate.');
         }
         $message = clone $this;
@@ -119,7 +83,40 @@ class Message
         return $message;
     }
 
-    public function withoutHeader($name)
+    public function withHeader(string $name, $value): MessageInterface
+    {
+        if (!is_string($value) && !is_array($value) || $name === '' || $value !== '' && empty($value)) {
+            throw new InvalidArgumentException('Header is not validate.');
+        }
+        $message = clone $this;
+
+        if (is_array($value)) {
+            $message->headers[strtolower($name)] = $value;
+        } else {
+            $message->headers[strtolower($name)] = [$value];
+        }
+
+        return $message;
+    }
+
+    public function getHeaderLine(string $name): string
+    {
+        $value = $this->getHeader($name);
+
+        return implode(',', $value);
+    }
+
+    public function getHeader(string $name): array
+    {
+        return $this->hasHeader($name) ? $this->headers[strtolower($name)] : [];
+    }
+
+    public function hasHeader(string $name): bool
+    {
+        return isset($this->headers[strtolower($name)]);
+    }
+
+    public function withoutHeader(string $name): MessageInterface
     {
         $name = strtolower($name);
 
@@ -132,15 +129,15 @@ class Message
         return $this;
     }
 
-    public function getBody()
+    public function getBody(): StreamInterface
     {
-        return $this->stream;
+        return $this->body;
     }
 
-    public function withBody($stream)
+    public function withBody(StreamInterface $body): MessageInterface
     {
-        $message         = clone $this;
-        $message->stream = $stream;
+        $message       = clone $this;
+        $message->body = $body;
         return $message;
     }
 

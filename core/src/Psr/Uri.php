@@ -22,7 +22,7 @@ class Uri implements UriInterface
 
     private const URI_CHAR_SUB_DELIMITERS = "!\$&\\'\\(\\)\\*\\+,;=";
 
-    private const URI_CHAR_UNRESERVED = '\\w+\\-\\.~';
+    private const URI_CHAR_UNRESERVED = '\w+\-\.~';
 
     private $scheme;
 

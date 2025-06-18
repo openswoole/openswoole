@@ -9,4 +9,6 @@ declare(strict_types=1);
 
 namespace OpenSwoole\Coroutine\Http\Client;
 
-class Exception extends \OpenSwoole\Exception {}
+class Exception extends \OpenSwoole\Exception
+{
+}

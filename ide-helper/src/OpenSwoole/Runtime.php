@@ -49,12 +49,18 @@ class Runtime
      * @param bool $enable [optional] = true
      * @param int $flags [optional] = Runtime::HOOK_ALL
      */
-    public static function enableCoroutine(bool $enable = true, int $flags = Runtime::HOOK_ALL): void {}
+    public static function enableCoroutine(bool $enable = true, int $flags = Runtime::HOOK_ALL): void
+    {
+    }
 
-    public static function getHookFlags(): int {}
+    public static function getHookFlags(): int
+    {
+    }
 
     /**
      * @param int $flags [optional] = Runtime::HOOK_ALL
      */
-    public static function setHookFlags(int $flags = Runtime::HOOK_ALL): void {}
+    public static function setHookFlags(int $flags = Runtime::HOOK_ALL): void
+    {
+    }
 }

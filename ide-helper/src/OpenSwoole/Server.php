@@ -109,147 +109,243 @@ class Server
 
     private $onPipeMessage;
 
-    public function __construct(string $host, int $port = 0, int $mode = \OpenSwoole\Server::SIMPLE_MODE, int $sockType = \OpenSwoole\Constant::SOCK_TCP) {}
+    public function __construct(string $host, int $port = 0, int $mode = Server::SIMPLE_MODE, int $sockType = Constant::SOCK_TCP)
+    {
+    }
 
-    public function __destruct() {}
+    public function __destruct()
+    {
+    }
 
     /**
      * @return false|Port
      */
-    public function listen(string $host, int $port, int $sockType) {}
+    public function listen(string $host, int $port, int $sockType)
+    {
+    }
 
     /**
      * @return false|Port
      */
-    public function addlistener(string $host, int $port, int $sockType) {}
+    public function addlistener(string $host, int $port, int $sockType)
+    {
+    }
 
-    public function on(string $event, callable $callback): bool {}
+    public function on(string $event, callable $callback): bool
+    {
+    }
 
-    public function handle(callable $callback): bool {}
+    public function handle(callable $callback): bool
+    {
+    }
 
-    public function setHandler($handler): bool {}
+    public function setHandler($handler): bool
+    {
+    }
 
-    public function getCallback(string $event) {}
+    public function getCallback(string $event)
+    {
+    }
 
-    public function set(array $settings): bool {}
+    public function set(array $settings): bool
+    {
+    }
 
-    public function start(): bool {}
+    public function start(): bool
+    {
+    }
 
     /**
      * @param string|int $fd
      */
-    public function send($fd, $data, int $serverSocket = -1): bool {}
+    public function send($fd, $data, int $serverSocket = -1): bool
+    {
+    }
 
-    public function sendto(string $ip, int $port, string $data, int $serverSocket = -1): bool {}
+    public function sendto(string $ip, int $port, string $data, int $serverSocket = -1): bool
+    {
+    }
 
-    public function sendwait(int $fd, string $data): bool {}
+    public function sendwait(int $fd, string $data): bool
+    {
+    }
 
-    public function exists(int $fd): bool {}
+    public function exists(int $fd): bool
+    {
+    }
 
-    public function protect(int $fd, bool $isProtected = true): bool {}
+    public function protect(int $fd, bool $isProtected = true): bool
+    {
+    }
 
-    public function sendfile(int $fd, string $fileName, int $offset = 0, int $length = 0): bool {}
+    public function sendfile(int $fd, string $fileName, int $offset = 0, int $length = 0): bool
+    {
+    }
 
-    public function close(int $fd, bool $reset = false): bool {}
+    public function close(int $fd, bool $reset = false): bool
+    {
+    }
 
-    public function confirm(int $fd): bool {}
+    public function confirm(int $fd): bool
+    {
+    }
 
-    public function pause(int $fd): bool {}
+    public function pause(int $fd): bool
+    {
+    }
 
-    public function resume(int $fd): bool {}
+    public function resume(int $fd): bool
+    {
+    }
 
-    public function reload(): bool {}
+    public function reload(): bool
+    {
+    }
 
-    public function shutdown(): bool {}
+    public function shutdown(): bool
+    {
+    }
 
     /**
      * @return bool|int
      */
-    public function task($data, int $workerId = -1, callable $finishCallback = null) {}
+    public function task($data, int $workerId = -1, ?callable $finishCallback = null)
+    {
+    }
 
     /**
      * @return bool|string
      */
-    public function taskwait($data, float $timeout = 0.5, int $workerId = -1) {}
+    public function taskwait($data, float $timeout = 0.5, int $workerId = -1)
+    {
+    }
 
     /**
      * @return bool|array
      */
-    public function taskWaitMulti(array $tasks, float $timeout = 0.5) {}
+    public function taskWaitMulti(array $tasks, float $timeout = 0.5)
+    {
+    }
 
     /**
      * @return bool|array
      */
-    public function taskCo(array $tasks, float $timeout = 0.5) {}
+    public function taskCo(array $tasks, float $timeout = 0.5)
+    {
+    }
 
-    public function finish($data): bool {}
+    public function finish($data): bool
+    {
+    }
 
-    public function stop(int $workerId, bool $waitEvent = false): bool {}
+    public function stop(int $workerId, bool $waitEvent = false): bool
+    {
+    }
 
-    public function getLastError(): int {}
+    public function getLastError(): int
+    {
+    }
 
     /**
      * @return false|array
      */
-    public function heartbeat(bool $closeConn = false) {}
+    public function heartbeat(bool $closeConn = false)
+    {
+    }
 
     /**
      * @return bool|array
      */
-    public function getClientInfo(int $fd, int $reactorId = -1, bool $noCheckConn = false) {}
+    public function getClientInfo(int $fd, int $reactorId = -1, bool $noCheckConn = false)
+    {
+    }
 
     /**
      * @return bool|array
      */
-    public function getClientList(int $startFd = 0, int $pageSize = 10) {}
+    public function getClientList(int $startFd = 0, int $pageSize = 10)
+    {
+    }
 
-    public function getWorkerId(): int {}
+    public function getWorkerId(): int
+    {
+    }
 
     /**
      * @return int|false
      */
-    public function getWorkerPid(int $workerId = -1) {}
+    public function getWorkerPid(int $workerId = -1)
+    {
+    }
 
     /**
      * @return bool|int
      */
-    public function getWorkerStatus(int $workerId = -1) {}
+    public function getWorkerStatus(int $workerId = -1)
+    {
+    }
 
-    public function getManagerPid(): int {}
+    public function getManagerPid(): int
+    {
+    }
 
-    public function getMasterPid(): int {}
+    public function getMasterPid(): int
+    {
+    }
 
     /**
      * @return bool|array
      */
-    public function connection_info(int $fd, int $reactorId = -1, bool $noCheckConn = false) {}
+    public function connection_info(int $fd, int $reactorId = -1, bool $noCheckConn = false)
+    {
+    }
 
     /**
      * @return bool|array
      */
-    public function connection_list(int $startFd = 0, int $pageSize = 10) {}
+    public function connection_list(int $startFd = 0, int $pageSize = 10)
+    {
+    }
 
-    public function sendMessage($message, int $workerId): bool {}
+    public function sendMessage($message, int $workerId): bool
+    {
+    }
 
     /**
      * @return bool|int
      */
-    public function addProcess(Process $process) {}
+    public function addProcess(Process $process)
+    {
+    }
 
     /**
      * @return string|array|false
      */
-    public function stats(int $mode = 0) {}
+    public function stats(int $mode = 0)
+    {
+    }
 
-    public function getSocket(int $port = -1) {}
+    public function getSocket(int $port = -1)
+    {
+    }
 
-    public function bind(int $fd, int $uid): bool {}
+    public function bind(int $fd, int $uid): bool
+    {
+    }
 
-    public function after(int $ms, callable $callback): void {}
+    public function after(int $ms, callable $callback): void
+    {
+    }
 
-    public function tick(int $ms, callable $callback): void {}
+    public function tick(int $ms, callable $callback): void
+    {
+    }
 
-    public function clearTimer(): void {}
+    public function clearTimer(): void
+    {
+    }
 
-    public function defer(callable $callback): void {}
+    public function defer(callable $callback): void
+    {
+    }
 }

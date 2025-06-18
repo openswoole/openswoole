@@ -11,16 +11,17 @@ namespace OpenSwoole\Core\Psr;
 
 use InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\UriInterface;
 
 class Request extends Message implements RequestInterface
 {
-    private $method;
+    private ?string $method;
 
-    private $uri;
+    private UriInterface $uri;
 
-    private $requestTarget;
+    private ?string $requestTarget;
 
-    public function __construct($uri, string $method = null, $body = null, array $headers = [], string $protocolVersion = '1.1')
+    public function __construct($uri, ?string $method = null, $body = null, array $headers = [], string $protocolVersion = '1.1')
     {
         $this->uri             = is_string($uri) ? new Uri($uri) : $uri;
         $this->method          = $method;
@@ -30,9 +31,9 @@ class Request extends Message implements RequestInterface
             $stream = new Stream('php://memory', 'wb+');
             $this->withBody($stream);
         } elseif (is_resource($body)) {
-            $this->stream = new Stream($body);
+            $this->body = new Stream($body);
         } else {
-            $this->stream = Stream::streamFor($body);
+            $this->body = Stream::streamFor($body);
         }
     }
 
@@ -41,7 +42,7 @@ class Request extends Message implements RequestInterface
         return $this->method;
     }
 
-    public function withMethod($method): self
+    public function withMethod($method): RequestInterface
     {
         if (!is_string($method)) {
             throw new InvalidArgumentException('Method is not validate.');
@@ -51,12 +52,12 @@ class Request extends Message implements RequestInterface
         return $request;
     }
 
-    public function getUri()
+    public function getUri(): UriInterface
     {
         return $this->uri;
     }
 
-    public function withUri($uri, $preserveHost = false): self
+    public function withUri($uri, $preserveHost = false): RequestInterface
     {
         if ($uri === $this->uri) {
             return $this;
@@ -101,7 +102,7 @@ class Request extends Message implements RequestInterface
         return $target;
     }
 
-    public function withRequestTarget($requestTarget): self
+    public function withRequestTarget(string $requestTarget): RequestInterface
     {
         if (preg_match('/\s/', $requestTarget)) {
             throw new InvalidArgumentException('Request target can\'t contain whitespaces');

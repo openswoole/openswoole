@@ -9,4 +9,6 @@ declare(strict_types=1);
 
 namespace OpenSwoole;
 
-class Error extends \Error {}
+class Error extends \Error
+{
+}

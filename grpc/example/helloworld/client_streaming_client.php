@@ -11,7 +11,7 @@ require __DIR__ . '/vendor/autoload.php';
 use Helloworld\HelloRequest;
 use OpenSwoole\GRPC\Client;
 
-\OpenSwoole\Coroutine::set(['log_level' => \OpenSwoole\Constant::LOG_ERROR]);
+OpenSwoole\Coroutine::set(['log_level' => OpenSwoole\Constant::LOG_ERROR]);
 // Co::set(['log_level' => \OpenSwoole\Constant::LOG_DEBUG]);
 
 co::run(function () {
@@ -24,7 +24,7 @@ co::run(function () {
 
     while (1) {
         $conn->send($method, $message);
-        \co::sleep(1);
+        co::sleep(1);
     }
 
     // $conn->send($method, $message, 'proto', true);

@@ -14,17 +14,17 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class ServerRequest extends Request implements ServerRequestInterface
 {
-    protected $attributes = [];
+    protected array $attributes = [];
 
-    protected $cookieParams = [];
+    protected array $cookieParams = [];
 
-    protected $serverParams = [];
+    protected array $serverParams = [];
 
-    protected $queryParams;
+    protected array $queryParams;
 
-    protected $uploadedFiles;
+    protected array $uploadedFiles;
 
-    protected $parsedBody;
+    protected mixed $parsedBody;
 
     public function __construct(
         $uri,
@@ -36,7 +36,7 @@ class ServerRequest extends Request implements ServerRequestInterface
         array $serverParams = [],
         array $uploadedFiles = [],
         $parsedBody = null,
-        string $protocolVersion = '1.1'
+        string $protocolVersion = '1.1',
     ) {
         parent::__construct($uri, $method, $body, $headers, $protocolVersion);
 
@@ -47,24 +47,24 @@ class ServerRequest extends Request implements ServerRequestInterface
         $this->parsedBody    = $parsedBody;
     }
 
-    public function getAttributes()
+    public function getAttributes(): array
     {
         return $this->attributes;
     }
 
-    public function getAttribute($name, $default = null)
+    public function getAttribute(string $name, $default = null)
     {
         return $this->hasAttribute($name) ? $this->attributes[$name] : $default;
     }
 
-    public function withAttribute($name, $value)
+    public function withAttribute(string $name, $value): ServerRequestInterface
     {
         $request                    = clone $this;
         $request->attributes[$name] = $value;
         return $request;
     }
 
-    public function withoutAttribute($name)
+    public function withoutAttribute(string $name): ServerRequestInterface
     {
         if (!isset($this->attributes[$name])) {
             return $this;
@@ -80,25 +80,25 @@ class ServerRequest extends Request implements ServerRequestInterface
         return $this->serverParams;
     }
 
-    public function withServerParams(array $server)
+    public function withServerParams(array $server): ServerRequestInterface
     {
         $this->serverParams = $server;
         return $this;
     }
 
-    public function withCookieParams(array $cookies)
+    public function withCookieParams(array $cookies): ServerRequestInterface
     {
         $request               = clone $this;
         $request->cookieParams = $cookies;
         return $request;
     }
 
-    public function getCookieParams()
+    public function getCookieParams(): array
     {
         return $this->cookieParams;
     }
 
-    public function getQueryParams()
+    public function getQueryParams(): array
     {
         return $this->queryParams;
     }
@@ -112,19 +112,19 @@ class ServerRequest extends Request implements ServerRequestInterface
         return $default;
     }
 
-    public function withQueryParams(array $query)
+    public function withQueryParams(array $query): ServerRequestInterface
     {
         $request              = clone $this;
         $request->queryParams = $query;
         return $request;
     }
 
-    public function getUploadedFiles()
+    public function getUploadedFiles(): array
     {
         return $this->uploadedFiles;
     }
 
-    public function withUploadedFiles(array $uploadedFiles)
+    public function withUploadedFiles(array $uploadedFiles): ServerRequestInterface
     {
         $request                = clone $this;
         $request->uploadedFiles = $uploadedFiles;
@@ -136,7 +136,7 @@ class ServerRequest extends Request implements ServerRequestInterface
         return $this->parsedBody;
     }
 
-    public function withParsedBody($data)
+    public function withParsedBody($data): ServerRequestInterface
     {
         if (!is_array($data) && !is_object($data) && !is_null($data)) {
             throw new InvalidArgumentException('Error HTTP body.');
@@ -146,7 +146,7 @@ class ServerRequest extends Request implements ServerRequestInterface
         return $request;
     }
 
-    public static function from(\OpenSwoole\HTTP\Request $request)
+    public static function from(\OpenSwoole\HTTP\Request $request): ServerRequestInterface
     {
         $files = [];
 
@@ -167,8 +167,8 @@ class ServerRequest extends Request implements ServerRequestInterface
             $request->server['request_method'],
             $request->rawContent() ? $request->rawContent() : 'php://memory',
             $request->header,
-            isset($request->cookie) ? $request->cookie : [],
-            isset($request->get) ? $request->get : [],
+            $request->cookie ?? [],
+            $request->get ?? [],
             $request->server,
             $files,
         );
