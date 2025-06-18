@@ -9,24 +9,69 @@ declare(strict_types=1);
 
 namespace Helloworld;
 
+use Iterator;
 use OpenSwoole\GRPC;
 
 class StreamService implements StreamInterface
 {
     /**
+     * @return iterable<HelloReply>
      * @throws GRPC\Exception\InvokeException
      */
-    public function FetchResponse(GRPC\ContextInterface $ctx, HelloRequest $request): HelloReply
+    public function FetchResponse(GRPC\ContextInterface $ctx, HelloRequest $request): iterable
     {
-        while (1) {
-            $name = $request->getName();
-            $out  = new HelloReply();
-            $out->setMessage('hello ' . $name . time());
+        return $this->createMessagesSource($request->getName());
+    }
 
-            $message = new GRPC\Message($ctx, $out);
+    /**
+     * This method return infinite iterator to generate messages for stream response without using of generators
+     *
+     * @param string $name
+     * @return iterable
+     */
+    private function createMessagesSource(string $name): iterable
+    {
+        return new class($name) implements Iterator {
+            /** @var string */
+            private $name;
 
-            $ctx['WORKER_CONTEXT']->getValue(GRPC\Server::class)->push($message);
-            \Swoole\Coroutine::sleep(1);
-        }
+            /** @var int */
+            private $key = 0;
+
+            public function __construct(string $name)
+            {
+                $this->name = $name;
+            }
+
+            public function current()
+            {
+                $reply  = new HelloReply();
+                $reply->setMessage('hello ' . $this->name . ': ' . time());
+
+                return $reply;
+            }
+
+            public function next()
+            {
+                \Swoole\Coroutine::sleep(1);
+
+                $this->key++;
+            }
+
+            public function key()
+            {
+                return $this->key;
+            }
+
+            public function valid()
+            {
+                return true;
+            }
+
+            public function rewind()
+            {
+                $this->key = 0;
+            }
+        };
     }
 }

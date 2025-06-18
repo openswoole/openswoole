@@ -144,38 +144,17 @@ final class Server
             $message                     = $rawRequest->getContent() ? substr($rawRequest->getContent(), 5) : '';
             $request                     = new Request($context, $service, $method, $message);
 
-            $response = $this->handler->handle($request);
+            $response = $this->handler->handle($request) ?? new Response($context);
+
+            $this->send($response);
         } catch (GRPCException $e) {
             Util::log(\OpenSwoole\Constant::LOG_ERROR, $e->getMessage() . ', error code: ' . $e->getCode() . "\n" . $e->getTraceAsString());
-            $output          = '';
             $context         = $context->withValue(Constant::GRPC_STATUS, $e->getCode());
             $context         = $context->withValue(Constant::GRPC_MESSAGE, $e->getMessage());
-            $response        = new Response($context, $output);
+            $response        = new Response($context);
+
+            $this->send($response);
         }
-
-        $this->send($response);
-    }
-
-    public function push(Message $message)
-    {
-        $context = $message->getContext();
-        try {
-            if ($context->getValue('content-type') !== 'application/grpc+json') {
-                $payload = $message->getMessage()->serializeToString();
-            } else {
-                $payload = $message->getMessage()->serializeToJsonString();
-            }
-        } catch (Throwable $e) {
-            throw InvokeException::create($e->getMessage(), Status::INTERNAL, $e);
-        }
-
-        $payload = pack('CN', 0, strlen($payload)) . $payload;
-
-        $ret = $context->getValue(\OpenSwoole\Http\Response::class)->write($payload);
-        if (!$ret) {
-            throw new \OpenSwoole\Exception('Client side is disconnected');
-        }
-        return $ret;
     }
 
     private function validateRequest(\OpenSwoole\HTTP\Request $request)
@@ -192,33 +171,17 @@ final class Server
         }
     }
 
-    private function send(Response $response)
+    private function send(ResponseInterface $response)
     {
-        $context     = $response->getContext();
-        $rawResponse = $context->getValue(\OpenSwoole\Http\Response::class);
-        $headers     = [
-            'content-type' => $context->getValue('content-type'),
-            'trailer'      => 'grpc-status, grpc-message',
-        ];
-
-        $trailers = [
-            Constant::GRPC_STATUS  => $context->getValue(Constant::GRPC_STATUS),
-            Constant::GRPC_MESSAGE => $context->getValue(Constant::GRPC_MESSAGE),
-        ];
-
-        $payload = pack('CN', 0, strlen($response->getPayload())) . $response->getPayload();
-
         try {
-            foreach ($headers as $name => $value) {
-                $rawResponse->header($name, $value);
-            }
-
-            foreach ($trailers as $name => $value) {
-                $rawResponse->trailer($name, (string) $value);
-            }
-            $rawResponse->end($payload);
+            $response->send();
         } catch (\OpenSwoole\Exception $e) {
             Util::log(\OpenSwoole\Constant::LOG_WARNING, $e->getMessage() . ', error code: ' . $e->getCode() . "\n" . $e->getTraceAsString());
+
+            $rawResponse = $response->getContext()->getValue(\OpenSwoole\Http\Response::class);
+            $rawResponse->end();
+        } catch (Throwable $e) {
+            Util::log(\OpenSwoole\Constant::LOG_ERROR, $e->getMessage() . ', error code: ' . $e->getCode() . "\n" . $e->getTraceAsString());
         }
     }
 }

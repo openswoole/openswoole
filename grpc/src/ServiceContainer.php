@@ -11,12 +11,12 @@ namespace OpenSwoole\GRPC;
 
 use Exception;
 use OpenSwoole\GRPC\Exception\InvokeException;
+use OpenSwoole\GRPC\Exception\NotFoundException;
 use OpenSwoole\Util;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
 use ReflectionObject;
-use Throwable;
 use TypeError;
 
 use function is_string;
@@ -72,12 +72,13 @@ final class ServiceContainer
         return array_values($this->methods);
     }
 
-    public function handle(Request $request): string
+    public function handle(Request $request)
     {
         $method  = $request->getMethod();
         $context = $request->getContext();
         $input   = $request->getPayload();
         if (!isset($this->methods[$method])) {
+            throw NotFoundException::create("{$this->getName()}::{$method} not found");
         }
 
         $callable = [$this->service, $method];
@@ -95,22 +96,10 @@ final class ServiceContainer
         }
 
         try {
-            $result = $callable($context, $message);
+            return $callable($context, $message);
         } catch (TypeError $e) {
             throw InvokeException::create($e->getMessage(), Status::INTERNAL, $e);
         }
-
-        try {
-            if ($context->getValue('content-type') !== 'application/grpc+json') {
-                $output = $result->serializeToString();
-            } else {
-                $output = $result->serializeToJsonString();
-            }
-        } catch (Throwable $e) {
-            throw InvokeException::create($e->getMessage(), Status::INTERNAL, $e);
-        }
-
-        return $output;
     }
 
     private function discoverMethods(ServiceInterface $service): array
