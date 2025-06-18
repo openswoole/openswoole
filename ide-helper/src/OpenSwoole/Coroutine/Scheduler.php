@@ -6,14 +6,13 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Coroutine;
 
 final class Scheduler
 {
     /**
      * @param callable $callback [required]
-     * @param mixed ...$params
-     * @return ?bool
      */
     public function add(callable $callback, ...$params): ?bool
     {
@@ -22,7 +21,6 @@ final class Scheduler
     /**
      * @param int $count [required]
      * @param callable $callback [required]
-     * @param mixed ...$params
      */
     public function parallel(int $count, callable $callback, ...$params): void
     {
@@ -35,9 +33,6 @@ final class Scheduler
     {
     }
 
-    /**
-     * @return ?array
-     */
     public function getOptions(): ?array
     {
     }

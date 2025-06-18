@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Coroutine\Http;
 
 use OpenSwoole\WebSocket\Frame;
@@ -43,14 +44,8 @@ final class Client
      */
     public $requestBody;
 
-    /**
-     * @var mixed
-     */
     public $uploadFiles;
 
-    /**
-     * @var mixed
-     */
     public $downloadFile;
 
     public int $downloadOffset;
@@ -59,9 +54,6 @@ final class Client
 
     public $headers;
 
-    /**
-     * @var mixed
-     */
     public $set_cookie_headers;
 
     public $cookies;

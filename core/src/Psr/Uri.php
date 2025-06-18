@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Core\Psr;
 
 use InvalidArgumentException;
@@ -21,7 +22,7 @@ class Uri implements UriInterface
 
     private const URI_CHAR_SUB_DELIMITERS = "!\$&\\'\\(\\)\\*\\+,;=";
 
-    private const URI_CHAR_UNRESERVED = '\\w+\\-\\.~';
+    private const URI_CHAR_UNRESERVED = '\w+\-\.~';
 
     private $scheme;
 

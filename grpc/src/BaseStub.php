@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\GRPC;
 
 use OpenSwoole\GRPC\Exception\GRPCException;
@@ -29,7 +30,7 @@ class BaseStub
         $method,
         $request,
         $deserialize,
-        array $metadata = []
+        array $metadata = [],
     ) {
         $streamId              = $this->client->send($method, $request);
         [$data, $trailers]     = $this->client->recv($streamId);
@@ -56,7 +57,7 @@ class BaseStub
         $method,
         $request,
         $deserialize,
-        array $metadata = []
+        array $metadata = [],
     ) {
         $this->deserialize = $deserialize;
         $streamId          = $this->client->send($method, $request);

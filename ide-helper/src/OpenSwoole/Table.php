@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole;
 
 use Countable;
@@ -121,16 +122,10 @@ final class Table implements Iterator, Countable
     {
     }
 
-    /**
-     * @return ?array
-     */
     public function current(): ?array
     {
     }
 
-    /**
-     * @return ?string
-     */
     public function key(): ?string
     {
     }

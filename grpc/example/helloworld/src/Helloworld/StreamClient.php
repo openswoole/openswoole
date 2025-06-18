@@ -13,8 +13,6 @@ namespace Helloworld;
 class StreamClient extends \OpenSwoole\GRPC\BaseStub
 {
     /**
-     * @param mixed $metadata
-     *
      * @throws \OpenSwooleGRPC\Exception\InvokeException
      */
     public function FetchResponse(HelloRequest $request, $metadata = []): HelloReply

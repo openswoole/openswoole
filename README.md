@@ -1,4 +1,4 @@
-<p align="center"><a href="https://openswoole.com" target="_blank"><img src="https://openswoole.com/images/swoole-logo.svg#gh-light-mode-only" width="200" /></a></p>
+<p align="center"><a href="https://openswoole.com" target="_blank"><img src="https://openswoole.com/images/swoole-logo.svg#gh-light-mode-only" width="240" /></a></p>
 
 ## OpenSwoole
 
@@ -12,4 +12,4 @@ OpenSwoole is a programmatic platform building modernized systems with async IO,
 
 ## Documentation
 
-Documentation for Open Swoole can be found on the [Open Swoole website](https://openswoole.com/docs).
+Documentation for Openswoole can be found on the [Openswoole website](https://openswoole.com/docs).

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Core\Coroutine\Client;
 
 use OpenSwoole\Client\Exception;
@@ -14,7 +15,6 @@ use OpenSwoole\Coroutine\PostgreSQL;
 final class PostgresClientFactory implements ClientFactoryInterface
 {
     /**
-     * @param mixed $config
      * @throws Exception
      */
     public static function make($config)

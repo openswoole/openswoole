@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\GRPC;
 
 use OpenSwoole\Coroutine;
@@ -92,9 +93,6 @@ class Client implements ClientInterface
 
     /**
      * Send message to remote endpoint, either end the stream or not depending on $mode of the client
-     * @param mixed $method
-     * @param mixed $message
-     * @param mixed $type
      */
     public function send($method, $message, $type = 'proto')
     {
@@ -116,8 +114,6 @@ class Client implements ClientInterface
 
     /**
      * Receive the data from a stream in the established connection based on streamId.
-     * @param mixed $streamId
-     * @param mixed $timeout
      */
     public function recv($streamId, $timeout = -1)
     {
@@ -126,9 +122,6 @@ class Client implements ClientInterface
 
     /**
      * Push message to the remote endpoint, used in client side streaming mode.
-     * @param mixed $streamId
-     * @param mixed $message
-     * @param mixed $type
      * @param bool $end
      */
     public function push($streamId, $message, $type = 'proto', $end = false)

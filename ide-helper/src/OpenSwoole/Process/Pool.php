@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Process;
 
 use OpenSwoole\Process;
@@ -40,7 +41,6 @@ class Pool
 
     /**
      * @param array $settings [required]
-     * @return ?bool
      */
     public function set(array $settings): ?bool
     {
@@ -82,9 +82,6 @@ class Pool
     {
     }
 
-    /**
-     * @return ?bool
-     */
     public function start(): ?bool
     {
     }

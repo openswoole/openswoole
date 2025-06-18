@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Coroutine\Http2;
 
 use OpenSwoole\Http2\Request;
@@ -99,7 +100,7 @@ class Client
     /**
      * @return array|bool|int
      */
-    public function stats(string $key = null)
+    public function stats(?string $key = null)
     {
     }
 
@@ -114,9 +115,6 @@ class Client
     {
     }
 
-    /**
-     * @param mixed $data
-     */
     public function write(int $streamId, $data, bool $end = false): bool
     {
     }

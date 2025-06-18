@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole;
 
 final class Timer
@@ -28,7 +29,6 @@ final class Timer
     /**
      * @param int $ms [required]
      * @param callable $callback [required]
-     * @param mixed ...$params
      * @return int|false
      */
     public static function after(int $ms, callable $callback, ...$params)
@@ -38,7 +38,6 @@ final class Timer
     /**
      * @param int $ms [required]
      * @param callable $callback [required]
-     * @param mixed ...$params
      * @return int|false
      */
     public static function tick(int $ms, callable $callback, ...$params)
@@ -60,9 +59,6 @@ final class Timer
     {
     }
 
-    /**
-     * @return \OpenSwoole\Timer\Iterator
-     */
     public static function list(): Timer\Iterator
     {
     }

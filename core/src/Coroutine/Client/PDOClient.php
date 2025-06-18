@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Core\Coroutine\Client;
 
 use PDO;
@@ -24,8 +25,8 @@ class PDOClient extends ClientProxy
     /** @var PDO */
     protected object $__object;
 
-    /** @var array|null */
-    protected $setAttributeContext;
+    /** @var array */
+    protected $setAttributeContext = [];
 
     /** @var int */
     protected $round = 0;
@@ -36,12 +37,13 @@ class PDOClient extends ClientProxy
     {
         $this->config = $config;
         $this->makeClient();
-        $this->__object->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
+        $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
         return $this;
     }
 
     public function __call(string $name, array $arguments)
     {
+        $this->assertNotClosed();
         for ($n = 3; $n--;) {
             $ret = @$this->__object->{$name}(...$arguments);
             if ($ret === false) {
@@ -58,7 +60,11 @@ class PDOClient extends ClientProxy
                 ) {
                     /* '00000' means “no error.”, as specified by ANSI SQL and ODBC. */
                     if (!empty($errorInfo) && $errorInfo[0] !== '00000') {
-                        $exception            = new PDOException($errorInfo[2], $errorInfo[1]);
+                        if (is_int($errorInfo[1]) && is_string($errorInfo[2])) {
+                            $exception = new PDOException($errorInfo[2], $errorInfo[1]);
+                        } else {
+                            $exception = new PDOException('Unknown database error');
+                        }
                         $exception->errorInfo = $errorInfo;
                         throw $exception;
                     }
@@ -87,7 +93,7 @@ class PDOClient extends ClientProxy
         $this->makeClient();
         $this->round++;
         /* restore context */
-        if ($this->setAttributeContext) {
+        if (!empty($this->setAttributeContext)) {
             foreach ($this->setAttributeContext as $attribute => $value) {
                 $this->__object->setAttribute($attribute, $value);
             }
@@ -96,18 +102,33 @@ class PDOClient extends ClientProxy
 
     public function heartbeat(): void
     {
+        $this->assertNotClosed();
         $this->__object->query('SELECT 1')->fetch();
     }
 
     public function setAttribute(int $attribute, $value): bool
     {
+        $this->assertNotClosed();
         $this->setAttributeContext[$attribute] = $value;
         return $this->__object->setAttribute($attribute, $value);
     }
 
     public function inTransaction(): bool
     {
+        $this->assertNotClosed();
         return $this->__object->inTransaction();
+    }
+
+    public function close()
+    {
+        $this->__object = null;
+    }
+
+    protected function assertNotClosed(): void
+    {
+        if (is_null($this->__object)) {
+            throw new PDOException('The database connection has been intentionally closed. Please call the \'reconnect\' method before using it again');
+        }
     }
 
     protected function makeClient()

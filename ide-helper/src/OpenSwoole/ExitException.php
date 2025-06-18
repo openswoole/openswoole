@@ -6,24 +6,19 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole;
 
-class ExitException extends \OpenSwoole\Exception
+class ExitException extends Exception
 {
     private $flags;
 
     private $status;
 
-    /**
-     * @return mixed
-     */
     public function getFlags()
     {
     }
 
-    /**
-     * @return mixed
-     */
     public function getStatus()
     {
     }

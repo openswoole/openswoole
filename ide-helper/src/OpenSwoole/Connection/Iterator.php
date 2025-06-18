@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Connection;
 
 use ArrayAccess;
@@ -21,51 +22,32 @@ class Iterator implements \Iterator, ArrayAccess, Countable
     {
     }
 
-    /**
-     * @return mixed
-     */
     public function rewind()
     {
     }
 
-    /**
-     * @return mixed
-     */
     public function next()
     {
     }
 
-    /**
-     * @return mixed
-     */
     public function current()
     {
     }
 
-    /**
-     * @return mixed
-     */
     public function key()
     {
     }
 
-    /**
-     * @return mixed
-     */
     public function valid()
     {
     }
 
-    /**
-     * @return mixed
-     */
     public function count()
     {
     }
 
     /**
      * @param mixed $key [required]
-     * @return mixed
      */
     public function offsetExists($key)
     {
@@ -73,7 +55,6 @@ class Iterator implements \Iterator, ArrayAccess, Countable
 
     /**
      * @param mixed $key [required]
-     * @return mixed
      */
     public function offsetGet($key)
     {
@@ -82,7 +63,6 @@ class Iterator implements \Iterator, ArrayAccess, Countable
     /**
      * @param mixed $key [required]
      * @param mixed $value [required]
-     * @return mixed
      */
     public function offsetSet($key, $value)
     {
@@ -90,7 +70,6 @@ class Iterator implements \Iterator, ArrayAccess, Countable
 
     /**
      * @param mixed $key [required]
-     * @return mixed
      */
     public function offsetUnset($key)
     {

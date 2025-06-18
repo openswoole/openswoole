@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Core\Coroutine\Client;
 
 use Error;
@@ -55,7 +56,6 @@ class ClientProxy
 
     public function __invoke(...$arguments)
     {
-        /** @var mixed $object */
         $object = $this->__object;
         return $object(...$arguments);
     }

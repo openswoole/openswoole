@@ -6,7 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
-$cli = new OpenSwoole\Client(\OpenSwoole\Constant::SOCK_TCP);
+$cli = new OpenSwoole\Client(OpenSwoole\Constant::SOCK_TCP);
 $cli->connect('127.0.0.1', 9501);
 
 // $type = 'GET';
@@ -25,7 +25,7 @@ if ($type == 'GET') {
     $header .= "\r\n";
     $_sendStr = $header;
 } else {
-//    $header = "POST /home/explore/?hello=123&world=swoole#hello HTTP/1.1\r\n";
+    //    $header = "POST /home/explore/?hello=123&world=swoole#hello HTTP/1.1\r\n";
     $header = "POST /post.php HTTP/1.1\r\n";
     $header .= "Host: 127.0.0.1\r\n";
     $header .= "Referer: http://group.openswoole.com/\r\n";
@@ -37,15 +37,15 @@ if ($type == 'GET') {
 
     $_postData = ['body1' => 'swoole_http-server', 'message' => 'nihao'];
     $_postBody = json_encode($_postData);
-//    $_postBody = http_build_query($_postData);
+    //    $_postBody = http_build_query($_postData);
     $header .= 'Content-Length: ' . strlen($_postBody);
     echo 'http header length=' . strlen($header) . "\n";
     $header .= 'Content-Length: ' . (strlen($_postBody) - 2);
 
-//    $cli->send($header);
-//    usleep(100000);
+    //    $cli->send($header);
+    //    usleep(100000);
     $_sendStr = $header . "\r\n\r\n" . $_postBody;
-//    $_sendStr = "\r\n\r\n" . $_postBody;
+    //    $_sendStr = "\r\n\r\n" . $_postBody;
     echo 'postBody length=' . strlen($_postBody) . "\n";
 }
 

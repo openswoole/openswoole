@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Http;
 
 final class Response
@@ -65,7 +66,6 @@ final class Response
     }
 
     /**
-     * @param mixed $server
      * @return Response|bool
      */
     public static function create($server = -1, int $fd = -1)

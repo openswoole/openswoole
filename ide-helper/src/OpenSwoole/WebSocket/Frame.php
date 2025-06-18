@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\WebSocket;
 
 use Stringable;
@@ -27,14 +28,14 @@ class Frame implements Stringable
     }
 
     /**
-     * @param \OpenSwoole\WebSocket\Frame|string $data
+     * @param Frame|string $data
      */
     public static function pack($data, int $opcode = Server::WEBSOCKET_OPCODE_TEXT, int $flags = Server::WEBSOCKET_FLAG_FIN): string
     {
     }
 
     /**
-     * @return \OpenSwoole\WebSocket\Frame|false
+     * @return Frame|false
      */
     public static function unpack(string $data)
     {

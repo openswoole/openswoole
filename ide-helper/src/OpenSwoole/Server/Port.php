@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Server;
 
 final class Port
@@ -54,7 +55,6 @@ final class Port
 
     /**
      * @param array $settings [required]
-     * @return ?bool
      */
     public function set(array $settings): ?bool
     {
@@ -70,7 +70,6 @@ final class Port
 
     /**
      * @param string $event [required]
-     * @return ?callable
      */
     public function getCallback(string $event): ?callable
     {
@@ -80,9 +79,6 @@ final class Port
     {
     }
 
-    /**
-     * @param mixed $handler
-     */
     public function setHandler($handler): bool
     {
     }

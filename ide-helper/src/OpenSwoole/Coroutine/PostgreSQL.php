@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Coroutine;
 
 class PostgreSQL
@@ -30,7 +31,6 @@ class PostgreSQL
 
     /**
      * @param mixed $conninfo [required]
-     * @return mixed
      */
     public function connect($conninfo)
     {
@@ -38,7 +38,6 @@ class PostgreSQL
 
     /**
      * @param mixed $query [optional]
-     * @return mixed
      */
     public function query($query)
     {
@@ -47,7 +46,6 @@ class PostgreSQL
     /**
      * @param mixed $stmtname [required]
      * @param mixed $query [required]
-     * @return mixed
      */
     public function prepare($stmtname, $query)
     {
@@ -56,7 +54,6 @@ class PostgreSQL
     /**
      * @param mixed $stmtname [required]
      * @param mixed $pv_param_arr [required]
-     * @return mixed
      */
     public function execute($stmtname, $pv_param_arr)
     {
@@ -65,7 +62,6 @@ class PostgreSQL
     /**
      * @param mixed $result [optional]
      * @param mixed $result_type [optional]
-     * @return mixed
      */
     public function fetchAll($result, $result_type)
     {
@@ -73,7 +69,6 @@ class PostgreSQL
 
     /**
      * @param mixed $result [optional]
-     * @return mixed
      */
     public function affectedRows($result)
     {
@@ -81,7 +76,6 @@ class PostgreSQL
 
     /**
      * @param mixed $result [optional]
-     * @return mixed
      */
     public function numRows($result)
     {
@@ -89,7 +83,6 @@ class PostgreSQL
 
     /**
      * @param mixed $result [optional]
-     * @return mixed
      */
     public function fieldCount($result)
     {
@@ -97,7 +90,6 @@ class PostgreSQL
 
     /**
      * @param mixed $table_name [required]
-     * @return mixed
      */
     public function metaData($table_name)
     {
@@ -105,7 +97,6 @@ class PostgreSQL
 
     /**
      * @param mixed $string [required]
-     * @return mixed
      */
     public function escape($string)
     {
@@ -113,7 +104,6 @@ class PostgreSQL
 
     /**
      * @param mixed $string [required]
-     * @return mixed
      */
     public function escapeLiteral($string)
     {
@@ -121,7 +111,6 @@ class PostgreSQL
 
     /**
      * @param mixed $string [required]
-     * @return mixed
      */
     public function escapeIdentifier($string)
     {
@@ -133,7 +122,6 @@ class PostgreSQL
      * @param mixed $class_name [optional]
      * @param mixed $l [optional]
      * @param mixed $ctor_params [optional]
-     * @return mixed
      */
     public function fetchObject($result, $row, $class_name, $l, $ctor_params)
     {
@@ -142,7 +130,6 @@ class PostgreSQL
     /**
      * @param mixed $result [required]
      * @param mixed $row [optional]
-     * @return mixed
      */
     public function fetchAssoc($result, $row)
     {
@@ -152,7 +139,6 @@ class PostgreSQL
      * @param mixed $result [required]
      * @param mixed $row [optional]
      * @param mixed $result_type [optional]
-     * @return mixed
      */
     public function fetchArray($result, $row, $result_type)
     {
@@ -162,22 +148,15 @@ class PostgreSQL
      * @param mixed $result [required]
      * @param mixed $row [optional]
      * @param mixed $result_type [optional]
-     * @return mixed
      */
     public function fetchRow($result, $row, $result_type)
     {
     }
 
-    /**
-     * @return mixed
-     */
     public function reset()
     {
     }
 
-    /**
-     * @return mixed
-     */
     public function status()
     {
     }

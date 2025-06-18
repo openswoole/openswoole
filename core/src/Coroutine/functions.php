@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Core\Coroutine;
 
 use OpenSwoole\Coroutine;
@@ -221,7 +222,7 @@ function socket_close(Socket $socket)
     $socket->close();
 }
 
-function socket_clear_error(Socket $socket = null)
+function socket_clear_error(?Socket $socket = null)
 {
     if ($socket) {
         $socket->errCode = 0;
@@ -229,7 +230,7 @@ function socket_clear_error(Socket $socket = null)
     clear_error();
 }
 
-function socket_last_error(Socket $socket = null): int
+function socket_last_error(?Socket $socket = null): int
 {
     if ($socket) {
         return $socket->errCode;
@@ -302,7 +303,7 @@ function map(array $list, callable $fn, float $timeout = -1): array
 
 function deadlock_check()
 {
-    $all_coroutines = Coroutine::listCoroutines();
+    $all_coroutines = Coroutine::list();
     $count          = Coroutine::stats()['coroutine_num'];
     echo "\n===================================================================",
     "\n [FATAL ERROR]: all coroutines (count: {$count}) are asleep - deadlock!",

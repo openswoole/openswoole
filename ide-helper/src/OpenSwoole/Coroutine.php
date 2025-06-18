@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole;
 
 use const AF_INET;
@@ -33,7 +34,6 @@ final class Coroutine
 
     /**
      * @param callable $callback [required]
-     * @param mixed ...$params
      * @return int|false
      */
     public static function create(callable $callback, ...$params)
@@ -49,15 +49,11 @@ final class Coroutine
 
     /**
      * @param array $options [required]
-     * @return mixed
      */
     public static function set(array $options)
     {
     }
 
-    /**
-     * @return ?array
-     */
     public static function getOptions(): ?array
     {
     }
@@ -99,9 +95,6 @@ final class Coroutine
     {
     }
 
-    /**
-     * @return mixed
-     */
     public static function select(array $read = [], array $write = [], float $timeout = -1)
     {
     }
@@ -123,7 +116,6 @@ final class Coroutine
 
     /**
      * @param int $cid [optional] = 0
-     * @return \OpenSwoole\Coroutine\Context|null
      */
     public static function getContext(int $cid = 0): ?Coroutine\Context
     {
@@ -162,17 +154,7 @@ final class Coroutine
     {
     }
 
-    /**
-     * @return \OpenSwoole\Coroutine\Iterator
-     */
     public static function list(): Coroutine\Iterator
-    {
-    }
-
-    /**
-     * @return \OpenSwoole\Coroutine\Iterator
-     */
-    public static function listCoroutines(): Coroutine\Iterator
     {
     }
 
@@ -235,7 +217,7 @@ final class Coroutine
      * @param float $timeout [optional] = -1
      * @return array|false
      */
-    public static function getaddrinfo(string $domain, int $family = AF_INET, int $sockType = SOCK_STREAM, int $protocol = STREAM_IPPROTO_TCP, string $service = null, float $timeout = -1)
+    public static function getaddrinfo(string $domain, int $family = AF_INET, int $sockType = SOCK_STREAM, int $protocol = STREAM_IPPROTO_TCP, ?string $service = null, float $timeout = -1)
     {
     }
 

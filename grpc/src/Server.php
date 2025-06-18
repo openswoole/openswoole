@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\GRPC;
 
 use Closure;
@@ -87,7 +88,7 @@ final class Server
         $this->server->set($this->settings);
         $this->server->on('workerStart', function (\OpenSwoole\Server $server, int $workerId) {
             $this->workerContext = new Context([
-                \OpenSwoole\GRPC\Server::class              => $this,
+                Server::class                               => $this,
                 \OpenSwoole\HTTP\Server::class              => $this->server,
             ]);
             foreach ($this->workerContexts as $context => $callback) {
@@ -106,12 +107,15 @@ final class Server
         return $this;
     }
 
-    public function register(string $class): self
+    public function register(string $class, ?ServiceInterface $instance = null): self
     {
         if (!class_exists($class)) {
             throw new TypeError("{$class} not found");
         }
-        $instance = new $class();
+        // Only recreate the class if the users dont pass in their initialized class
+        if (!$instance) {
+            $instance = new $class();
+        }
         if (!($instance instanceof ServiceInterface)) {
             throw new TypeError("{$class} is not ServiceInterface");
         }

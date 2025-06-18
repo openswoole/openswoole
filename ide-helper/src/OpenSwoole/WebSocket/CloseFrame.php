@@ -6,9 +6,10 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\WebSocket;
 
-class CloseFrame extends \OpenSwoole\WebSocket\Frame
+class CloseFrame extends Frame
 {
     public int $code;
 

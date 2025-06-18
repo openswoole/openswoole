@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Core\Psr;
 
 use InvalidArgumentException;
@@ -94,10 +95,10 @@ class Response extends Message implements ResponseInterface
 
     public function __construct($body, int $statusCode = 200, string $reasonPhrase = '', array $headers = [], string $protocolVersion = '1.1')
     {
-        $this->stream = is_string($body) ? Stream::streamFor($body) : $body;
+        $this->body = is_string($body) ? Stream::streamFor($body) : $body;
         $this->setStatusCode($statusCode);
         $this->setReasonPhrase($reasonPhrase);
-        $this->withHeaders($headers);
+        $this->setHeaders($headers);
         $this->protocolVersion = $protocolVersion;
     }
 

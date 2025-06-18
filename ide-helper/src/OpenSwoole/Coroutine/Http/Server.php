@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Coroutine\Http;
 
 final class Server
@@ -61,9 +62,6 @@ final class Server
     {
     }
 
-    /**
-     * @return mixed
-     */
     private function onAccept()
     {
     }

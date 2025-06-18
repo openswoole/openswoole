@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\GRPC;
 
 use Exception;
@@ -107,15 +108,17 @@ final class ServiceContainer
 
         $methods = [];
         foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
-            if ($method->getNumberOfParameters() !== 2) {
-                throw new Exception('error method');
+            // Check if its a gRPC method before doing this check
+            if (count($method->getParameters()) > 0 && $method->getParameters()[0]->getName() == 'ctx') {
+                // This is a gRPC method
+                if ($method->getNumberOfParameters() !== 2) {
+                    throw new Exception('error method');
+                }
+                [, $input] = $method->getParameters();
+
+                $methods[$method->getName()] = ['name' => $method->getName(), 'inputClass' => $input->getType(), 'returnClass' => $method->getReturnType()];
             }
-
-            [, $input] = $method->getParameters();
-
-            $methods[$method->getName()] = ['name' => $method->getName(), 'inputClass' => $input->getType(), 'returnClass' => $method->getReturnType()];
         }
-
         return $methods;
     }
 }

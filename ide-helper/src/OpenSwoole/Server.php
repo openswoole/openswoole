@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole;
 
 use OpenSwoole\Server\Port;
@@ -108,7 +109,7 @@ class Server
 
     private $onPipeMessage;
 
-    public function __construct(string $host, int $port = 0, int $mode = \OpenSwoole\Server::SIMPLE_MODE, int $sockType = \OpenSwoole\Constant::SOCK_TCP)
+    public function __construct(string $host, int $port = 0, int $mode = Server::SIMPLE_MODE, int $sockType = Constant::SOCK_TCP)
     {
     }
 
@@ -138,16 +139,10 @@ class Server
     {
     }
 
-    /**
-     * @param mixed $handler
-     */
     public function setHandler($handler): bool
     {
     }
 
-    /**
-     * @return mixed
-     */
     public function getCallback(string $event)
     {
     }
@@ -162,7 +157,6 @@ class Server
 
     /**
      * @param string|int $fd
-     * @param mixed $data
      */
     public function send($fd, $data, int $serverSocket = -1): bool
     {
@@ -213,7 +207,6 @@ class Server
     }
 
     /**
-     * @param mixed $data
      * @return bool|int
      */
     public function task($data, int $workerId = -1, ?callable $finishCallback = null)
@@ -221,7 +214,6 @@ class Server
     }
 
     /**
-     * @param mixed $data
      * @return bool|string
      */
     public function taskwait($data, float $timeout = 0.5, int $workerId = -1)
@@ -242,9 +234,6 @@ class Server
     {
     }
 
-    /**
-     * @param mixed $data
-     */
     public function finish($data): bool
     {
     }
@@ -318,9 +307,6 @@ class Server
     {
     }
 
-    /**
-     * @param mixed $message
-     */
     public function sendMessage($message, int $workerId): bool
     {
     }
@@ -339,9 +325,6 @@ class Server
     {
     }
 
-    /**
-     * @return mixed
-     */
     public function getSocket(int $port = -1)
     {
     }

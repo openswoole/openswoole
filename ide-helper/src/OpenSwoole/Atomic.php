@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole;
 
 class Atomic
@@ -37,7 +38,6 @@ class Atomic
 
     /**
      * @param int $value [required]
-     * @return ?bool
      */
     public function set(int $value): ?bool
     {
