@@ -108,7 +108,11 @@ class Message implements MessageInterface
 
     public function getHeader(string $name): array
     {
-        return $this->hasHeader($name) ? $this->headers[strtolower($name)] : [];
+        if ($this->hasHeader($name)) {
+            $header = $this->headers[strtolower($name)];
+            return is_array($header) ? $header : [$header];
+        }
+        return [];
     }
 
     public function hasHeader(string $name): bool
