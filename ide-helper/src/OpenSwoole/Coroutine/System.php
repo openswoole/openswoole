@@ -38,7 +38,7 @@ final class System
      * @param string $command [required]
      * @param bool $get_error_stream [optional] = false
      */
-    public static function exec(string $command, bool $get_error_stream = false): array
+    public static function exec(string $command, bool $get_error_stream = false): array|false
     {
     }
 
@@ -50,9 +50,9 @@ final class System
     }
 
     /**
-     * @param int $milliseconds [required]
+     * @param int $microseconds [required]
      */
-    public static function usleep(int $milliseconds): bool
+    public static function usleep(int $microseconds): bool
     {
     }
 
@@ -80,9 +80,8 @@ final class System
     /**
      * @param string $filename [required]
      * @param int $flags [optional] = 0
-     * @return string|false
      */
-    public static function readFile(string $filename, int $flags = 0): bool
+    public static function readFile(string $filename, int $flags = 0): false|string
     {
     }
 
@@ -91,7 +90,7 @@ final class System
      * @param string $data [required]
      * @param int $flags [optional] = 0
      */
-    public static function writeFile(string $filename, string $data, int $flags = 0): bool
+    public static function writeFile(string $filename, string $data, int $flags = 0): bool|int
     {
     }
 
@@ -124,33 +123,12 @@ final class System
      * @param mixed $fd [required]
      * @param int $events [required]
      * @param float $timeout [optional] = -1
-     * @return int|false
      */
-    public static function waitEvent($fd, int $events = SWOOLE_EVENT_READ, float $timeout = -1)
+    public static function waitEvent($fd, int $events, float $timeout = -1): bool|int
     {
     }
 
-    /**
-     * @param mixed $handle [required]
-     * @param int $length [optional] = 0
-     */
-    public static function fread($handle, int $length = 0)
-    {
-    }
-
-    /**
-     * @param mixed $handle [required]
-     * @param string $data [required]
-     * @param int $length [optional] = 0
-     */
-    public static function fwrite($handle, string $data, int $length = 0)
-    {
-    }
-
-    /**
-     * @param mixed $handle [required]
-     */
-    public static function fgets($handle): string
+    public static function clearDNSCache(): void
     {
     }
 }

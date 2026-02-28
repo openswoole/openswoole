@@ -117,17 +117,11 @@ class Server
     {
     }
 
-    /**
-     * @return false|Port
-     */
-    public function listen(string $host, int $port, int $sockType)
+    public function listen(string $host, int $port, int $sockType): false|Port
     {
     }
 
-    /**
-     * @return false|Port
-     */
-    public function addlistener(string $host, int $port, int $sockType)
+    public function addlistener(string $host, int $port, int $sockType): false|Port
     {
     }
 
@@ -206,31 +200,19 @@ class Server
     {
     }
 
-    /**
-     * @return bool|int
-     */
-    public function task($data, int $workerId = -1, ?callable $finishCallback = null)
+    public function task($data, int $workerId = -1, ?callable $finishCallback = null): bool|int
     {
     }
 
-    /**
-     * @return bool|string
-     */
-    public function taskwait($data, float $timeout = 0.5, int $workerId = -1)
+    public function taskwait($data, float $timeout = 0.5, int $workerId = -1): bool|string
     {
     }
 
-    /**
-     * @return bool|array
-     */
-    public function taskWaitMulti(array $tasks, float $timeout = 0.5)
+    public function taskWaitMulti(array $tasks, float $timeout = 0.5): bool|array
     {
     }
 
-    /**
-     * @return bool|array
-     */
-    public function taskCo(array $tasks, float $timeout = 0.5)
+    public function taskCo(array $tasks, float $timeout = 0.5): bool|array
     {
     }
 
@@ -246,24 +228,15 @@ class Server
     {
     }
 
-    /**
-     * @return false|array
-     */
-    public function heartbeat(bool $closeConn = false)
+    public function heartbeat(bool $closeConn = false): false|array
     {
     }
 
-    /**
-     * @return bool|array
-     */
-    public function getClientInfo(int $fd, int $reactorId = -1, bool $noCheckConn = false)
+    public function getClientInfo(int $fd, int $reactorId = -1, bool $noCheckConn = false): bool|array
     {
     }
 
-    /**
-     * @return bool|array
-     */
-    public function getClientList(int $startFd = 0, int $pageSize = 10)
+    public function getClientList(int $startFd = 0, int $pageSize = 10): bool|array
     {
     }
 
@@ -271,17 +244,11 @@ class Server
     {
     }
 
-    /**
-     * @return int|false
-     */
-    public function getWorkerPid(int $workerId = -1)
+    public function getWorkerPid(int $workerId = -1): int|false
     {
     }
 
-    /**
-     * @return bool|int
-     */
-    public function getWorkerStatus(int $workerId = -1)
+    public function getWorkerStatus(int $workerId = -1): bool|int
     {
     }
 
@@ -293,17 +260,11 @@ class Server
     {
     }
 
-    /**
-     * @return bool|array
-     */
-    public function connection_info(int $fd, int $reactorId = -1, bool $noCheckConn = false)
+    public function connection_info(int $fd, int $reactorId = -1, bool $noCheckConn = false): bool|array
     {
     }
 
-    /**
-     * @return bool|array
-     */
-    public function connection_list(int $startFd = 0, int $pageSize = 10)
+    public function connection_list(int $startFd = 0, int $pageSize = 10): bool|array
     {
     }
 
@@ -311,17 +272,11 @@ class Server
     {
     }
 
-    /**
-     * @return bool|int
-     */
-    public function addProcess(Process $process)
+    public function addProcess(Process $process): bool|int
     {
     }
 
-    /**
-     * @return string|array|false
-     */
-    public function stats(int $mode = 0)
+    public function stats(int $mode = 0): string|array|false
     {
     }
 

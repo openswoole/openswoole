@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OpenSwoole;
 
+use Socket;
+
 class Client
 {
     public const MSG_OOB = 1;
@@ -41,10 +43,10 @@ class Client
 
     /**
      * @param int $sockType [required]
-     * @param bool $async [optional] = false
+     * @param int|bool $async [optional] = false
      * @param string $id [optional] = ''
      */
-    public function __construct(int $sockType, bool $async = false, string $id = '')
+    public function __construct(int $sockType, int|bool $async = false, string $id = '')
     {
     }
 
@@ -73,7 +75,7 @@ class Client
      * @param int $length [optional] = 65535
      * @param int $flags [optional] = 0
      */
-    public function recv(int $length = 65535, int $flags = 0): string
+    public function recv(int $length = 65535, int $flags = 0): bool|string
     {
     }
 
@@ -81,7 +83,7 @@ class Client
      * @param string $data [required]
      * @param int $flags [optional] = 0
      */
-    public function send(string $data, int $flags = 0)
+    public function send(string $data, int $flags = 0): bool|int
     {
     }
 
@@ -114,7 +116,7 @@ class Client
     {
     }
 
-    public function getPeerCert(): string
+    public function getPeerCert(): bool|string
     {
     }
 
@@ -138,6 +140,10 @@ class Client
      * @param bool $force [optional] = false
      */
     public function close(bool $force = false): bool
+    {
+    }
+
+    public function getSocket(): Socket|false
     {
     }
 

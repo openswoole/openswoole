@@ -56,7 +56,7 @@ class Socket
     /**
      * @param float $timeout [optional] = 0
      */
-    public function accept(float $timeout = 0)
+    public function accept(float $timeout = 0): Socket|false
     {
     }
 
@@ -84,7 +84,7 @@ class Socket
      * @param int $length [optional] = 65536
      * @param float $timeout [optional] = 0
      */
-    public function recv(int $length = 65536, float $timeout = 0): string
+    public function recv(int $length = 65536, float $timeout = 0): bool|string
     {
     }
 
@@ -92,7 +92,7 @@ class Socket
      * @param int $length [optional] = 65536
      * @param float $timeout [optional] = 0
      */
-    public function recvAll(int $length = 65536, float $timeout = 0): string
+    public function recvAll(int $length = 65536, float $timeout = 0): bool|string
     {
     }
 
@@ -246,6 +246,10 @@ class Socket
      * @return bool|array
      */
     public function getsockname()
+    {
+    }
+
+    public function sslHandshake(): bool
     {
     }
 }

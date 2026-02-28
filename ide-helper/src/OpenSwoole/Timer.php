@@ -29,18 +29,16 @@ final class Timer
     /**
      * @param int $ms [required]
      * @param callable $callback [required]
-     * @return int|false
      */
-    public static function after(int $ms, callable $callback, ...$params)
+    public static function after(int $ms, callable $callback, ...$params): bool|int
     {
     }
 
     /**
      * @param int $ms [required]
      * @param callable $callback [required]
-     * @return int|false
      */
-    public static function tick(int $ms, callable $callback, ...$params)
+    public static function tick(int $ms, callable $callback, ...$params): bool|int
     {
     }
 

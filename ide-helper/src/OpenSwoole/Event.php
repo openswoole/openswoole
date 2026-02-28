@@ -19,7 +19,7 @@ class Event
      * @param callable|null $writeCallback [optional] = null
      * @param int $flags [optional] = \SWOOLE_EVENT_READ
      */
-    public static function add($sock, ?callable $readCallback = null, ?callable $writeCallback = null, int $flags = SWOOLE_EVENT_READ)
+    public static function add($sock, ?callable $readCallback = null, ?callable $writeCallback = null, int $flags = SWOOLE_EVENT_READ): bool|int
     {
     }
 

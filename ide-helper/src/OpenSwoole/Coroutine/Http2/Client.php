@@ -89,7 +89,7 @@ class Client
     {
     }
 
-    public function set(array $options): void
+    public function set(array $options): bool
     {
     }
 
@@ -100,7 +100,7 @@ class Client
     /**
      * @return array|bool|int
      */
-    public function stats(?string $key = null)
+    public function stats(string $key = '')
     {
     }
 
@@ -108,10 +108,7 @@ class Client
     {
     }
 
-    /**
-     * @return int|bool
-     */
-    public function send(Request $request)
+    public function send(Request $request): bool|int
     {
     }
 
@@ -119,17 +116,11 @@ class Client
     {
     }
 
-    /**
-     * @return Response|false
-     */
-    public function recv(?float $timeout = 0)
+    public function recv(?float $timeout = 0): Response|bool
     {
     }
 
-    /**
-     * @return Response|false
-     */
-    public function read(?float $timeout = 0)
+    public function read(?float $timeout = 0): Response|bool
     {
     }
 
