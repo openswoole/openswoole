@@ -1,11 +1,18 @@
 <?php
+
+declare(strict_types=1);
+/**
+ * This file is part of OpenSwoole.
+ * @link     https://openswoole.com
+ * @contact  hello@openswoole.com
+ */
 use OpenSwoole\Coroutine;
 use OpenSwoole\Coroutine\Channel;
-use OpenSwoole\Http\Server;
 use OpenSwoole\Http\Request;
 use OpenSwoole\Http\Response;
+use OpenSwoole\Http\Server;
 
-/**
+/*
  * Demonstrates Xdebug step-debugging with use_fiber_context enabled.
  *
  * With use_fiber_context, Xdebug works correctly — breakpoints, step-through,
@@ -61,8 +68,8 @@ $server->on('request', function (Request $request, Response $response) {
         // Set a breakpoint on any line below in your IDE.
         // With use_fiber_context, Xdebug can pause and inspect each variable.
         $userId = 42;
-        $name = 'Alice';
-        $items = ['widget', 'gadget', 'gizmo'];
+        $name   = 'Alice';
+        $items  = ['widget', 'gadget', 'gizmo'];
 
         // Simulate some work — step through this in the debugger
         $total = 0;
@@ -80,7 +87,6 @@ $server->on('request', function (Request $request, Response $response) {
 
         $response->header('Content-Type', 'application/json');
         $response->end(json_encode($result, JSON_PRETTY_PRINT) . "\n");
-
     } elseif ($uri === '/async') {
         // Run two coroutines concurrently, each debuggable independently.
         $channel = new Channel(2);
@@ -103,16 +109,15 @@ $server->on('request', function (Request $request, Response $response) {
             ]);
         });
 
-        $results = [];
+        $results   = [];
         $results[] = $channel->pop();
         $results[] = $channel->pop();
 
         $response->header('Content-Type', 'application/json');
         $response->end(json_encode($results, JSON_PRETTY_PRINT) . "\n");
-
     } else {
         $xdebugLoaded = extension_loaded('xdebug');
-        $lines = [
+        $lines        = [
             'Xdebug + use_fiber_context Example',
             '',
             'Xdebug loaded: ' . ($xdebugLoaded ? 'yes' : 'NO — install xdebug to debug'),

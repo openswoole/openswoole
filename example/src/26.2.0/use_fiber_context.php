@@ -1,10 +1,17 @@
 <?php
-use OpenSwoole\Http\Server;
+
+declare(strict_types=1);
+/**
+ * This file is part of OpenSwoole.
+ * @link     https://openswoole.com
+ * @contact  hello@openswoole.com
+ */
+use OpenSwoole\Coroutine\Channel;
 use OpenSwoole\Http\Request;
 use OpenSwoole\Http\Response;
-use OpenSwoole\Coroutine\Channel;
+use OpenSwoole\Http\Server;
 
-/**
+/*
  * Demonstrates the use_fiber_context option.
  *
  * When enabled, coroutines use PHP's native fiber stack mechanism internally.
@@ -33,8 +40,8 @@ $server->on('request', function (Request $request, Response $response) {
     if ($uri === '/coroutine') {
         $response->header('Content-Type', 'application/json');
         $response->end(json_encode([
-            'coroutine_id' => Co::getCid(),
-            'coroutine_count' => Co::stats()['coroutine_num'],
+            'coroutine_id'      => Co::getCid(),
+            'coroutine_count'   => Co::stats()['coroutine_num'],
             'use_fiber_context' => true,
         ], JSON_PRETTY_PRINT) . "\n");
     } elseif ($uri === '/concurrent') {
@@ -51,14 +58,14 @@ $server->on('request', function (Request $request, Response $response) {
             $channel->push(['task' => 'B', 'cid' => Co::getCid()]);
         });
 
-        $results = [];
+        $results   = [];
         $results[] = $channel->pop();
         $results[] = $channel->pop();
 
         $response->header('Content-Type', 'application/json');
         $response->end(json_encode([
             'parent_cid' => Co::getCid(),
-            'results' => $results,
+            'results'    => $results,
         ], JSON_PRETTY_PRINT) . "\n");
     } else {
         $response->end("GET /coroutine to check coroutine context, GET /concurrent to test concurrent coroutines\n");

@@ -1,12 +1,19 @@
 <?php
-use OpenSwoole\Http\Server;
+
+declare(strict_types=1);
+/**
+ * This file is part of OpenSwoole.
+ * @link     https://openswoole.com
+ * @contact  hello@openswoole.com
+ */
 use OpenSwoole\Http\Request;
 use OpenSwoole\Http\Response;
+use OpenSwoole\Http\Server;
 use OpenSwoole\Timer;
 
 $server = new Server('0.0.0.0', 9501, OPENSWOOLE_BASE);
 $server->set([
-    'worker_num' => 1,
+    'worker_num'       => 1,
     'enable_coroutine' => false, // disable so sleep() truly blocks the event loop
 ]);
 
@@ -32,7 +39,7 @@ $server->on('request', function (Request $request, Response $response) use ($ser
         $stats = $server->stats();
         $response->header('Content-Type', 'application/json');
         $response->end(json_encode([
-            'event_loop_lag_ms' => $stats['event_loop_lag_ms'],
+            'event_loop_lag_ms'     => $stats['event_loop_lag_ms'],
             'event_loop_lag_max_ms' => $stats['event_loop_lag_max_ms'],
             'event_loop_lag_avg_ms' => $stats['event_loop_lag_avg_ms'],
         ], JSON_PRETTY_PRINT) . "\n");

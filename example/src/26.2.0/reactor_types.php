@@ -1,8 +1,15 @@
 <?php
+
+declare(strict_types=1);
+/**
+ * This file is part of OpenSwoole.
+ * @link     https://openswoole.com
+ * @contact  hello@openswoole.com
+ */
 use OpenSwoole\Constant;
-use OpenSwoole\Http\Server;
 use OpenSwoole\Http\Request;
 use OpenSwoole\Http\Response;
+use OpenSwoole\Http\Server;
 
 /**
  * Demonstrates the reactor type constants added in ext-openswoole 26.2.0.
@@ -19,7 +26,6 @@ use OpenSwoole\Http\Response;
  *   php reactor_types.php epoll      # force epoll
  *   php reactor_types.php kqueue     # force kqueue
  */
-
 $reactorMap = [
     'select'   => Constant::REACTOR_SELECT,
     'poll'     => Constant::REACTOR_POLL,
@@ -32,7 +38,7 @@ $chosen = $argv[1] ?? null;
 
 if ($chosen !== null && !isset($reactorMap[$chosen])) {
     echo "Unknown reactor type: {$chosen}\n";
-    echo "Available: " . implode(', ', array_keys($reactorMap)) . "\n";
+    echo 'Available: ' . implode(', ', array_keys($reactorMap)) . "\n";
     exit(1);
 }
 
@@ -51,7 +57,7 @@ $server->on('request', function (Request $request, Response $response) use ($cho
     $response->header('Content-Type', 'application/json');
     $response->end(json_encode([
         'reactor_type' => $chosen ?? 'auto',
-        'constants' => [
+        'constants'    => [
             'REACTOR_SELECT'   => Constant::REACTOR_SELECT,
             'REACTOR_POLL'     => Constant::REACTOR_POLL,
             'REACTOR_EPOLL'    => Constant::REACTOR_EPOLL,
