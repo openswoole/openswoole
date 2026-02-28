@@ -23,7 +23,7 @@
         "php-http/psr7-integration-tests": "^1.1",
         "phpunit/phpunit": "^10.5",
         "symplify/monorepo-builder": "11.1.17",
-        "vimeo/psalm": "^5.0"
+        "phpstan/phpstan": "^2.0"
     },
     "autoload": {
         "files": [
