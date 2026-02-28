@@ -25,7 +25,7 @@ class Request extends Message implements RequestInterface
     {
         $this->uri             = is_string($uri) ? new Uri($uri) : $uri;
         $this->method          = $method;
-        $this->headers         = $headers;
+        $this->setHeaders($headers);
         $this->protocolVersion = $protocolVersion;
         if ($body === null) {
             $stream = new Stream('php://memory', 'wb+');
