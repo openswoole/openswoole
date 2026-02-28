@@ -14,7 +14,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class Response extends Message implements ResponseInterface
 {
-    public const CHUNK_SIZE = 100 * 1024 * 1024; // 100K
+    public const CHUNK_SIZE = 100 * 1024; // 100K
 
     private $statusCode;
 
