@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.3",
         "ext-openswoole": ">=26.2.0"
     },
     "require-dev": {
