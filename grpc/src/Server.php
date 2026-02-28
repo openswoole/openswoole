@@ -116,7 +116,7 @@ final class Server
         if (!$instance) {
             $instance = new $class();
         }
-        if (!($instance instanceof ServiceInterface)) {
+        if (!$instance instanceof ServiceInterface) {
             throw new TypeError("{$class} is not ServiceInterface");
         }
         $service                             = new ServiceContainer($class, $instance);
