@@ -56,9 +56,8 @@ class Pool
 
     /**
      * @param int $workerId [optional] = -1
-     * @return Process|false
      */
-    public function getProcess(int $workerId = -1)
+    public function getProcess(int $workerId = -1): Process|false
     {
     }
 

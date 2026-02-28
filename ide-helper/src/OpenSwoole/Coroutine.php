@@ -34,9 +34,8 @@ final class Coroutine
 
     /**
      * @param callable $callback [required]
-     * @return int|false
      */
-    public static function create(callable $callback, ...$params)
+    public static function create(callable $callback, ...$params): int|false
     {
     }
 
@@ -50,7 +49,7 @@ final class Coroutine
     /**
      * @param array $options [required]
      */
-    public static function set(array $options)
+    public static function set(array $options): mixed
     {
     }
 
@@ -80,10 +79,6 @@ final class Coroutine
     {
     }
 
-    public static function suspend(): bool
-    {
-    }
-
     /**
      * @param int $cid [required]
      */
@@ -95,15 +90,11 @@ final class Coroutine
     {
     }
 
-    public static function select(array $read = [], array $write = [], float $timeout = -1)
+    public static function select(array $read = [], array $write = [], float $timeout = -1): mixed
     {
     }
 
     public static function getCid(): int
-    {
-    }
-
-    public static function getuid(): int
     {
     }
 
@@ -125,9 +116,8 @@ final class Coroutine
      * @param int $cid [optional] = 0
      * @param int $options [optional] = \DEBUG_BACKTRACE_PROVIDE_OBJECT
      * @param int $limit [optional] = 0
-     * @return array|false
      */
-    public static function getBackTrace(int $cid = 0, int $options = DEBUG_BACKTRACE_PROVIDE_OBJECT, int $limit = 0)
+    public static function getBackTrace(int $cid = 0, int $options = DEBUG_BACKTRACE_PROVIDE_OBJECT, int $limit = 0): array|false
     {
     }
 
@@ -150,7 +140,7 @@ final class Coroutine
     /**
      * @param int $cid [optional] = 0
      */
-    public static function getStackUsage(int $cid = 0)
+    public static function getStackUsage(int $cid = 0): int|false
     {
     }
 
@@ -170,27 +160,24 @@ final class Coroutine
      * @param string $domain [required]
      * @param int $family [optional] = \AF_INET
      * @param float $timeout [optional] = -1
-     * @return string|false
      */
-    public static function gethostbyname(string $domain, int $family = AF_INET, float $timeout = -1)
+    public static function gethostbyname(string $domain, int $family = AF_INET, float $timeout = -1): string|false
     {
     }
 
     /**
      * @param string $domain [required]
      * @param float $timeout [optional] = 5
-     * @return string|false
      */
-    public static function dnsLookup(string $domain, float $timeout = 5)
+    public static function dnsLookup(string $domain, float $timeout = 5): string|false
     {
     }
 
     /**
      * @param string $command [required]
      * @param bool $get_error_stream [optional] = false
-     * @return array|false
      */
-    public static function exec(string $command, bool $get_error_stream = false)
+    public static function exec(string $command, bool $get_error_stream = false): array|false
     {
     }
 
@@ -202,9 +189,9 @@ final class Coroutine
     }
 
     /**
-     * @param int $milliseconds [required]
+     * @param int $microseconds [required]
      */
-    public static function usleep(int $milliseconds): bool
+    public static function usleep(int $microseconds): bool
     {
     }
 
@@ -215,26 +202,23 @@ final class Coroutine
      * @param int $protocol [optional] = \STREAM_IPPROTO_TCP
      * @param string $service [optional] = null
      * @param float $timeout [optional] = -1
-     * @return array|false
      */
-    public static function getaddrinfo(string $domain, int $family = AF_INET, int $sockType = SOCK_STREAM, int $protocol = STREAM_IPPROTO_TCP, ?string $service = null, float $timeout = -1)
+    public static function getaddrinfo(string $domain, int $family = AF_INET, int $sockType = SOCK_STREAM, int $protocol = STREAM_IPPROTO_TCP, ?string $service = null, float $timeout = -1): array|false
     {
     }
 
     /**
      * @param string $path [required]
-     * @return array|false
      */
-    public static function statvfs(string $path)
+    public static function statvfs(string $path): bool|array
     {
     }
 
     /**
      * @param string $filename [required]
      * @param int $flags [optional] = 0
-     * @return string|false
      */
-    public static function readFile(string $filename, int $flags = 0)
+    public static function readFile(string $filename, int $flags = 0): false|string
     {
     }
 
@@ -243,24 +227,22 @@ final class Coroutine
      * @param string $data [required]
      * @param int $flags [optional] = 0
      */
-    public static function writeFile(string $filename, string $data, int $flags = 0): bool
+    public static function writeFile(string $filename, string $data, int $flags = 0): bool|int
     {
     }
 
     /**
      * @param float $timeout [optional] = -1
-     * @return array|false
      */
-    public static function wait(float $timeout = -1)
+    public static function wait(float $timeout = -1): bool|array
     {
     }
 
     /**
      * @param int $pid [required]
      * @param float $timeout [optional] = -1
-     * @return array|false
      */
-    public static function waitPid(int $pid, float $timeout = -1)
+    public static function waitPid(int $pid, float $timeout = -1): bool|array
     {
     }
 
@@ -276,33 +258,16 @@ final class Coroutine
      * @param mixed $fd [required]
      * @param int $events [required]
      * @param float $timeout [optional] = -1
-     * @return int|false
      */
-    public static function waitEvent($fd, int $events, float $timeout = -1)
+    public static function waitEvent($fd, int $events, float $timeout = -1): bool|int
     {
     }
 
-    /**
-     * @param mixed $handle [required]
-     * @param int $length [optional] = 0
-     */
-    public static function fread($handle, int $length = 0)
+    public static function clearDNSCache(): void
     {
     }
 
-    /**
-     * @param mixed $handle [required]
-     * @param string $data [required]
-     * @param int $length [optional] = 0
-     */
-    public static function fwrite($handle, string $data, int $length = 0)
-    {
-    }
-
-    /**
-     * @param mixed $handle [required]
-     */
-    public static function fgets($handle): string
+    public static function run(callable $callback, mixed ...$params): ?bool
     {
     }
 }

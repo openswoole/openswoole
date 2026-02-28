@@ -87,21 +87,21 @@ final class Client
     /**
      * @param bool $defer [optional]
      */
-    public function setDefer(bool $defer = true): void
+    public function setDefer(bool $defer = true): bool
     {
     }
 
     /**
      * @param mixed $method [required]
      */
-    public function setMethod(string $method): void
+    public function setMethod(string $method): bool
     {
     }
 
     /**
      * @param array $headers [required]
      */
-    public function setHeaders(array $headers): void
+    public function setHeaders(array $headers): bool
     {
     }
 
@@ -109,21 +109,21 @@ final class Client
      * @param mixed $username [required]
      * @param mixed $password [required]
      */
-    public function setBasicAuth(string $username, string $password): void
+    public function setBasicAuth(string $username, string $password): ?bool
     {
     }
 
     /**
      * @param array $cookies [required]
      */
-    public function setCookies(array $cookies): void
+    public function setCookies(array $cookies): bool
     {
     }
 
     /**
      * @param string|array $data [required]
      */
-    public function setData($data): void
+    public function setData(string|array $data): bool
     {
     }
 
@@ -151,9 +151,8 @@ final class Client
 
     /**
      * @param string $path [required]
-     * @return int|bool
      */
-    public function execute(string $path)
+    public function execute(string $path): int|bool
     {
     }
 
@@ -174,7 +173,7 @@ final class Client
     /**
      * @param string $path [required]
      */
-    public function get(string $path): void
+    public function get(string $path): bool
     {
     }
 
@@ -182,7 +181,7 @@ final class Client
      * @param mixed $path [required]
      * @param string|array $data [required]
      */
-    public function post(string $path, $data): void
+    public function post(string $path, $data): bool
     {
     }
 

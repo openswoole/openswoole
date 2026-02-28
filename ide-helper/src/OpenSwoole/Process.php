@@ -146,7 +146,7 @@ class Process
     {
     }
 
-    public function start(): int
+    public function start(): bool|int
     {
     }
 
@@ -200,7 +200,7 @@ class Process
     {
     }
 
-    public function exportSocket()
+    public function exportSocket(): Coroutine\Socket|false
     {
     }
 

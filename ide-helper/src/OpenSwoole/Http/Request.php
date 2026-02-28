@@ -31,40 +31,29 @@ final class Request
     {
     }
 
-    /**
-     * @return string|bool
-     */
-    public function rawContent()
+    public function rawContent(): bool|string
     {
     }
 
-    /**
-     * @return string|bool
-     */
-    public function getContent()
+    public function getContent(): bool|string
     {
     }
 
-    /**
-     * @return string|bool
-     */
-    public function getData()
+    public function getData(): bool|string
     {
     }
 
     /**
      * @param array|null $options [required]
-     * @return Request|bool
      */
-    public static function create(?array $options)
+    public static function create(?array $options): Request|bool
     {
     }
 
     /**
      * @param string $data [required]
-     * @return int|false
      */
-    public function parse(string $data)
+    public function parse(string $data): int|false
     {
     }
 
@@ -72,10 +61,7 @@ final class Request
     {
     }
 
-    /**
-     * @return string|bool
-     */
-    public function getMethod()
+    public function getMethod(): bool|string
     {
     }
 }

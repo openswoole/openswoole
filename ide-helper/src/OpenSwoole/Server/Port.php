@@ -82,4 +82,8 @@ final class Port
     public function setHandler($handler): bool
     {
     }
+
+    public function getSocket(): mixed
+    {
+    }
 }

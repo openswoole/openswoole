@@ -64,14 +64,14 @@ final class Client
     /**
      * @param float $timeout [optional] = 1
      */
-    public function recv(float $timeout = 1): string
+    public function recv(float $timeout = 1): bool|string
     {
     }
 
     /**
      * @param int $length [optional] = 65535
      */
-    public function peek(int $length = 65535): string
+    public function peek(int $length = 65535): bool|string
     {
     }
 
@@ -79,7 +79,7 @@ final class Client
      * @param string $data [required]
      * @param float $timeout [optional] = 1
      */
-    public function send(string $data, float $timeout = 1)
+    public function send(string $data, float $timeout = 1): bool|int
     {
     }
 
@@ -106,7 +106,7 @@ final class Client
      * @param mixed $host [required]
      * @param mixed $port [optional] = 0
      */
-    public function recvfrom(int $length, &$host, &$port = 0): string
+    public function recvfrom(int $length, &$host, &$port = 0): bool|string
     {
     }
 
@@ -114,7 +114,7 @@ final class Client
     {
     }
 
-    public function getPeerCert(): string
+    public function getPeerCert(): bool|string
     {
     }
 
@@ -141,10 +141,7 @@ final class Client
     {
     }
 
-    /**
-     * @return Socket|bool
-     */
-    public function exportSocket()
+    public function exportSocket(): Socket|bool
     {
     }
 }

@@ -65,10 +65,7 @@ final class Response
     {
     }
 
-    /**
-     * @return Response|bool
-     */
-    public static function create($server = -1, int $fd = -1)
+    public static function create($server = -1, int $fd = -1): Response|bool
     {
     }
 
@@ -83,10 +80,7 @@ final class Response
     {
     }
 
-    /**
-     * @return \OpenSwoole\WebSocket\Frame|bool|string
-     */
-    public function recv(float $timeout = 0)
+    public function recv(float $timeout = 0): \OpenSwoole\WebSocket\Frame|bool|string
     {
     }
 

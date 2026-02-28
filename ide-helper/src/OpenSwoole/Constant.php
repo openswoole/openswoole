@@ -11,17 +11,19 @@ namespace OpenSwoole;
 
 class Constant
 {
-    public const VERSION = '22.0.0-dev';
+    public const VERSION = '26.2.0';
 
-    public const VERSION_ID = 220000;
+    public const VERSION_ID = 260200;
 
-    public const MAJOR_VERSION = 22;
+    public const MAJOR_VERSION = 26;
 
-    public const MINOR_VERSION = 0;
+    public const MINOR_VERSION = 2;
 
     public const RELEASE_VERSION = 0;
 
-    public const EXTRA_VERSION = 'dev';
+    public const EXTRA_VERSION = '';
+
+    public const HAVE_DEBUG = 0;
 
     public const HAVE_COMPRESSION = 1;
 
@@ -135,6 +137,21 @@ class Constant
     public const SSL_DTLS = 128;
 
     public const SSL_SSLv2 = 2;
+
+    public const SSL_SSLv3 = 4;
+
+    /**
+     * Reactor type constants
+     */
+    public const REACTOR_SELECT = 0;
+
+    public const REACTOR_POLL = 1;
+
+    public const REACTOR_EPOLL = 2;
+
+    public const REACTOR_KQUEUE = 3;
+
+    public const REACTOR_IO_URING = 4;
 
     /**
      * Register ERROR types
