@@ -8,13 +8,13 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: ["8.0", "8.1"]
+        php: ["8.2", "8.3", "8.4", "8.5"]
 
     name: Syntax Checks Under PHP ${{ matrix.php }}
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Run Syntax Checks
         run: docker run --rm -v "$(pwd):/project" -w /project -i jakzal/phpqa:php${{ matrix.php }} phplint src

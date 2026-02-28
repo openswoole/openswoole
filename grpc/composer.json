@@ -10,14 +10,14 @@
         }
     ],
     "require": {
-        "php": ">=7.4",
-        "ext-openswoole": ">=22.0",
-        "openswoole/core": "^22.0"
+        "php": ">=8.2",
+        "ext-openswoole": ">=26.2.0",
+        "openswoole/core": "^26.2"
     },
     "require-dev": {
-        "openswoole/ide-helper": "^22.0",
-        "phpunit/phpunit": "^9.5",
-        "vimeo/psalm": "^4.6",
+        "openswoole/ide-helper": "^26.2",
+        "phpunit/phpunit": "^10.5",
+        "vimeo/psalm": "^5.0",
         "friendsofphp/php-cs-fixer": "^3.6"
     },
     "suggest": {

@@ -9,7 +9,7 @@
     "require": {
         "google/protobuf": "^3.21",
         "league/container": "4.x-dev",
-        "php": ">=7.4",
+        "php": ">=8.2",
         "psr/http-message": "^1.0",
         "psr/http-server-middleware": "^1.0.0",
         "slim/psr7": "dev-main",
@@ -21,9 +21,9 @@
         "friendsofphp/php-cs-fixer": "^3.6",
         "openswoole/ide-helper": "*",
         "php-http/psr7-integration-tests": "^1.1",
-        "phpunit/phpunit": "^9.5",
+        "phpunit/phpunit": "^10.5",
         "symplify/monorepo-builder": "11.1.17",
-        "vimeo/psalm": "^4.6"
+        "vimeo/psalm": "^5.0"
     },
     "autoload": {
         "files": [
