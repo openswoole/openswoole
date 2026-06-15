@@ -1,6 +1,6 @@
 {
     "name": "openswoole/injection",
-    "description": "OpenSwoole Dependency Injection frame work",
+    "description": "OpenSwoole Dependency Injection framework",
     "type": "library",
     "license": "Apache 2.0",
     "authors": [
@@ -11,7 +11,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Openswoole\\Injection\\": "src/"
+            "OpenSwoole\\Injection\\": "src/"
         }
     },
     "minimum-stability": "dev",

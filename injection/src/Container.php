@@ -89,7 +89,7 @@ class Container implements ContainerInterface
             $dependency = $parameter->getClass();
             if (is_null($dependency))
             {
-                if($parameter->isDefaultValueAvaliable())
+                if($parameter->isDefaultValueAvailable())
                 {
                     $dependencies[] = $parameter->getDefaultValue();
                 }
