@@ -86,8 +86,8 @@ class Container implements ContainerInterface
         $dependencies = [];
         foreach ($parameters as $parameter)
         {
-            $dependency = $parameter->getClass();
-            if (is_null($dependency))
+            $dependency = $parameter->getType();
+            if (!$type instanceof \ReflectionNamedType || $type->isBuiltin())
             {
                 if($parameter->isDefaultValueAvailable())
                 {
@@ -101,7 +101,7 @@ class Container implements ContainerInterface
             else
             {
                 // Recursively get dependencies
-                $dependencies[] = $this->get($dependency->name);
+                $dependencies[] = $this->get($dependency->getName());
             }
         }
         return $dependencies;
