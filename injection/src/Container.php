@@ -9,11 +9,13 @@ use OpenSwoole\Injection\Exceptions\DependencyIsNotInstantiableException;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use ReflectionException;
+use Closure;
 
 class Container implements ContainerInterface
 {
 
-    private array $instance = [];
+    private array $bindings = [];
+    private array $instances = [];
 
     /**
      * @param string $id
@@ -24,17 +26,22 @@ class Container implements ContainerInterface
      */
     public function get(string $id): object
     {
-        if(!$this->has($id))
-        {
-            $this->set($id);
+        if (isset($this->instances[$id])) {
+            return $this->instances[$id];
         }
-        $concrete = $this->instance[$id];
-        return $this->resolve($concrete);
+
+        $concrete = $this->bindings[$id] ?? $id;
+
+        $object = $concrete instanceof Closure
+            ? $concrete($this)
+            : $this->resolve($concrete);
+
+        return $this->instances[$id] = $object;
     }
 
-    public function set($id, $concrete = null)
+    public function set(string $id, string|Closure|null $concrete = null): void
     {
-        $this->instance[$id] = $concrete ?? $id;
+        $this->bindings[$id] = $concrete ?? $id;
     }
 
     /**
@@ -43,17 +50,17 @@ class Container implements ContainerInterface
      */
     public function has(string $id): bool
     {
-        return isset($this->instance[$id]);
+        return isset($this->bindings[$id]) || isset($this->instances[$id]);
     }
 
     /**
-     * @param $concrete
+     * @param string $concrete
      * @return object
      * @throws DependencyHasNoDefaultValueException
      * @throws DependencyIsNotInstantiableException
      * @throws ReflectionException
      */
-    private function resolve($concrete): object
+    private function resolve(string $concrete): object
     {
         // Reflection
         $reflection = new ReflectionClass($concrete);
@@ -68,25 +75,24 @@ class Container implements ContainerInterface
         }
 
         $parameters = $constructor->getParameters();
-        $dependencies = $this->getDependencies($parameters, $reflection);
+        $dependencies = $this->getDependencies($parameters);
         return $reflection->newInstance(...$dependencies);
     }
 
     /**
      * @param array $parameters
-     * @param ReflectionClass $reflection
      * @return array
      * @throws DependencyHasNoDefaultValueException
      * @throws DependencyIsNotInstantiableException
      * @throws ReflectionException
      */
-    private function getDependencies(array $parameters, ReflectionClass $reflection): array
+    private function getDependencies(array $parameters): array
     {
         // Autowired
         $dependencies = [];
         foreach ($parameters as $parameter)
         {
-            $dependency = $parameter->getType();
+            $type = $parameter->getType();
             if (!$type instanceof \ReflectionNamedType || $type->isBuiltin())
             {
                 if($parameter->isDefaultValueAvailable())
@@ -101,7 +107,7 @@ class Container implements ContainerInterface
             else
             {
                 // Recursively get dependencies
-                $dependencies[] = $this->get($dependency->getName());
+                $dependencies[] = $this->get($type->getName());
             }
         }
         return $dependencies;
