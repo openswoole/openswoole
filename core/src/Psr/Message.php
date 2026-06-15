@@ -68,8 +68,8 @@ class Message implements MessageInterface
 
     public function withAddedHeader(string $name, $value): MessageInterface
     {
-        if (!is_string($value) && !is_array($value) || empty($name) || $value !== '' && $value !== '0' && empty($value)) {
-            throw new InvalidArgumentException('Header is not validate.');
+        if ($name === '' || (!is_string($value) && !is_array($value))) {
+            throw new InvalidArgumentException('Header is not valid.');
         }
         $message = clone $this;
         if (is_array($value)) {
@@ -85,8 +85,8 @@ class Message implements MessageInterface
 
     public function withHeader(string $name, $value): MessageInterface
     {
-        if (!is_string($value) && !is_array($value) || $name === '' || $value !== '' && empty($value)) {
-            throw new InvalidArgumentException('Header is not validate.');
+        if ($name === '' || (!is_string($value) && !is_array($value))) {
+            throw new InvalidArgumentException('Header is not valid.');
         }
         $message = clone $this;
 
