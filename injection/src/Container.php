@@ -57,6 +57,15 @@ class Container implements ContainerInterface
 
     public function set(string $id, string|Closure|null $concrete = null): void
     {
+        if ($concrete !== null && !is_string($concrete) && !$concrete instanceof Closure)
+        {
+            $type = is_object($concrete) ? get_class($concrete) : gettype($concrete);
+
+            throw new \InvalidArgumentException(
+                "Concrete binding for {$id} must be a class-string, Closure, or null; got {$type}"
+            );
+        }
+
         $this->bindings[$id] = $concrete ?? $id;
 
         // Drop any previously-resolved singleton so the next get() rebuilds
