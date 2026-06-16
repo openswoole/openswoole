@@ -14,9 +14,29 @@ use Closure;
 
 class Container implements ContainerInterface
 {
+   public const LIFETIME_SINGLETON = 'singleton';
+   public const LIFETIME_TRANSIENT = 'transient';
 
+    /**
+    * Registered bindings: id => concrete class-string or factory Closure.
+    *
+    * @var array<string, string|Closure>
+    */
     private array $bindings = [];
+    
+    /**
+    * Resolved singleton instances, keyed by id.
+    *
+    * @var array<string, object>
+    */
     private array $instances = [];
+
+   /**
+    * Registered lifetimes, keyed by id.
+    *
+    * @var array<string, string>
+    */
+   private array $lifetimes = [];
 
     /**
      * @param string $id
@@ -27,52 +47,66 @@ class Container implements ContainerInterface
      */
     public function get(string $id): object
     {
-        if (isset($this->instances[$id])) {
-            return $this->instances[$id];
-        }
-
-        $concrete = $this->bindings[$id] ?? $id;
-
-        if ($concrete instanceof Closure)
-        {
-            $object = $concrete($this);
-
-            // A factory must produce an object; otherwise the bad value would
-            // be cached and only surface later as the get() return-type error.
-            if (!is_object($object))
-            {
-                throw new DependencyIsNotInstantiableException(
-                    "Factory for {$id} must return an object, got " . gettype($object)
-                );
-            }
-        }
-        else
-        {
-            $object = $this->resolve($concrete);
-        }
+       $lifetime = $this->lifetimes[$id] ?? self::LIFETIME_SINGLETON;
 
 
-        return $this->instances[$id] = $object;
-    }
+       // Return the already-resolved singleton if we have one.
+       if ($lifetime === self::LIFETIME_SINGLETON && isset($this->instances[$id]))
+       {
+           return $this->instances[$id];
+       }
 
-    public function set(string $id, string|Closure|null $concrete = null): void
-    {
-        if ($concrete !== null && !is_string($concrete) && !$concrete instanceof Closure)
-        {
-            $type = is_object($concrete) ? get_class($concrete) : gettype($concrete);
+       // Fall back to the id itself as the concrete when nothing is bound.
+       $concrete = $this->bindings[$id] ?? $id;
+       $object = $this->build($id, $concrete);
 
-            throw new \InvalidArgumentException(
-                "Concrete binding for {$id} must be a class-string, Closure, or null; got {$type}"
-            );
-        }
 
-        $this->bindings[$id] = $concrete ?? $id;
+       if ($lifetime === self::LIFETIME_SINGLETON)
+       {
+           return $this->instances[$id] = $object;
+       }
 
-        // Drop any previously-resolved singleton so the next get() rebuilds
-        // from the new binding instead of returning the stale instance.
-        unset($this->instances[$id]);
 
-    }
+       return $object;
+   }
+
+
+   /**
+    * Bind an id to a concrete class-string or factory Closure as a singleton.
+    *
+    * @param string $id
+    * @param string|Closure|null $concrete
+    */
+   public function set(string $id, $concrete = null): void
+   {
+       $this->singleton($id, $concrete);
+   }
+
+
+   /**
+    * Bind an id to a concrete class-string or factory Closure as a singleton.
+    *
+    * @param string $id
+    * @param string|Closure|null $concrete
+    */
+   public function singleton(string $id, $concrete = null): void
+   {
+       $this->bind($id, $concrete, self::LIFETIME_SINGLETON);
+   }
+
+
+   /**
+    * Bind an id to a concrete class-string or factory Closure as transient.
+    *
+    * @param string $id
+    * @param string|Closure|null $concrete
+    */
+   public function transient(string $id, $concrete = null): void
+   {
+       $this->bind($id, $concrete, self::LIFETIME_TRANSIENT);
+   }
+
+
 
     /**
      * @param string $id
@@ -86,6 +120,67 @@ class Container implements ContainerInterface
             || class_exists($id);
 
     }
+
+   /**
+    * @param string $id
+    * @param string|Closure|null $concrete
+    * @param string $lifetime
+    */
+   private function bind(string $id, $concrete, string $lifetime): void
+   {
+       if ($concrete !== null && !is_string($concrete) && !$concrete instanceof Closure)
+       {
+           $type = is_object($concrete) ? get_class($concrete) : gettype($concrete);
+
+
+           throw new \InvalidArgumentException(
+               "Concrete binding for {$id} must be a class-string, Closure, or null; got {$type}"
+           );
+       }
+
+
+       $this->bindings[$id] = $concrete ?? $id;
+       $this->lifetimes[$id] = $lifetime;
+
+
+        // Drop any previously-resolved singleton so the next get() rebuilds
+        // from the new binding instead of returning the stale instance.
+        unset($this->instances[$id]);
+
+    }
+
+
+   /**
+    * @param string $id
+    * @param string|Closure $concrete
+    * @return object
+    * @throws DependencyHasNoDefaultValueException
+    * @throws DependencyIsNotInstantiableException
+    * @throws NotFoundException
+    */
+   private function build(string $id, $concrete): object
+   {
+       if ($concrete instanceof Closure)
+       {
+           $object = $concrete($this);
+
+
+           // A factory must produce an object; otherwise the bad value would
+           // surface later as the get() return-type error.
+           if (!is_object($object))
+           {
+               throw new DependencyIsNotInstantiableException(
+                   "Factory for {$id} must return an object, got " . gettype($object)
+               );
+           }
+
+
+           return $object;
+       }
+
+
+       return $this->resolve($concrete);
+   }
 
     /**
      * @param string $concrete
@@ -121,37 +216,37 @@ class Container implements ContainerInterface
         return $reflection->newInstance(...$dependencies);
     }
 
-    /**
-     * @param array $parameters
-     * @return array
-     * @throws DependencyHasNoDefaultValueException
-     * @throws DependencyIsNotInstantiableException
-     * @throws NotFoundException
-     */
-    private function getDependencies(array $parameters): array
-    {
-        // Autowired
-        $dependencies = [];
-        foreach ($parameters as $parameter)
-        {
-            $type = $parameter->getType();
-            if (!$type instanceof \ReflectionNamedType || $type->isBuiltin())
-            {
-                if($parameter->isDefaultValueAvailable())
-                {
-                    $dependencies[] = $parameter->getDefaultValue();
-                }
-                else
-                {
-                    throw new DependencyHasNoDefaultValueException("Cannot resolve class dependency " . $parameter->name);
-                }
-            }
-            else
-            {
-                // Recursively get dependencies
-                $dependencies[] = $this->get($type->getName());
-            }
-        }
-        return $dependencies;
-    }
+   /**
+    * @param array $parameters
+    * @return array
+    * @throws DependencyHasNoDefaultValueException
+    * @throws DependencyIsNotInstantiableException
+    * @throws NotFoundException
+    */
+   private function getDependencies(array $parameters): array
+   {
+       // Autowired
+       $dependencies = [];
+       foreach ($parameters as $parameter)
+       {
+           $type = $parameter->getType();
+           if (!$type instanceof \ReflectionNamedType || $type->isBuiltin())
+           {
+               if($parameter->isDefaultValueAvailable())
+               {
+                   $dependencies[] = $parameter->getDefaultValue();
+               }
+               else
+               {
+                   throw new DependencyHasNoDefaultValueException("Cannot resolve class dependency " . $parameter->name);
+               }
+           }
+           else
+           {
+               // Recursively get dependencies
+               $dependencies[] = $this->get($type->getName());
+           }
+       }
+       return $dependencies;
+   }
 }

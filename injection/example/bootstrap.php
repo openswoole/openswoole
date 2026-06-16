@@ -90,10 +90,18 @@ echo 'TestClass->TestModel->getTest(): ' . $testClass->getTestModel()->getTest()
 // 2. Singleton caching — same id returns the same instance';
 $a = $container->get(TestModel::class);
 $b = $container->get(TestModel::class);
-echo 'Same instance? ' . ($a === $b ? 'yes' : 'no') . "\n";
+echo 'Singleton same instance? ' . ($a === $b ? 'yes' : 'no') . "\n";
+
+
+// 2b. Transient binding — same id returns a new instance each time';
+$container->transient(TestModel::class);
+$transientA = $container->get(TestModel::class);
+$transientB = $container->get(TestModel::class);
+echo 'Transient same instance? ' . ($transientA === $transientB ? 'yes' : 'no') . "\n";
+
 
 // 3. Interface binding — map an interface to an implementation';
-$container->set(LoggerInterface::class, EchoLogger::class);
+$container->singleton(LoggerInterface::class, EchoLogger::class);
 $service = $container->get(Service::class);
 echo $service->run() . "\n";
 
@@ -112,7 +120,7 @@ echo 'Greeter greeting: ' . $container->get(Greeter::class)->greeting . "\n";
 
 // 7. has() — bound, resolved, autowirable, and unknown';
 echo 'has(LoggerInterface) [bound]      : ' . var_export($container->has(LoggerInterface::class), true) . "\n";
-echo 'has(TestModel)       [resolved]   : ' . var_export($container->has(TestModel::class), true) . "\n";
+echo 'has(TestModel)       [transient]  : ' . var_export($container->has(TestModel::class), true) . "\n";
 echo 'has(Greeter)         [autowirable]: ' . var_export($container->has(Greeter::class), true) . "\n";
 echo 'has("No\\\\Such\\\\Class")  [unknown]    : ' . var_export($container->has('No\\Such\\Class'), true) . "\n";
 
