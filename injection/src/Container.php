@@ -6,6 +6,7 @@ namespace OpenSwoole\Injection;
 
 use OpenSwoole\Injection\Exceptions\DependencyHasNoDefaultValueException;
 use OpenSwoole\Injection\Exceptions\DependencyIsNotInstantiableException;
+use OpenSwoole\Injection\Exceptions\NotFoundException;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use ReflectionException;
@@ -20,9 +21,9 @@ class Container implements ContainerInterface
     /**
      * @param string $id
      * @return object
+     * @throws NotFoundException
      * @throws DependencyHasNoDefaultValueException
      * @throws DependencyIsNotInstantiableException
-     * @throws ReflectionException
      */
     public function get(string $id): object
     {
@@ -32,9 +33,24 @@ class Container implements ContainerInterface
 
         $concrete = $this->bindings[$id] ?? $id;
 
-        $object = $concrete instanceof Closure
-            ? $concrete($this)
-            : $this->resolve($concrete);
+        if ($concrete instanceof Closure)
+        {
+            $object = $concrete($this);
+
+            // A factory must produce an object; otherwise the bad value would
+            // be cached and only surface later as the get() return-type error.
+            if (!is_object($object))
+            {
+                throw new DependencyIsNotInstantiableException(
+                    "Factory for {$id} must return an object, got " . gettype($object)
+                );
+            }
+        }
+        else
+        {
+            $object = $this->resolve($concrete);
+        }
+
 
         return $this->instances[$id] = $object;
     }
@@ -42,6 +58,11 @@ class Container implements ContainerInterface
     public function set(string $id, string|Closure|null $concrete = null): void
     {
         $this->bindings[$id] = $concrete ?? $id;
+
+        // Drop any previously-resolved singleton so the next get() rebuilds
+        // from the new binding instead of returning the stale instance.
+        unset($this->instances[$id]);
+
     }
 
     /**
@@ -50,7 +71,11 @@ class Container implements ContainerInterface
      */
     public function has(string $id): bool
     {
-        return isset($this->bindings[$id]) || isset($this->instances[$id]);
+        // Explicitly bound, already resolved, or autowirable as a concrete class.
+        return isset($this->bindings[$id])
+            || isset($this->instances[$id])
+            || class_exists($id);
+
     }
 
     /**
@@ -58,12 +83,20 @@ class Container implements ContainerInterface
      * @return object
      * @throws DependencyHasNoDefaultValueException
      * @throws DependencyIsNotInstantiableException
-     * @throws ReflectionException
+     * @throws NotFoundException
      */
     private function resolve(string $concrete): object
     {
         // Reflection
-        $reflection = new ReflectionClass($concrete);
+        try
+        {
+            $reflection = new ReflectionClass($concrete);
+        }
+        catch (ReflectionException $e)
+        {
+            throw new NotFoundException("Class {$concrete} does not exist", 0, $e);
+        }
+
         if(!$reflection->isInstantiable())
         {
             throw new DependencyIsNotInstantiableException("Class {$concrete} is not instantiable");
@@ -84,7 +117,7 @@ class Container implements ContainerInterface
      * @return array
      * @throws DependencyHasNoDefaultValueException
      * @throws DependencyIsNotInstantiableException
-     * @throws ReflectionException
+     * @throws NotFoundException
      */
     private function getDependencies(array $parameters): array
     {
