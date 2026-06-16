@@ -92,13 +92,11 @@ $a = $container->get(TestModel::class);
 $b = $container->get(TestModel::class);
 echo 'Singleton same instance? ' . ($a === $b ? 'yes' : 'no') . "\n";
 
-
 // 2b. Transient binding — same id returns a new instance each time';
 $container->transient(TestModel::class);
 $transientA = $container->get(TestModel::class);
 $transientB = $container->get(TestModel::class);
 echo 'Transient same instance? ' . ($transientA === $transientB ? 'yes' : 'no') . "\n";
-
 
 // 3. Interface binding — map an interface to an implementation';
 $container->singleton(LoggerInterface::class, EchoLogger::class);
@@ -112,7 +110,7 @@ echo 'Logger is now: ' . get_class($container->get(LoggerInterface::class)) . "\
 echo 'Cached Service still uses old logger: ' . $service->run() . "\n";
 
 // 5. Factory closure — build a service that needs a runtime value';
-$container->set(Connection::class, fn(Container $c) => new Connection('mysql://localhost/app'));
+$container->set(Connection::class, fn (Container $c) => new Connection('mysql://localhost/app'));
 echo 'Connection dsn: ' . $container->get(Connection::class)->dsn . "\n";
 
 // 6. Default scalar parameter — autowiring uses the default value';
@@ -122,11 +120,11 @@ echo 'Greeter greeting: ' . $container->get(Greeter::class)->greeting . "\n";
 echo 'has(LoggerInterface) [bound]      : ' . var_export($container->has(LoggerInterface::class), true) . "\n";
 echo 'has(TestModel)       [transient]  : ' . var_export($container->has(TestModel::class), true) . "\n";
 echo 'has(Greeter)         [autowirable]: ' . var_export($container->has(Greeter::class), true) . "\n";
-echo 'has("No\\\\Such\\\\Class")  [unknown]    : ' . var_export($container->has('No\\Such\\Class'), true) . "\n";
+echo 'has("No\\\Such\\\Class")  [unknown]    : ' . var_export($container->has('No\Such\Class'), true) . "\n";
 
 // 8. NotFoundException — get() on an unknown class id');
 try {
-    $container->get('No\\Such\\Class');
+    $container->get('No\Such\Class');
 } catch (NotFoundException $e) {
     echo 'Caught NotFoundException: ' . $e->getMessage() . "\n";
 }
@@ -139,12 +137,9 @@ try {
 }
 
 // 10. Bad factory — a closure that does not return an object');
-$container->set('bad', fn() => 42);
+$container->set('bad', fn () => 42);
 try {
     $container->get('bad');
 } catch (DependencyIsNotInstantiableException $e) {
     echo 'Caught DependencyIsNotInstantiableException: ' . $e->getMessage() . "\n";
 }
-
-
-

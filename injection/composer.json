@@ -18,5 +18,12 @@
     "require": {
         "php": ">=7.4",
         "psr/container": "^1.1 || ^2.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.0"
+    },
+    "scripts": {
+        "lint": "php-cs-fixer fix . --dry-run --diff",
+        "fix": "php-cs-fixer fix ."
     }
 }
