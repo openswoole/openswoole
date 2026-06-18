@@ -25,6 +25,10 @@ class Container implements ContainerInterface
 
     public const LIFETIME_TRANSIENT = 'transient';
 
+    private const CONTEXT_NONE = 0;
+
+    private const CONTEXT_OPENSWOOLE = 1;
+
     /**
      * Registered bindings: id => concrete class-string or factory Closure.
      *
@@ -47,9 +51,19 @@ class Container implements ContainerInterface
     private array $lifetimes = [];
 
     /**
-     * @throws NotFoundException
+     * Resolution stacks used to detect circular dependencies, keyed by coroutine id.
+     *
+     * @var array<int, string[]>
+     */
+    private array $resolving = [];
+
+    private ?int $contextStrategy = null;
+
+    /**
+     * @throws CircularDependencyException
      * @throws DependencyHasNoDefaultValueException
      * @throws DependencyIsNotInstantiableException
+     * @throws NotFoundException
      */
     public function get(string $id): object
     {
@@ -62,13 +76,19 @@ class Container implements ContainerInterface
 
         // Fall back to the id itself as the concrete when nothing is bound.
         $concrete = $this->bindings[$id] ?? $id;
-        $object   = $this->build($id, $concrete);
 
-        if ($lifetime === self::LIFETIME_SINGLETON) {
-            return $this->instances[$id] = $object;
+        $this->startResolving($id);
+        try {
+            $object = $this->build($id, $concrete);
+
+            if ($lifetime === self::LIFETIME_SINGLETON) {
+                return $this->instances[$id] = $object;
+            }
+
+            return $object;
+        } finally {
+            $this->stopResolving();
         }
-
-        return $object;
     }
 
     /**
@@ -130,6 +150,7 @@ class Container implements ContainerInterface
 
     /**
      * @param string|Closure $concrete
+     * @throws CircularDependencyException
      * @throws DependencyHasNoDefaultValueException
      * @throws DependencyIsNotInstantiableException
      * @throws NotFoundException
@@ -152,6 +173,63 @@ class Container implements ContainerInterface
     }
 
     /**
+     * @throws CircularDependencyException
+     */
+    private function startResolving(string $id): void
+    {
+        $contextId = $this->getContextId();
+        $stack     = $this->resolving[$contextId] ?? [];
+        $index     = array_search($id, $stack, true);
+        if ($index !== false) {
+            $cycle   = array_slice($stack, $index);
+            $cycle[] = $id;
+
+            throw new CircularDependencyException('Circular dependency detected: ' . implode(' -> ', $cycle));
+        }
+
+        $stack[]                     = $id;
+        $this->resolving[$contextId] = $stack;
+    }
+
+    private function stopResolving(): void
+    {
+        $contextId = $this->getContextId();
+        if (!isset($this->resolving[$contextId])) {
+            return;
+        }
+
+        array_pop($this->resolving[$contextId]);
+        if ($this->resolving[$contextId] === []) {
+            unset($this->resolving[$contextId]);
+        }
+    }
+
+    private function getContextId(): int
+    {
+        if ($this->contextStrategy === null) {
+            $this->contextStrategy = $this->detectContextStrategy();
+        }
+
+        if ($this->contextStrategy === self::CONTEXT_OPENSWOOLE) {
+            $cid = \OpenSwoole\Coroutine::getCid();
+
+            return $cid > 0 ? $cid : 0;
+        }
+
+        return 0;
+    }
+
+    private function detectContextStrategy(): int
+    {
+        if (class_exists('\OpenSwoole\Coroutine') && method_exists('\OpenSwoole\Coroutine', 'getCid')) {
+            return self::CONTEXT_OPENSWOOLE;
+        }
+
+        return self::CONTEXT_NONE;
+    }
+
+    /**
+     * @throws CircularDependencyException
      * @throws DependencyHasNoDefaultValueException
      * @throws DependencyIsNotInstantiableException
      * @throws NotFoundException
@@ -180,6 +258,7 @@ class Container implements ContainerInterface
     }
 
     /**
+     * @throws CircularDependencyException
      * @throws DependencyHasNoDefaultValueException
      * @throws DependencyIsNotInstantiableException
      * @throws NotFoundException
