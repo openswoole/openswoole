@@ -17,7 +17,9 @@ use OpenSwoole\Injection\Exceptions\NotFoundException;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use ReflectionException;
+use ReflectionIntersectionType;
 use ReflectionNamedType;
+use ReflectionUnionType;
 
 class Container implements ContainerInterface
 {
@@ -269,17 +271,77 @@ class Container implements ContainerInterface
         $dependencies = [];
         foreach ($parameters as $parameter) {
             $type = $parameter->getType();
-            if (!$type instanceof ReflectionNamedType || $type->isBuiltin()) {
-                if ($parameter->isDefaultValueAvailable()) {
-                    $dependencies[] = $parameter->getDefaultValue();
-                } else {
-                    throw new DependencyHasNoDefaultValueException('Cannot resolve class dependency ' . $parameter->name);
-                }
-            } else {
-                // Recursively get dependencies
-                $dependencies[] = $this->get($type->getName());
+            if ($type === null) {
+                $dependencies[] = $this->getDefaultValueOrThrow(
+                    $parameter,
+                    'Cannot resolve untyped parameter ' . $this->describeParameter($parameter) . ' without a default value'
+                );
+                continue;
             }
+
+            if (!$type instanceof ReflectionNamedType) {
+                $dependencies[] = $this->getDefaultValueOrThrow(
+                    $parameter,
+                    'Cannot resolve ' . $this->describeUnsupportedType($type) . ' parameter ' .
+                    $this->describeParameter($parameter) . ' of type ' . $this->describeType($type) .
+                    ' without a default value'
+                );
+                continue;
+            }
+
+            if ($type->isBuiltin()) {
+                $dependencies[] = $this->getDefaultValueOrThrow(
+                    $parameter,
+                    'Cannot resolve builtin parameter ' . $this->describeParameter($parameter) .
+                    ' of type ' . $this->describeType($type) . ' without a default value'
+                );
+                continue;
+            }
+
+            // Recursively get dependencies
+            $dependencies[] = $this->get($type->getName());
         }
         return $dependencies;
+    }
+
+    /**
+     * @throws DependencyHasNoDefaultValueException
+     */
+    private function getDefaultValueOrThrow(ReflectionParameter $parameter, string $message)
+    {
+        if ($parameter->isDefaultValueAvailable()) {
+            return $parameter->getDefaultValue();
+        }
+
+        throw new DependencyHasNoDefaultValueException($message);
+    }
+
+    private function describeParameter(ReflectionParameter $parameter): string
+    {
+        $function = $parameter->getDeclaringFunction();
+        $class    = $parameter->getDeclaringClass();
+        if ($class !== null) {
+            return $class->getName() . '::' . $function->getName() . '($' . $parameter->getName() . ')';
+        }
+
+        return $function->getName() . '($' . $parameter->getName() . ')';
+    }
+
+    private function describeType(ReflectionType $type): string
+    {
+        return (string) $type;
+    }
+
+    private function describeUnsupportedType(ReflectionType $type): string
+    {
+        if (class_exists('\ReflectionUnionType') && $type instanceof ReflectionUnionType) {
+            return 'union-typed';
+        }
+
+        if (class_exists('\ReflectionIntersectionType') && $type instanceof ReflectionIntersectionType) {
+            return 'intersection-typed';
+        }
+
+        return 'unsupported typed';
     }
 }
