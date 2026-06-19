@@ -2,7 +2,7 @@
     "name": "openswoole/injection",
     "description": "OpenSwoole Dependency Injection framework",
     "type": "library",
-    "license": "Apache 2.0",
+    "license": "Apache-2.0",
     "authors": [
         {
             "name": "Open Swoole Group",
