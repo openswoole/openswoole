@@ -250,7 +250,7 @@ class Container implements ContainerInterface
         }
 
         $constructor = $reflection->getConstructor();
-        if (is_null($constructor)) {
+        if ($constructor === null) {
             return $reflection->newInstance();
         }
 
