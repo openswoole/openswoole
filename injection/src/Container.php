@@ -53,6 +53,13 @@ class Container implements ContainerInterface
     private array $lifetimes = [];
 
     /**
+     * Resolved scoped instances, keyed by context id and service id.
+     *
+     * @var array<int, array<string, object>>
+     */
+    private array $scopedInstances = [];
+
+    /**
      * Resolution stacks used to detect circular dependencies, keyed by coroutine id.
      *
      * @var array<int, string[]>
@@ -76,6 +83,11 @@ class Container implements ContainerInterface
             return $this->instances[$id];
         }
 
+        $contextId = $this->getContextId();
+        if ($lifetime === self::LIFETIME_SCOPED && isset($this->scopedInstances[$contextId][$id])) {
+            return $this->scopedInstances[$contextId][$id];
+        }
+
         // Fall back to the id itself as the concrete when nothing is bound.
         $concrete = $this->bindings[$id] ?? $id;
 
@@ -85,6 +97,10 @@ class Container implements ContainerInterface
 
             if ($lifetime === self::LIFETIME_SINGLETON) {
                 return $this->instances[$id] = $object;
+            }
+
+            if ($lifetime === self::LIFETIME_SCOPED) {
+                return $this->scopedInstances[$contextId][$id] = $object;
             }
 
             return $object;
@@ -114,6 +130,16 @@ class Container implements ContainerInterface
     }
 
     /**
+     * Bind an id to a concrete class-string or factory Closure as scoped.
+     *
+     * @param string|Closure|null $concrete
+     */
+    public function scoped(string $id, $concrete = null): void
+    {
+        $this->bind($id, $concrete, self::LIFETIME_SCOPED);
+    }
+
+    /**
      * Bind an id to a concrete class-string or factory Closure as transient.
      *
      * @param string|Closure|null $concrete
@@ -121,6 +147,14 @@ class Container implements ContainerInterface
     public function transient(string $id, $concrete = null): void
     {
         $this->bind($id, $concrete, self::LIFETIME_TRANSIENT);
+    }
+
+    /**
+     * Clear resolved scoped instances for the current context.
+     */
+    public function clearScope(): void
+    {
+        unset($this->scopedInstances[$this->getContextId()]);
     }
 
     public function has(string $id): bool
@@ -145,9 +179,20 @@ class Container implements ContainerInterface
         $this->bindings[$id]  = $concrete ?? $id;
         $this->lifetimes[$id] = $lifetime;
 
-        // Drop any previously-resolved singleton so the next get() rebuilds
+        // Drop any previously-resolved instance so the next get() rebuilds
         // from the new binding instead of returning the stale instance.
+        $this->forgetResolved($id);
+    }
+
+    private function forgetResolved(string $id): void
+    {
         unset($this->instances[$id]);
+        foreach (array_keys($this->scopedInstances) as $contextId) {
+            unset($this->scopedInstances[$contextId][$id]);
+            if ($this->scopedInstances[$contextId] === []) {
+                unset($this->scopedInstances[$contextId]);
+            }
+        }
     }
 
     /**
