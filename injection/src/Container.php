@@ -11,6 +11,7 @@ namespace OpenSwoole\Injection;
 
 use Closure;
 use InvalidArgumentException;
+use OpenSwoole\Injection\Exceptions\CircularDependencyException;
 use OpenSwoole\Injection\Exceptions\DependencyHasNoDefaultValueException;
 use OpenSwoole\Injection\Exceptions\DependencyIsNotInstantiableException;
 use OpenSwoole\Injection\Exceptions\NotFoundException;
@@ -19,6 +20,8 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionIntersectionType;
 use ReflectionNamedType;
+use ReflectionParameter;
+use ReflectionType;
 use ReflectionUnionType;
 
 class Container implements ContainerInterface
@@ -26,6 +29,8 @@ class Container implements ContainerInterface
     public const LIFETIME_SINGLETON = 'singleton';
 
     public const LIFETIME_TRANSIENT = 'transient';
+
+    public const LIFETIME_SCOPED = 'scoped';
 
     private const CONTEXT_NONE = 0;
 
