@@ -6,9 +6,9 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
-$server = new OpenSwoole\Server('0.0.0.0', 9905, \OpenSwoole\Server::SIMPLE_MODE, \OpenSwoole\Constant::SOCK_UDP);
+$server = new OpenSwoole\Server('0.0.0.0', 9905, OpenSwoole\Server::SIMPLE_MODE, OpenSwoole\Constant::SOCK_UDP);
 for ($i = 0; $i < 20; $i++) {
-    $server->listen('0.0.0.0', 9906 + $i, \OpenSwoole\Constant::SOCK_UDP);
+    $server->listen('0.0.0.0', 9906 + $i, OpenSwoole\Constant::SOCK_UDP);
 }
 $server->set(['worker_num' => 4]);
 

@@ -120,7 +120,7 @@ final class ServiceContainer
         $methods = [];
         foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
             // Check if its a gRPC method before doing this check
-            if (count($method->getParameters()) > 0 && $method->getParameteres()[0]->getName() == 'ctx') {
+            if (count($method->getParameters()) > 0 && $method->getParameters()[0]->getName() == 'ctx') {
                 // This is a gRPC method
                 if ($method->getNumberOfParameters() !== 2) {
                     throw new Exception('error method');

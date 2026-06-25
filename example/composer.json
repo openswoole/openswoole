@@ -10,8 +10,8 @@
     },
     "minimum-stability": "dev",
     "require": {
-        "ext-openswoole": ">=22.0",
-        "openswoole/core": ">=22.0",
+        "ext-openswoole": ">=26.2.0",
+        "openswoole/core": ">=26.2",
         "slim/slim": "^4.0",
         "slim/psr7": "dev-master",
         "league/container": "4.x-dev"

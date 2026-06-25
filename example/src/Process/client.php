@@ -6,7 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
-$client = new OpenSwoole\Client(\OpenSwoole\Constant::SOCK_TCP);
+$client = new OpenSwoole\Client(OpenSwoole\Constant::SOCK_TCP);
 
 if (!$client->connect('127.0.0.1', 8089, -1)) {
     exit("connect failed. Error: {$client->errCode}\n");

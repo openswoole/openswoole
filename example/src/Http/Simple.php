@@ -22,7 +22,7 @@ $table1->column('id', OpenSwoole\Table::TYPE_INT, 4);       // 1,2,4,8
 $table1->column('num', OpenSwoole\Table::TYPE_FLOAT);
 $table1->create();
 
-$server = new OpenSwoole\HTTP\Server('127.0.0.1', 9501);
+$server = new Server('127.0.0.1', 9501);
 $server->set([
     'worker_num'      => 4,
     'task_worker_num' => 4,

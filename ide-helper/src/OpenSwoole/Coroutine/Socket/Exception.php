@@ -9,4 +9,6 @@ declare(strict_types=1);
 
 namespace OpenSwoole\Coroutine\Socket;
 
-class Exception extends \OpenSwoole\Exception {}
+class Exception extends \OpenSwoole\Exception
+{
+}

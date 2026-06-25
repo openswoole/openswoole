@@ -14,40 +14,64 @@ use Countable;
 
 class Iterator implements \Iterator, ArrayAccess, Countable
 {
-    public function __construct() {}
+    public function __construct()
+    {
+    }
 
-    public function __destruct() {}
+    public function __destruct()
+    {
+    }
 
-    public function rewind() {}
+    public function rewind()
+    {
+    }
 
-    public function next() {}
+    public function next()
+    {
+    }
 
-    public function current() {}
+    public function current()
+    {
+    }
 
-    public function key() {}
+    public function key()
+    {
+    }
 
-    public function valid() {}
+    public function valid()
+    {
+    }
 
-    public function count() {}
+    public function count()
+    {
+    }
 
     /**
      * @param mixed $key [required]
      */
-    public function offsetExists($key) {}
+    public function offsetExists($key)
+    {
+    }
 
     /**
      * @param mixed $key [required]
      */
-    public function offsetGet($key) {}
+    public function offsetGet($key)
+    {
+    }
 
     /**
      * @param mixed $key [required]
      * @param mixed $value [required]
      */
-    public function offsetSet($key, $value) {}
+    public function offsetSet($key, $value)
+    {
+    }
 
     /**
      * @param mixed $key [required]
      */
-    public function offsetUnset($key) {}
+    public function offsetUnset($key)
+    {
+    }
 }

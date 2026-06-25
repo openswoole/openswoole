@@ -6,7 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
-$client = new OpenSwoole\Client(\OpenSwoole\Constant::SOCK_UDP6);
+$client = new OpenSwoole\Client(OpenSwoole\Constant::SOCK_UDP6);
 $client->connect('::1', 9502);
 $client->send('admin');
 echo $client->recv() . "\n";

@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OpenSwoole\WebSocket;
 
-class CloseFrame extends \OpenSwoole\WebSocket\Frame
+class CloseFrame extends Frame
 {
     public int $code;
 

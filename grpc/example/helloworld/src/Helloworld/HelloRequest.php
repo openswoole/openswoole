@@ -30,8 +30,8 @@ class HelloRequest extends \Google\Protobuf\Internal\Message
      * @param array $data {
      *                    Optional. Data for populating the Message object.
      *
-     *     @var string $name
-     * }
+     * @var string $name
+     *             }
      */
     public function __construct($data = null)
     {

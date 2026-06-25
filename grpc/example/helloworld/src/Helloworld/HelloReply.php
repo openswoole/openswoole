@@ -30,8 +30,8 @@ class HelloReply extends \Google\Protobuf\Internal\Message
      * @param array $data {
      *                    Optional. Data for populating the Message object.
      *
-     *     @var string $message
-     * }
+     * @var string $message
+     *             }
      */
     public function __construct($data = null)
     {

@@ -36,7 +36,7 @@ $server = (new Server('127.0.0.1', 9501))
     // ->addMiddleware(new LoggingMiddleware())
     // ->addMiddleware(new TraceMiddleware())
     ->set([
-        'log_level' => \OpenSwoole\Constant::LOG_INFO,
+        'log_level' => OpenSwoole\Constant::LOG_INFO,
     ])
     ->start()
 ;

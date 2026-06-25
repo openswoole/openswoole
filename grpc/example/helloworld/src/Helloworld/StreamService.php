@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace Helloworld;
 
 use OpenSwoole\GRPC;
@@ -24,7 +25,7 @@ class StreamService implements StreamInterface
 
             $message = new GRPC\Message($ctx, $out);
 
-            $ctx['WORKER_CONTEXT']->getValue(\OpenSwoole\GRPC\Server::class)->push($message);
+            $ctx['WORKER_CONTEXT']->getValue(GRPC\Server::class)->push($message);
             \Swoole\Coroutine::sleep(1);
         }
     }

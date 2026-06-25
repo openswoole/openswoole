@@ -6,7 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
-$cli = new OpenSwoole\Client(\OpenSwoole\Constant::SOCK_TCP);
+$cli = new OpenSwoole\Client(OpenSwoole\Constant::SOCK_TCP);
 $cli->connect('127.0.0.1', 9501);
 
 // $type = 'GET';

@@ -24,11 +24,15 @@ final class Task
     /**
      * @param mixed $data [required]
      */
-    public function finish($data): bool {}
+    public function finish($data): bool
+    {
+    }
 
     /**
      * @param mixed $data [required]
      * @return bool|string
      */
-    public static function pack($data) {}
+    public static function pack($data)
+    {
+    }
 }

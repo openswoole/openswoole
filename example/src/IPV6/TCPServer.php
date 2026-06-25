@@ -6,7 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
-$serv = new OpenSwoole\Server('::1', 9501, \OpenSwoole\Server::SIMPLE_MODE, \OpenSwoole\Constant::SOCK_TCP6);
+$serv = new OpenSwoole\Server('::1', 9501, OpenSwoole\Server::SIMPLE_MODE, OpenSwoole\Constant::SOCK_TCP6);
 
 $serv->set([
     'worker_num' => 1,

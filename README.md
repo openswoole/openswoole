@@ -1,4 +1,4 @@
-<p align="center"><a href="https://openswoole.com" target="_blank"><img src="https://openswoole.com/images/swoole-logo.svg#gh-light-mode-only" width="200" /></a></p>
+<p align="center"><a href="https://openswoole.com" target="_blank"><img src="https://openswoole.com/images/swoole-logo.svg#gh-light-mode-only" width="240" /></a></p>
 
 ## OpenSwoole
 

@@ -68,21 +68,31 @@ class Server extends \OpenSwoole\Http\Server
     public const WEBSOCKET_CLOSE_TLS = 1015;
 
     /**
-     * @param \OpenSwoole\WebSocket\Frame|string $data
+     * @param Frame|string $data
      */
-    public function push(int $fd, $data, int $opcode = Server::WEBSOCKET_OPCODE_TEXT, int $flags = Server::WEBSOCKET_FLAG_FIN): bool {}
+    public function push(int $fd, $data, int $opcode = Server::WEBSOCKET_OPCODE_TEXT, int $flags = Server::WEBSOCKET_FLAG_FIN): bool
+    {
+    }
 
-    public function disconnect(int $fd, int $code = Server::WEBSOCKET_CLOSE_NORMAL, string $reason = ''): bool {}
+    public function disconnect(int $fd, int $code = Server::WEBSOCKET_CLOSE_NORMAL, string $reason = ''): bool
+    {
+    }
 
-    public function isEstablished(int $fd): bool {}
+    public function isEstablished(int $fd): bool
+    {
+    }
 
     /**
-     * @param \OpenSwoole\WebSocket\Frame|string $data
+     * @param Frame|string $data
      */
-    public static function pack($data, int $opcode = Server::WEBSOCKET_OPCODE_TEXT, int $flags = Server::WEBSOCKET_FLAG_FIN): string {}
+    public static function pack($data, int $opcode = Server::WEBSOCKET_OPCODE_TEXT, int $flags = Server::WEBSOCKET_FLAG_FIN): string
+    {
+    }
 
     /**
-     * @return \OpenSwoole\WebSocket\Frame|false
+     * @return Frame|false
      */
-    public static function unpack(string $data) {}
+    public static function unpack(string $data)
+    {
+    }
 }

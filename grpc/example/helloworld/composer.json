@@ -14,9 +14,9 @@
         }
     ],
     "require": {
-        "openswoole/grpc": "^22.0",
+        "openswoole/grpc": "^26.2",
         "google/protobuf": "^3.21",
-        "openswoole/core": "^22.0"
+        "openswoole/core": "^26.2"
     },
     "suggest": {
         "ext-openswoole": "*"

@@ -8,7 +8,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Run Coding Style Checks
-        run: docker run --rm -v "$(pwd):/project" -w /project -i jakzal/phpqa:php8.1 php-cs-fixer fix --dry-run
+        run: docker run --rm -v "$(pwd):/project" -w /project -i jakzal/phpqa:php8.5 php-cs-fixer fix --dry-run

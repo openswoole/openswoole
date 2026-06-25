@@ -6,7 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
-$client = new OpenSwoole\Client(\OpenSwoole\Constant::SOCK_UNIX_STREAM, \OpenSwoole\Constant::SOCK_SYNC);
+$client = new OpenSwoole\Client(OpenSwoole\Constant::SOCK_UNIX_STREAM, OpenSwoole\Constant::SOCK_SYNC);
 if (!$client->connect(__DIR__ . '/svr.sock', 0, -1)) {
     exit("connect failed. Error: {$client->errCode}\n");
 }

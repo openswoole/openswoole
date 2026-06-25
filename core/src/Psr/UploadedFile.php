@@ -28,7 +28,7 @@ class UploadedFile implements UploadedFileInterface
 
     private $clientMediaType;
 
-    public function __construct($fileOrResourceOrStream, int $size, int $errorStatus, string $clientFilename = null, string $clientMediaType = null)
+    public function __construct($fileOrResourceOrStream, int $size, int $errorStatus, ?string $clientFilename = null, ?string $clientMediaType = null)
     {
         $this->size            = $size;
         $this->error           = $errorStatus;

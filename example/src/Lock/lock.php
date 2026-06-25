@@ -6,7 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
-$lock = new OpenSwoole\Lock(\OpenSwoole\Constant::MUTEX);
+$lock = new OpenSwoole\Lock(OpenSwoole\Constant::MUTEX);
 echo "[Master] Create lock\n";
 $lock->lock();
 if (pcntl_fork() > 0) {

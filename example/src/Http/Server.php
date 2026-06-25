@@ -21,7 +21,7 @@ $http->set([
     'worker_num' => 1,
 ]);
 
-$http->listen('127.0.0.1', 9502, \OpenSwoole\Constant::SOCK_TCP);
+$http->listen('127.0.0.1', 9502, OpenSwoole\Constant::SOCK_TCP);
 
 function chunk(OpenSwoole\Http\Request $request, OpenSwoole\Http\Response $response)
 {

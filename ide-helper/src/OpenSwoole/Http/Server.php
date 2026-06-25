@@ -9,4 +9,6 @@ declare(strict_types=1);
 
 namespace OpenSwoole\Http;
 
-class Server extends \OpenSwoole\Server {}
+class Server extends \OpenSwoole\Server
+{
+}

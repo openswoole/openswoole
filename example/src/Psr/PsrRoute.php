@@ -68,11 +68,11 @@ class RouteMiddleware implements MiddlewareInterface
         $routeInfo = $this->dispatcher->dispatch($request->getMethod(), $request->getUri()->getPath());
 
         switch ($routeInfo[0]) {
-            case \FastRoute\Dispatcher::NOT_FOUND:
+            case FastRoute\Dispatcher::NOT_FOUND:
                 return new Response('Not found', 404, '', ['Content-Type' => 'text/plain']);
-            case \FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
+            case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
                 return new Response('Method not allowed', 405, '', ['Content-Type' => 'text/plain']);
-            case \FastRoute\Dispatcher::FOUND:
+            case FastRoute\Dispatcher::FOUND:
                 foreach ($routeInfo[2] as $key => $value) {
                     $request = $request->withAttribute($key, $value);
                 }

@@ -11,4 +11,6 @@ namespace OpenSwoole\Core\Coroutine\Client;
 
 use Exception;
 
-class MysqliException extends Exception {}
+class MysqliException extends Exception
+{
+}
