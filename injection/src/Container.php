@@ -155,6 +155,29 @@ class Container implements ContainerInterface
     }
 
     /**
+     * Scan $directory for classes annotated with @Service / #[Service] and register them.
+     */
+    public function scan(string $directory, string $namespace): void
+    {
+        $scanner = new ServiceScanner();
+        foreach ($scanner->scan($directory, $namespace) as $definition) {
+            switch ($definition->lifetime) {
+                case self::LIFETIME_SCOPED:
+                    $this->scoped($definition->id, $definition->concrete);
+                    break;
+                case self::LIFETIME_TRANSIENT:
+                    $this->transient($definition->id, $definition->concrete);
+                    break;
+                case self::LIFETIME_SINGLETON:
+                    $this->singleton($definition->id, $definition->concrete);
+                    break;
+                default:
+                    throw new InvalidArgumentException("Unknown lifetime \"{$definition->lifetime}\" for service {$definition->id}");
+            }
+        }
+    }
+
+    /**
      * Clear resolved scoped instances for the current context.
      */
     public function clearScope(): void
