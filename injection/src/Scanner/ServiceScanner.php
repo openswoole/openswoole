@@ -17,11 +17,31 @@ use SplFileInfo;
 
 class ServiceScanner
 {
-    private DocBlockServiceParser $docBlockParser;
+    /** @var ServiceParserInterface[] */
+    private array $parsers;
 
-    public function __construct()
+    /**
+     * @param ServiceParserInterface[] $parsers Parsers tried in order; first non-null result wins.
+     *                                          Defaults to the version-appropriate set.
+     */
+    public function __construct(array $parsers = [])
     {
-        $this->docBlockParser = new DocBlockServiceParser();
+        if ($parsers === []) {
+            $this->parsers = $this->defaultParsers();
+            return;
+        }
+
+        foreach ($parsers as $parser) {
+            if (!$parser instanceof ServiceParserInterface) {
+                $type = is_object($parser) ? get_class($parser) : gettype($parser);
+
+                throw new \InvalidArgumentException(
+                    'Service parser must implement ' . ServiceParserInterface::class . "; got {$type}"
+                );
+            }
+        }
+
+        $this->parsers = array_values($parsers);
     }
 
     /**
@@ -44,6 +64,18 @@ class ServiceScanner
         }
 
         return $definitions;
+    }
+
+    /**
+     * @return ServiceParserInterface[]
+     */
+    private function defaultParsers(): array
+    {
+        if (PHP_MAJOR_VERSION >= 8) {
+            return [new AttributeServiceParser(), new DocBlockServiceParser()];
+        }
+
+        return [new DocBlockServiceParser()];
     }
 
     private function phpFiles(string $directory): RecursiveIteratorIterator
@@ -138,21 +170,13 @@ class ServiceScanner
             return null;
         }
 
-        // PHP 8+: read native #[Service] attribute.
-        if (PHP_MAJOR_VERSION >= 8) {
-            $attrs = $reflection->getAttributes(\OpenSwoole\Injection\Attributes\Service::class);
-            if (count($attrs) > 0) {
-                $instance = $attrs[0]->newInstance();
-                return new ServiceDefinition($fqcn, $fqcn, $instance->lifetime);
+        foreach ($this->parsers as $parser) {
+            $definition = $parser->parse($reflection);
+            if ($definition !== null) {
+                return $definition;
             }
         }
 
-        // PHP 7.4+: read /** @Service */ docblock.
-        $docblock = $reflection->getDocComment();
-        if ($docblock === false) {
-            return null;
-        }
-
-        return $this->docBlockParser->parse($fqcn, $docblock);
+        return null;
     }
 }
