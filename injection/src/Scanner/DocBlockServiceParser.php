@@ -13,7 +13,7 @@ use InvalidArgumentException;
 use OpenSwoole\Injection\Container;
 use OpenSwoole\Injection\Metadata\ServiceDefinition;
 
-class DocBlockServiceParser
+class DocBlockServiceParser implements ServiceParserInterface
 {
     private const VALID_LIFETIMES = [
         Container::LIFETIME_SINGLETON,
@@ -21,7 +21,17 @@ class DocBlockServiceParser
         Container::LIFETIME_SCOPED,
     ];
 
-    public function parse(string $fqcn, string $docblock): ?ServiceDefinition
+    public function parse(ReflectionClass $reflection): ?ServiceDefinition
+    {
+        $docblock = $reflection->getDocComment();
+        if ($docblock === false) {
+            return null;
+        }
+
+        return $this->parseDocblock($reflection->getName(), $docblock);
+    }
+
+    private function parseDocblock(string $fqcn, string $docblock): ?ServiceDefinition
     {
         if (preg_match('/@Service\b(?:\s*\(([^)]*)\))?(?!\s*\()/', $docblock, $matches) !== 1) {
             return null;

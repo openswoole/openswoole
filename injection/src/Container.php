@@ -15,6 +15,7 @@ use OpenSwoole\Injection\Exceptions\CircularDependencyException;
 use OpenSwoole\Injection\Exceptions\DependencyHasNoDefaultValueException;
 use OpenSwoole\Injection\Exceptions\DependencyIsNotInstantiableException;
 use OpenSwoole\Injection\Exceptions\NotFoundException;
+use OpenSwoole\Injection\Scanner\ServiceScanner;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use ReflectionException;
@@ -156,10 +157,12 @@ class Container implements ContainerInterface
 
     /**
      * Scan $directory for classes annotated with @Service / #[Service] and register them.
+     *
+     * @param array<int, \OpenSwoole\Injection\Scanner\ServiceParserInterface> $parsers
      */
-    public function scan(string $directory, string $namespace): void
+    public function scan(string $directory, string $namespace, array $parsers = []): void
     {
-        $scanner = new ServiceScanner();
+        $scanner = new ServiceScanner($parsers);
         foreach ($scanner->scan($directory, $namespace) as $definition) {
             switch ($definition->lifetime) {
                 case self::LIFETIME_SCOPED:
