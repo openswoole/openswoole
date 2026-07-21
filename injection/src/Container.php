@@ -15,6 +15,9 @@ use OpenSwoole\Injection\Exceptions\CircularDependencyException;
 use OpenSwoole\Injection\Exceptions\DependencyHasNoDefaultValueException;
 use OpenSwoole\Injection\Exceptions\DependencyIsNotInstantiableException;
 use OpenSwoole\Injection\Exceptions\NotFoundException;
+use OpenSwoole\Injection\Exceptions\ResolutionException;
+use OpenSwoole\Injection\Exceptions\ScopeViolationException;
+use OpenSwoole\Injection\Scanner\ServiceParserInterface;
 use OpenSwoole\Injection\Scanner\ServiceScanner;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
@@ -66,9 +69,10 @@ class Container implements ContainerInterface
     private array $scopedInstances = [];
 
     /**
-     * Resolution stacks used to detect circular dependencies, keyed by coroutine id.
+     * Resolution stacks used to detect circular dependencies and lifetime violations,
+     * keyed by coroutine id.
      *
-     * @var array<int, string[]>
+     * @var array<int, array<int, array{id: string, lifetime: string}>>
      */
     private array $resolving = [];
 
@@ -79,6 +83,8 @@ class Container implements ContainerInterface
      * @throws DependencyHasNoDefaultValueException
      * @throws DependencyIsNotInstantiableException
      * @throws NotFoundException
+     * @throws ResolutionException
+     * @throws ScopeViolationException
      */
     public function get(string $id): object
     {
@@ -90,14 +96,17 @@ class Container implements ContainerInterface
         }
 
         $contextId = $this->getContextId();
+        $this->assertScopedServiceIsNotCapturedBySingleton($id, $lifetime, $contextId);
+
         if ($lifetime === self::LIFETIME_SCOPED && isset($this->scopedInstances[$contextId][$id])) {
             return $this->scopedInstances[$contextId][$id];
         }
 
         // Fall back to the id itself as the concrete when nothing is bound.
-        $concrete = $this->bindings[$id] ?? $id;
+        $entryExists = isset($this->bindings[$id]) || class_exists($id);
+        $concrete    = $this->bindings[$id] ?? $id;
 
-        $this->startResolving($id);
+        $this->startResolving($id, $lifetime, $contextId);
         try {
             $object = $this->build($id, $concrete);
 
@@ -110,8 +119,14 @@ class Container implements ContainerInterface
             }
 
             return $object;
+        } catch (NotFoundException $exception) {
+            if (!$entryExists) {
+                throw $exception;
+            }
+
+            throw new ResolutionException("Unable to resolve service {$id}: {$exception->getMessage()}", 0, $exception);
         } finally {
-            $this->stopResolving();
+            $this->stopResolving($contextId);
         }
     }
 
@@ -158,7 +173,7 @@ class Container implements ContainerInterface
     /**
      * Scan $directory for classes annotated with @Service / #[Service] and register them.
      *
-     * @param array<int, \OpenSwoole\Injection\Scanner\ServiceParserInterface> $parsers
+     * @param ServiceParserInterface[] $parsers
      */
     public function scan(string $directory, string $namespace, array $parsers = []): void
     {
@@ -253,25 +268,51 @@ class Container implements ContainerInterface
     /**
      * @throws CircularDependencyException
      */
-    private function startResolving(string $id): void
+    private function startResolving(string $id, string $lifetime, int $contextId): void
     {
-        $contextId = $this->getContextId();
-        $stack     = $this->resolving[$contextId] ?? [];
-        $index     = array_search($id, $stack, true);
+        $stack = $this->resolving[$contextId] ?? [];
+        $index = array_search($id, array_column($stack, 'id'), true);
         if ($index !== false) {
-            $cycle   = array_slice($stack, $index);
+            $cycle   = array_column(array_slice($stack, $index), 'id');
             $cycle[] = $id;
 
             throw new CircularDependencyException('Circular dependency detected: ' . implode(' -> ', $cycle));
         }
 
-        $stack[]                     = $id;
+        $stack[]                     = ['id' => $id, 'lifetime' => $lifetime];
         $this->resolving[$contextId] = $stack;
     }
 
-    private function stopResolving(): void
+    /**
+     * Prevent a singleton from retaining request/coroutine-local state after
+     * the scope has been cleared. The check covers direct and transitive
+     * dependencies, including already-resolved scoped instances.
+     *
+     * @throws ScopeViolationException
+     */
+    private function assertScopedServiceIsNotCapturedBySingleton(
+        string $id,
+        string $lifetime,
+        int $contextId,
+    ): void {
+        if ($lifetime !== self::LIFETIME_SCOPED) {
+            return;
+        }
+
+        $stack = $this->resolving[$contextId] ?? [];
+        for ($index = count($stack) - 1; $index >= 0; $index--) {
+            if ($stack[$index]['lifetime'] !== self::LIFETIME_SINGLETON) {
+                continue;
+            }
+
+            $singletonId = $stack[$index]['id'];
+
+            throw new ScopeViolationException("Cannot resolve scoped service {$id} while building singleton {$singletonId}; register {$singletonId} as scoped or transient");
+        }
+    }
+
+    private function stopResolving(int $contextId): void
     {
-        $contextId = $this->getContextId();
         if (!isset($this->resolving[$contextId])) {
             return;
         }
@@ -314,7 +355,6 @@ class Container implements ContainerInterface
      */
     private function resolve(string $concrete): object
     {
-        // Reflection
         try {
             $reflection = new ReflectionClass($concrete);
         } catch (ReflectionException $e) {

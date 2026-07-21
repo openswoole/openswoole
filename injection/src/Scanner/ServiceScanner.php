@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OpenSwoole\Injection\Scanner;
 
+use InvalidArgumentException;
 use OpenSwoole\Injection\Metadata\ServiceDefinition;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -35,9 +36,7 @@ class ServiceScanner
             if (!$parser instanceof ServiceParserInterface) {
                 $type = is_object($parser) ? get_class($parser) : gettype($parser);
 
-                throw new \InvalidArgumentException(
-                    'Service parser must implement ' . ServiceParserInterface::class . "; got {$type}"
-                );
+                throw new InvalidArgumentException('Service parser must implement ' . ServiceParserInterface::class . "; got {$type}");
             }
         }
 
