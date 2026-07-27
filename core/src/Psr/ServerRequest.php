@@ -184,6 +184,7 @@ class ServerRequest extends Request implements ServerRequestInterface
             $request->get ?? [],
             $request->server,
             $files,
+            $request->post
         );
     }
 
