@@ -152,13 +152,26 @@ class ServerRequest extends Request implements ServerRequestInterface
 
         if (isset($request->files)) {
             foreach ($request->files as $name => $fileData) {
-                $files[$name] = new UploadedFile(
-                    Stream::createStreamFromFile($fileData['tmp_name']),
-                    $fileData['size'],
-                    $fileData['error'],
-                    $fileData['name'],
-                    $fileData['type']
-                );
+                if (isset($fileData[0]) && is_array($fileData[0])) {
+                    $files[$name] = [];
+                    foreach ($fileData as $singleFile) {
+                        $files[$name][] = new UploadedFile(
+                            Stream::createStreamFromFile($singleFile['tmp_name']),
+                            $singleFile['size'],
+                            $singleFile['error'],
+                            $singleFile['name'],
+                            $singleFile['type']
+                        );
+                    }
+                } else {
+                    $files[$name] = new UploadedFile(
+                        Stream::createStreamFromFile($fileData['tmp_name']),
+                        $fileData['size'],
+                        $fileData['error'],
+                        $fileData['name'],
+                        $fileData['type']
+                    );
+                }
             }
         }
 
