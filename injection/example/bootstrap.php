@@ -13,6 +13,8 @@ use OpenSwoole\Injection\Exceptions\CircularDependencyException;
 use OpenSwoole\Injection\Exceptions\DependencyHasNoDefaultValueException;
 use OpenSwoole\Injection\Exceptions\DependencyIsNotInstantiableException;
 use OpenSwoole\Injection\Exceptions\NotFoundException;
+use OpenSwoole\Injection\Exceptions\ResolutionException;
+use OpenSwoole\Injection\Exceptions\ScopeViolationException;
 
 $container = new Container();
 
@@ -37,8 +39,11 @@ final class DemoModel
 
 final class DemoService
 {
-    public function __construct(private DemoModel $model)
+    private DemoModel $model;
+
+    public function __construct(DemoModel $model)
     {
+        $this->model = $model;
     }
 
     public function getModel(): DemoModel
@@ -130,8 +135,11 @@ final class PrefixLogger implements LoggerInterface
 
 final class Service
 {
-    public function __construct(private LoggerInterface $logger)
+    private LoggerInterface $logger;
+
+    public function __construct(LoggerInterface $logger)
     {
+        $this->logger = $logger;
     }
 
     public function run(): string
@@ -167,8 +175,11 @@ echo 'Cached Service still uses old logger: '
 
 final class Connection
 {
-    public function __construct(public string $dsn)
+    public string $dsn;
+
+    public function __construct(string $dsn)
     {
+        $this->dsn = $dsn;
     }
 }
 
@@ -187,8 +198,11 @@ echo 'Connection dsn: '
 
 final class Greeter
 {
-    public function __construct(public string $greeting = 'hello')
+    public string $greeting;
+
+    public function __construct(string $greeting = 'hello')
     {
+        $this->greeting = $greeting;
     }
 }
 
@@ -283,6 +297,98 @@ try {
     $container->get(CircularA::class);
 } catch (CircularDependencyException $e) {
     echo 'Caught CircularDependencyException: '
+        . $e->getMessage()
+        . "\n";
+}
+
+/* -----------------------------------------------------------------------
+ | 14. Service scanning — register #[Service] and @Service classes
+ * ---------------------------------------------------------------------*/
+
+require_once __DIR__ . '/services/DocBlockService.php';
+
+if (PHP_MAJOR_VERSION >= 8) {
+    require_once __DIR__ . '/services/AttributeService.php';
+}
+
+$scannedContainer = new Container();
+$scannedContainer->scan(
+    __DIR__ . '/services',
+    'OpenSwoole\Injection\ExampleServices'
+);
+
+echo 'Scanned attribute service: '
+    . get_class($scannedContainer->get('OpenSwoole\Injection\ExampleServices\AttributeService'))
+    . "\n";
+
+echo 'Scanned DocBlock service: '
+    . get_class($scannedContainer->get('OpenSwoole\Injection\ExampleServices\DocBlockService'))
+    . "\n";
+
+/* -----------------------------------------------------------------------
+ | 15. Scope violation — a singleton cannot capture scoped state
+ * ---------------------------------------------------------------------*/
+
+final class ScopedDependency
+{
+}
+
+final class SingletonDependingOnScoped
+{
+    public function __construct(ScopedDependency $dependency)
+    {
+    }
+}
+
+$scopeContainer = new Container();
+$scopeContainer->scoped(ScopedDependency::class);
+
+try {
+    $scopeContainer->get(SingletonDependingOnScoped::class);
+} catch (ScopeViolationException $e) {
+    echo 'Caught ScopeViolationException: '
+        . $e->getMessage()
+        . "\n";
+}
+
+/* -----------------------------------------------------------------------
+ | 16. ResolutionException — a known binding points to a missing class
+ * ---------------------------------------------------------------------*/
+
+$container->set('broken', 'No\Such\Implementation');
+
+try {
+    $container->get('broken');
+} catch (ResolutionException $e) {
+    echo 'Caught ResolutionException: '
+        . $e->getMessage()
+        . "\n";
+}
+
+/* -----------------------------------------------------------------------
+ | 17. Non-instantiable dependency — interfaces need a binding
+ * ---------------------------------------------------------------------*/
+
+interface UnboundInterface
+{
+}
+
+try {
+    $container->get(UnboundInterface::class);
+} catch (DependencyIsNotInstantiableException $e) {
+    echo 'Caught DependencyIsNotInstantiableException: '
+        . $e->getMessage()
+        . "\n";
+}
+
+/* -----------------------------------------------------------------------
+ | 18. Invalid binding — concrete values must be class names or factories
+ * ---------------------------------------------------------------------*/
+
+try {
+    $container->set('invalid', 123);
+} catch (InvalidArgumentException $e) {
+    echo 'Caught InvalidArgumentException: '
         . $e->getMessage()
         . "\n";
 }

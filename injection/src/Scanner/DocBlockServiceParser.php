@@ -12,6 +12,7 @@ namespace OpenSwoole\Injection\Scanner;
 use InvalidArgumentException;
 use OpenSwoole\Injection\Container;
 use OpenSwoole\Injection\Metadata\ServiceDefinition;
+use ReflectionClass;
 
 class DocBlockServiceParser implements ServiceParserInterface
 {
