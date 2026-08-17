@@ -11,31 +11,19 @@ namespace OpenSwoole\Injection\Attributes;
 
 use Attribute;
 use InvalidArgumentException;
-use OpenSwoole\Injection\Container;
+use OpenSwoole\Injection\Lifetime;
 
 #[Attribute(Attribute::TARGET_CLASS)]
 final class Service
 {
     public string $lifetime;
 
-    public function __construct(string $lifetime = Container::LIFETIME_SINGLETON)
+    public function __construct(string $lifetime = Lifetime::SINGLETON)
     {
-        if (!in_array($lifetime, self::validLifetimes(), true)) {
-            throw new InvalidArgumentException("Unknown lifetime \"{$lifetime}\" in #[Service] attribute. " . 'Expected one of: ' . implode(', ', self::validLifetimes()));
+        if (!in_array($lifetime, Lifetime::validLifetimes(), true)) {
+            throw new InvalidArgumentException("Unknown lifetime \"{$lifetime}\" in #[Service] attribute. " . 'Expected one of: ' . implode(', ', Lifetime::validLifetimes()));
         }
 
         $this->lifetime = $lifetime;
-    }
-
-    /**
-     * @return string[]
-     */
-    private static function validLifetimes(): array
-    {
-        return [
-            Container::LIFETIME_SINGLETON,
-            Container::LIFETIME_TRANSIENT,
-            Container::LIFETIME_SCOPED,
-        ];
     }
 }

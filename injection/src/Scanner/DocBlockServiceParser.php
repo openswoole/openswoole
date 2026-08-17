@@ -10,16 +10,16 @@ declare(strict_types=1);
 namespace OpenSwoole\Injection\Scanner;
 
 use InvalidArgumentException;
-use OpenSwoole\Injection\Container;
+use OpenSwoole\Injection\Lifetime;
 use OpenSwoole\Injection\Metadata\ServiceDefinition;
 use ReflectionClass;
 
 class DocBlockServiceParser implements ServiceParserInterface
 {
     private const VALID_LIFETIMES = [
-        Container::LIFETIME_SINGLETON,
-        Container::LIFETIME_TRANSIENT,
-        Container::LIFETIME_SCOPED,
+        Lifetime::SINGLETON,
+        Lifetime::TRANSIENT,
+        Lifetime::SCOPED,
     ];
 
     public function parse(ReflectionClass $reflection): ?ServiceDefinition
@@ -50,7 +50,7 @@ class DocBlockServiceParser implements ServiceParserInterface
     private function parseLifetime(string $fqcn, string $argument): string
     {
         if ($argument === '') {
-            return Container::LIFETIME_SINGLETON;
+            return Lifetime::SINGLETON;
         }
 
         if (preg_match('/^(?:lifetime\s*=\s*)?["\']([^"\']+)["\']$/', $argument, $matches) === 1) {

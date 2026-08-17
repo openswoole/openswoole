@@ -9,18 +9,25 @@ declare(strict_types=1);
 
 namespace OpenSwoole\Injection\Metadata;
 
+use Closure;
+
 class ServiceDefinition
 {
     public string $id;
 
-    public string $concrete;
+    /** @var string|Closure */
+    public $concrete;
+
+    public ?Closure $disposer;
 
     public string $lifetime;
 
-    public function __construct(string $id, string $concrete, string $lifetime)
+    /** @param string|Closure $concrete */
+    public function __construct(string $id, $concrete, string $lifetime, ?Closure $disposer = null)
     {
         $this->id       = $id;
         $this->concrete = $concrete;
         $this->lifetime = $lifetime;
+        $this->disposer = $disposer;
     }
 }

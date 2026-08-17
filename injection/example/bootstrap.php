@@ -8,115 +8,24 @@ declare(strict_types=1);
  */
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use OpenSwoole\Injection\Container;
-use OpenSwoole\Injection\Exceptions\CircularDependencyException;
-use OpenSwoole\Injection\Exceptions\DependencyHasNoDefaultValueException;
-use OpenSwoole\Injection\Exceptions\DependencyIsNotInstantiableException;
-use OpenSwoole\Injection\Exceptions\NotFoundException;
-use OpenSwoole\Injection\Exceptions\ResolutionException;
+use OpenSwoole\Injection\Disposable;
 use OpenSwoole\Injection\Exceptions\ScopeViolationException;
-
-$container = new Container();
-
-/* -----------------------------------------------------------------------
- | 1. Autowiring — resolve a class graph with zero config
- * ---------------------------------------------------------------------*/
+use OpenSwoole\Injection\ServiceCollection;
 
 final class DemoModel
 {
-    private $value;
-
-    public function setValue($value): void
-    {
-        $this->value = $value;
-    }
-
-    public function getValue()
-    {
-        return $this->value;
-    }
 }
-
 final class DemoService
 {
-    private DemoModel $model;
-
-    public function __construct(DemoModel $model)
+    public function __construct(public DemoModel $model)
     {
-        $this->model = $model;
-    }
-
-    public function getModel(): DemoModel
-    {
-        return $this->model;
     }
 }
-
-$demoService = $container->get(DemoService::class);
-$demoService->getModel()->setValue('autowired');
-
-echo 'DemoService->DemoModel->getValue(): '
-    . $demoService->getModel()->getValue()
-    . "\n";
-
-/* -----------------------------------------------------------------------
- | 2. Singleton caching — same id returns the same instance
- * ---------------------------------------------------------------------*/
-
-$a = $container->get(DemoModel::class);
-$b = $container->get(DemoModel::class);
-
-echo 'Singleton same instance? '
-    . ($a === $b ? 'yes' : 'no')
-    . "\n";
-
-/* -----------------------------------------------------------------------
- | 3. Transient binding — same id returns a new instance each time
- * ---------------------------------------------------------------------*/
-
-$container->transient(DemoModel::class);
-
-$transientA = $container->get(DemoModel::class);
-$transientB = $container->get(DemoModel::class);
-
-echo 'Transient same instance? '
-    . ($transientA === $transientB ? 'yes' : 'no')
-    . "\n";
-
-/* -----------------------------------------------------------------------
- | 4. Scoped binding — same instance within the current scope
- * ---------------------------------------------------------------------*/
-
-final class RequestContext
-{
-}
-
-$container->scoped(RequestContext::class);
-
-$scopeA = $container->get(RequestContext::class);
-$scopeB = $container->get(RequestContext::class);
-
-echo 'Scoped same instance? '
-    . ($scopeA === $scopeB ? 'yes' : 'no')
-    . "\n";
-
-$container->clearScope();
-
-$scopeC = $container->get(RequestContext::class);
-
-echo 'Scoped after clearScope same instance? '
-    . ($scopeA === $scopeC ? 'yes' : 'no')
-    . "\n";
-
-/* -----------------------------------------------------------------------
- | 5. Interface binding — map an interface to an implementation
- * ---------------------------------------------------------------------*/
 
 interface LoggerInterface
 {
     public function log(string $message): string;
 }
-
 final class EchoLogger implements LoggerInterface
 {
     public function log(string $message): string
@@ -124,215 +33,52 @@ final class EchoLogger implements LoggerInterface
         return "[echo] {$message}";
     }
 }
-
-final class PrefixLogger implements LoggerInterface
+final class RequestContext implements Disposable
 {
-    public function log(string $message): string
+    public function dispose(): void
     {
-        return "[prefix] {$message}";
+        echo "RequestContext disposed\n";
     }
 }
 
-final class Service
-{
-    private LoggerInterface $logger;
+$services = new ServiceCollection();
+$services
+    ->singleton(LoggerInterface::class, EchoLogger::class)
+    ->scoped(RequestContext::class)
+    ->transient(DemoModel::class)
+;
 
-    public function __construct(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-    }
+$provider = $services->build();
+$scope    = $provider->createScope();
 
-    public function run(): string
-    {
-        return $this->logger->log('running');
-    }
-}
+echo 'Autowired model: ' . get_class($scope->get(DemoService::class)->model) . "\n";
+echo 'Transient instances are different: '
+    . ($scope->get(DemoModel::class) !== $scope->get(DemoModel::class) ? 'yes' : 'no') . "\n";
+echo 'Scoped instances are shared: '
+    . ($scope->get(RequestContext::class) === $scope->get(RequestContext::class) ? 'yes' : 'no') . "\n";
 
-$container->singleton(LoggerInterface::class, EchoLogger::class);
-
-$service = $container->get(Service::class);
-
-echo $service->run() . "\n";
-
-/* -----------------------------------------------------------------------
- | 6. Rebinding — set() swaps implementation and clears cached singleton
- * ---------------------------------------------------------------------*/
-
-$container->set(LoggerInterface::class, PrefixLogger::class);
-
-echo 'Logger is now: '
-    . get_class($container->get(LoggerInterface::class))
-    . "\n";
-
-// Service was already resolved and cached, so it still keeps EchoLogger.
-echo 'Cached Service still uses old logger: '
-    . $service->run()
-    . "\n";
-
-/* -----------------------------------------------------------------------
- | 7. Factory closure — build a service with runtime config
- * ---------------------------------------------------------------------*/
-
-final class Connection
-{
-    public string $dsn;
-
-    public function __construct(string $dsn)
-    {
-        $this->dsn = $dsn;
-    }
-}
-
-$container->set(
-    Connection::class,
-    fn (Container $c) => new Connection('mysql://localhost/app')
-);
-
-echo 'Connection dsn: '
-    . $container->get(Connection::class)->dsn
-    . "\n";
-
-/* -----------------------------------------------------------------------
- | 8. Default scalar parameter — autowiring uses the default value
- * ---------------------------------------------------------------------*/
-
-final class Greeter
-{
-    public string $greeting;
-
-    public function __construct(string $greeting = 'hello')
-    {
-        $this->greeting = $greeting;
-    }
-}
-
-echo 'Greeter greeting: '
-    . $container->get(Greeter::class)->greeting
-    . "\n";
-
-/* -----------------------------------------------------------------------
- | 9. has() — bound, resolved, autowirable, and unknown
- * ---------------------------------------------------------------------*/
-
-echo 'has(LoggerInterface) [bound]      : '
-    . var_export($container->has(LoggerInterface::class), true)
-    . "\n";
-
-echo 'has(DemoModel)       [transient]  : '
-    . var_export($container->has(DemoModel::class), true)
-    . "\n";
-
-echo 'has(Greeter)         [autowirable]: '
-    . var_export($container->has(Greeter::class), true)
-    . "\n";
-
-echo 'has("No\\\Such\\\Class") [unknown]    : '
-    . var_export($container->has('No\Such\Class'), true)
-    . "\n";
-
-/* -----------------------------------------------------------------------
- | 10. NotFoundException — get() on an unknown class id
- * ---------------------------------------------------------------------*/
-
-try {
-    $container->get('No\Such\Class');
-} catch (NotFoundException $e) {
-    echo 'Caught NotFoundException: '
-        . $e->getMessage()
-        . "\n";
-}
-
-/* -----------------------------------------------------------------------
- | 11. Unresolvable scalar — constructor arg with no default
- * ---------------------------------------------------------------------*/
-
-final class NeedsScalar
-{
-    public function __construct(public string $required)
-    {
-    }
-}
-
-try {
-    $container->get(NeedsScalar::class);
-} catch (DependencyHasNoDefaultValueException $e) {
-    echo 'Caught DependencyHasNoDefaultValueException: '
-        . $e->getMessage()
-        . "\n";
-}
-
-/* -----------------------------------------------------------------------
- | 12. Bad factory — closure does not return an object
- * ---------------------------------------------------------------------*/
-
-$container->set('bad', fn () => 42);
-
-try {
-    $container->get('bad');
-} catch (DependencyIsNotInstantiableException $e) {
-    echo 'Caught DependencyIsNotInstantiableException: '
-        . $e->getMessage()
-        . "\n";
-}
-
-/* -----------------------------------------------------------------------
- | 13. Circular dependency — fail fast with dependency path
- * ---------------------------------------------------------------------*/
-
-final class CircularA
-{
-    public function __construct(CircularB $b)
-    {
-    }
-}
-
-final class CircularB
-{
-    public function __construct(CircularA $a)
-    {
-    }
-}
-
-try {
-    $container->get(CircularA::class);
-} catch (CircularDependencyException $e) {
-    echo 'Caught CircularDependencyException: '
-        . $e->getMessage()
-        . "\n";
-}
-
-/* -----------------------------------------------------------------------
- | 14. Service scanning — register #[Service] and @Service classes
- * ---------------------------------------------------------------------*/
+$scope->close();
 
 require_once __DIR__ . '/services/DocBlockService.php';
-
 if (PHP_MAJOR_VERSION >= 8) {
     require_once __DIR__ . '/services/AttributeService.php';
 }
 
-$scannedContainer = new Container();
-$scannedContainer->scan(
-    __DIR__ . '/services',
-    'OpenSwoole\Injection\ExampleServices'
-);
-
-echo 'Scanned attribute service: '
-    . get_class($scannedContainer->get('OpenSwoole\Injection\ExampleServices\AttributeService'))
-    . "\n";
+$scanned = (new ServiceCollection())
+    ->scan(__DIR__ . '/services', 'OpenSwoole\Injection\ExampleServices')
+    ->build()
+;
 
 echo 'Scanned DocBlock service: '
-    . get_class($scannedContainer->get('OpenSwoole\Injection\ExampleServices\DocBlockService'))
-    . "\n";
-
-/* -----------------------------------------------------------------------
- | 15. Scope violation — a singleton cannot capture scoped state
- * ---------------------------------------------------------------------*/
+    . get_class($scanned->get('OpenSwoole\Injection\ExampleServices\DocBlockService')) . "\n";
+if (PHP_MAJOR_VERSION >= 8) {
+    echo 'Scanned attribute service: '
+        . get_class($scanned->get('OpenSwoole\Injection\ExampleServices\AttributeService')) . "\n";
+}
 
 final class ScopedDependency
 {
 }
-
 final class SingletonDependingOnScoped
 {
     public function __construct(ScopedDependency $dependency)
@@ -340,55 +86,9 @@ final class SingletonDependingOnScoped
     }
 }
 
-$scopeContainer = new Container();
-$scopeContainer->scoped(ScopedDependency::class);
-
+$invalid = (new ServiceCollection())->scoped(ScopedDependency::class)->build();
 try {
-    $scopeContainer->get(SingletonDependingOnScoped::class);
-} catch (ScopeViolationException $e) {
-    echo 'Caught ScopeViolationException: '
-        . $e->getMessage()
-        . "\n";
-}
-
-/* -----------------------------------------------------------------------
- | 16. ResolutionException — a known binding points to a missing class
- * ---------------------------------------------------------------------*/
-
-$container->set('broken', 'No\Such\Implementation');
-
-try {
-    $container->get('broken');
-} catch (ResolutionException $e) {
-    echo 'Caught ResolutionException: '
-        . $e->getMessage()
-        . "\n";
-}
-
-/* -----------------------------------------------------------------------
- | 17. Non-instantiable dependency — interfaces need a binding
- * ---------------------------------------------------------------------*/
-
-interface UnboundInterface
-{
-}
-
-try {
-    $container->get(UnboundInterface::class);
-} catch (DependencyIsNotInstantiableException $e) {
-    echo 'Caught DependencyIsNotInstantiableException: '
-        . $e->getMessage()
-        . "\n";
-}
-
-/* -----------------------------------------------------------------------
- | 18. Invalid binding — concrete values must be class names or factories
- * ---------------------------------------------------------------------*/
-
-try {
-    $container->set('invalid', 123);
-} catch (InvalidArgumentException $e) {
-    echo 'Caught InvalidArgumentException: '
-        . $e->getMessage()
-        . "\n";
+    $invalid->get(SingletonDependingOnScoped::class);
+} catch (ScopeViolationException $exception) {
+    echo 'Caught ScopeViolationException: ' . $exception->getMessage() . "\n";
 }
