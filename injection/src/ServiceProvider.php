@@ -261,7 +261,20 @@ class ServiceProvider implements ContainerInterface
             if ($p->isDefaultValueAvailable()) {
                 return $p->getDefaultValue();
             } throw new DependencyHasNoDefaultValueException('Cannot resolve parameter $' . $p->getName() . ' without a default value');
-        } return $this->make($type->getName(), $scope);
+        }
+
+        // Optional class dependencies may legitimately be unavailable. When a
+        // default value exists (for example, `?LoggerInterface $logger = null`),
+        // use it instead of failing the entire construction.
+        try {
+            return $this->make($type->getName(), $scope);
+        } catch (NotFoundException | DependencyIsNotInstantiableException | ResolutionException $exception) {
+            if ($p->isDefaultValueAvailable()) {
+                return $p->getDefaultValue();
+            }
+
+            throw $exception;
+        }
     }
 
     private function contextId(): int
