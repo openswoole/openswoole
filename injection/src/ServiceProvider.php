@@ -59,7 +59,12 @@ class ServiceProvider implements ContainerInterface
 
     public function has(string $id): bool
     {
-        return isset($this->definitions[$id]) || isset($this->singletons[$id]) || class_exists($id);
+        // A true result does not guarantee get() will succeed: an abstract
+        // class or unbound interface can still be non-instantiable.
+        return isset($this->definitions[$id])
+            || isset($this->singletons[$id])
+            || class_exists($id)
+            || interface_exists($id);
     }
 
     public function get(string $id): object
@@ -268,7 +273,7 @@ class ServiceProvider implements ContainerInterface
         // use it instead of failing the entire construction.
         try {
             return $this->make($type->getName(), $scope);
-        } catch (NotFoundException | DependencyIsNotInstantiableException | ResolutionException $exception) {
+        } catch (NotFoundException|DependencyIsNotInstantiableException|ResolutionException $exception) {
             if ($p->isDefaultValueAvailable()) {
                 return $p->getDefaultValue();
             }

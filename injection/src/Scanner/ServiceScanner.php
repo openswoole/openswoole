@@ -148,13 +148,29 @@ class ServiceScanner
                 $className = $tokens[$j][1];
                 $fqcn      = $namespace !== '' ? $namespace . '\\' . $className : $className;
 
-                if (strncmp($fqcn, $namespacePrefix, strlen($namespacePrefix)) === 0) {
+                if ($this->matchesNamespace($fqcn, $namespacePrefix)) {
                     $classes[] = $fqcn;
                 }
             }
         }
 
         return $classes;
+    }
+
+    /**
+     * True when $fqcn is exactly $namespacePrefix or is beneath it as a
+     * namespace segment. This prevents App\Scan matching App\Scanner\Foo.
+     */
+    private function matchesNamespace(string $fqcn, string $namespacePrefix): bool
+    {
+        if ($namespacePrefix === '' || $namespacePrefix === '\\') {
+            return true;
+        }
+
+        $prefix = rtrim($namespacePrefix, '\\');
+
+        return $fqcn === $prefix
+            || strncmp($fqcn, $prefix . '\\', strlen($prefix) + 1) === 0;
     }
 
     private function inspect(string $fqcn): ?ServiceDefinition
