@@ -13,6 +13,15 @@ use Attribute;
 use InvalidArgumentException;
 use OpenSwoole\Injection\Lifetime;
 
+/**
+ * Marks a class for registration by ServiceCollection::scan().
+ *
+ * Requires PHP 8.0+. On PHP 7.4 use the @Service docblock instead; this class
+ * must not be imported or loaded under PHP 7.4.
+ *
+ * @see \OpenSwoole\Injection\Scanner\DocBlockServiceParser
+ */
+
 #[Attribute(Attribute::TARGET_CLASS)]
 final class Service
 {
