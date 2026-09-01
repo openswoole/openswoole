@@ -12,19 +12,9 @@
 # Ignore files under Mac
 .DS_Store
 
-.phplint-cache
-
 # Ignore Composer files
 /composer.lock
 /composer.phar
 
-/vendor
-
-/example/vendor
-/example/.tmp
-/example/.phpunit.*
-/core/vendor
-/core/.tmp
-/core/.phpunit.*
-
-.history/
+# Ignore 3rd party packages
+/vendor/*
