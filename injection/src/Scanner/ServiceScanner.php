@@ -23,12 +23,12 @@ class ServiceScanner
 
     /**
      * @param ServiceParserInterface[] $parsers Parsers tried in order; first non-null result wins.
-     *                                          Defaults to the version-appropriate set.
+     *                                          Defaults to AttributeServiceParser.
      */
     public function __construct(array $parsers = [])
     {
         if ($parsers === []) {
-            $this->parsers = $this->defaultParsers();
+            $this->parsers = [new AttributeServiceParser()];
             return;
         }
 
@@ -44,7 +44,7 @@ class ServiceScanner
     }
 
     /**
-     * Scan $directory for classes under $namespace annotated with @Service / #[Service].
+     * Scan $directory for classes under $namespace marked with #[Service].
      *
      * @return ServiceDefinition[]
      */
@@ -63,18 +63,6 @@ class ServiceScanner
         }
 
         return $definitions;
-    }
-
-    /**
-     * @return ServiceParserInterface[]
-     */
-    private function defaultParsers(): array
-    {
-        if (PHP_MAJOR_VERSION >= 8) {
-            return [new AttributeServiceParser(), new DocBlockServiceParser()];
-        }
-
-        return [new DocBlockServiceParser()];
     }
 
     private function phpFiles(string $directory): RecursiveIteratorIterator
@@ -117,13 +105,9 @@ class ServiceScanner
                 while ($i < $count && is_array($tokens[$i]) && $tokens[$i][0] === T_WHITESPACE) {
                     $i++;
                 }
-                // Collect the namespace string (handles T_NAME_QUALIFIED on PHP 8+).
                 while ($i < $count) {
                     $t = $tokens[$i];
-                    if (is_array($t) && in_array($t[0], [T_STRING, T_NS_SEPARATOR], true)) {
-                        $namespace .= $t[1];
-                        $i++;
-                    } elseif (is_array($t) && defined('T_NAME_QUALIFIED') && $t[0] === T_NAME_QUALIFIED) {
+                    if (is_array($t) && in_array($t[0], [T_STRING, T_NS_SEPARATOR, T_NAME_QUALIFIED], true)) {
                         $namespace .= $t[1];
                         $i++;
                     } else {

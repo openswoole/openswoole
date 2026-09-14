@@ -9,21 +9,18 @@ declare(strict_types=1);
 
 namespace OpenSwoole\Injection\Scanner;
 
+use OpenSwoole\Injection\Attributes\Service;
 use OpenSwoole\Injection\Metadata\ServiceDefinition;
 use ReflectionClass;
 
 /**
- * Reads the native #[Service] attribute (PHP 8+).
+ * Reads the native #[Service] attribute.
  */
 class AttributeServiceParser implements ServiceParserInterface
 {
     public function parse(ReflectionClass $reflection): ?ServiceDefinition
     {
-        if (!method_exists($reflection, 'getAttributes')) {
-            return null;
-        }
-
-        $attrs = $reflection->getAttributes(\OpenSwoole\Injection\Attributes\Service::class);
+        $attrs = $reflection->getAttributes(Service::class);
         if (count($attrs) === 0) {
             return null;
         }

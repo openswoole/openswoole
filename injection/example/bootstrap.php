@@ -59,22 +59,15 @@ echo 'Scoped instances are shared: '
 
 $scope->close();
 
-require_once __DIR__ . '/services/DocBlockService.php';
-if (PHP_MAJOR_VERSION >= 8) {
-    require_once __DIR__ . '/services/AttributeService.php';
-}
+require_once __DIR__ . '/services/AttributeService.php';
 
 $scanned = (new ServiceCollection())
     ->scan(__DIR__ . '/services', 'OpenSwoole\Injection\ExampleServices')
     ->build()
 ;
 
-echo 'Scanned DocBlock service: '
-    . get_class($scanned->get('OpenSwoole\Injection\ExampleServices\DocBlockService')) . "\n";
-if (PHP_MAJOR_VERSION >= 8) {
-    echo 'Scanned attribute service: '
-        . get_class($scanned->get('OpenSwoole\Injection\ExampleServices\AttributeService')) . "\n";
-}
+echo 'Scanned attribute service: '
+    . get_class($scanned->get('OpenSwoole\Injection\ExampleServices\AttributeService')) . "\n";
 
 final class ScopedDependency
 {
