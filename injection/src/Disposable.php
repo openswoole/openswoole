@@ -7,10 +7,9 @@ declare(strict_types=1);
  * @contact  hello@openswoole.com
  */
 
-namespace OpenSwoole\Coroutine;
+namespace OpenSwoole\Injection;
 
-use ArrayIterator;
-
-class Iterator extends ArrayIterator
+interface Disposable
 {
+    public function dispose(): void;
 }

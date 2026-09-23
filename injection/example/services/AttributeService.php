@@ -7,10 +7,11 @@ declare(strict_types=1);
  * @contact  hello@openswoole.com
  */
 
-namespace OpenSwoole\Coroutine;
+namespace OpenSwoole\Injection\ExampleServices;
 
-use ArrayIterator;
+use OpenSwoole\Injection\Attributes\Service;
 
-class Iterator extends ArrayIterator
+#[Service]
+final class AttributeService
 {
 }
