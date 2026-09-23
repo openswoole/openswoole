@@ -59,8 +59,6 @@ echo 'Scoped instances are shared: '
 
 $scope->close();
 
-require_once __DIR__ . '/services/AttributeService.php';
-
 $scanned = (new ServiceCollection())
     ->scan(__DIR__ . '/services', 'OpenSwoole\Injection\ExampleServices')
     ->build()

@@ -46,6 +46,10 @@ class ServiceScanner
     /**
      * Scan $directory for classes under $namespace marked with #[Service].
      *
+     * Files are tokenized first. A class that is not already autoloadable is
+     * then loaded with require_once from the file it was found in, so scan()
+     * executes matching PHP files.
+     *
      * @return ServiceDefinition[]
      */
     public function scan(string $directory, string $namespace): array
@@ -54,8 +58,12 @@ class ServiceScanner
 
         /** @var SplFileInfo $file */
         foreach ($this->phpFiles($directory) as $file) {
-            foreach ($this->classNamesFromFile($file->getRealPath(), $namespace) as $fqcn) {
-                $definition = $this->inspect($fqcn);
+            $path = $file->getRealPath();
+            if (!is_string($path)) {
+                continue;
+            }
+            foreach ($this->classNamesFromFile($path, $namespace) as $fqcn) {
+                $definition = $this->inspect($fqcn, $path);
                 if ($definition !== null) {
                     $definitions[] = $definition;
                 }
@@ -157,10 +165,14 @@ class ServiceScanner
             || strncmp($fqcn, $prefix . '\\', strlen($prefix) + 1) === 0;
     }
 
-    private function inspect(string $fqcn): ?ServiceDefinition
+    private function inspect(string $fqcn, string $path): ?ServiceDefinition
     {
         if (!class_exists($fqcn)) {
-            return null;
+            require_once $path;
+        }
+
+        if (!class_exists($fqcn, false)) {
+            throw new InvalidArgumentException("Class {$fqcn} was found in {$path} but is not defined after loading the file");
         }
 
         $reflection = new ReflectionClass($fqcn);
