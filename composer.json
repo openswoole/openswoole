@@ -41,7 +41,8 @@
         "openswoole/example": "*",
         "openswoole/example-rpc-service": "*",
         "openswoole/grpc": "*",
-        "openswoole/ide-helper": "*"
+        "openswoole/ide-helper": "*",
+        "openswoole/injection": "*"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
