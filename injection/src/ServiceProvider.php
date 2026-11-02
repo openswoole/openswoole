@@ -118,7 +118,7 @@ class ServiceProvider implements ContainerInterface
         foreach (array_reverse($this->singletonOrder) as $id) {
             try {
                 if (isset($this->singletons[$id])) {
-                    $this->dispose($this->singletons[$id], $this->definitions[$id]->disposer);
+                    $this->dispose($this->singletons[$id], $this->definitions[$id]->disposer ?? null);
                 }
             } catch (Throwable $e) {
                 $error ??= $e;
