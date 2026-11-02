@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OpenSwoole\Injection;
 
 use Closure;
+use OpenSwoole\Coroutine\Channel;
 use OpenSwoole\Injection\Exceptions\CircularDependencyException;
 use OpenSwoole\Injection\Exceptions\ContainerClosedException;
 use OpenSwoole\Injection\Exceptions\DependencyHasNoDefaultValueException;
@@ -32,6 +33,15 @@ class ServiceProvider implements ContainerInterface
 
     /** @var array<string, object> */
     private array $singletons = [];
+
+    /** @var array<string, int> Service ID to the coroutine building it. */
+    private array $singletonOwners = [];
+
+    /** @var array<string, array<int, Channel>> */
+    private array $singletonWaiters = [];
+
+    /** @var array<int, int> Waiting coroutine to the coroutine it needs. */
+    private array $waitingFor = [];
 
     /** @var string[] */
     private array $singletonOrder = [];
@@ -143,7 +153,16 @@ class ServiceProvider implements ContainerInterface
         $exists   = $definition !== null || class_exists($id);
         $concrete = $definition ? $definition->concrete : $id;
         $this->start($id, $lifetime);
+        $ownsBuild = false;
+        $failure = null;
         try {
+            if ($lifetime === Lifetime::SINGLETON) {
+                if (isset($this->singletonOwners[$id])) {
+                    return $this->awaitSingleton($id);
+                }
+                $this->singletonOwners[$id] = $this->contextId();
+                $ownsBuild = true;
+            }
             $object = $this->build($id, $concrete, $lifetime === Lifetime::SINGLETON ? null : $scope);
             if ($lifetime === Lifetime::SINGLETON) {
                 $this->singletonOrder[]       = $id;
@@ -154,12 +173,54 @@ class ServiceProvider implements ContainerInterface
                 return $object;
             }
             return $object;
-        } catch (NotFoundException $e) {
-            if (!$exists) {
-                throw $e;
-            } throw new ResolutionException("Unable to resolve service {$id}: {$e->getMessage()}", 0, $e);
+        } catch (Throwable $e) {
+            $failure = $exists && $e instanceof NotFoundException
+                ? new ResolutionException("Unable to resolve service {$id}: {$e->getMessage()}", 0, $e)
+                : $e;
+            throw $failure;
         } finally {
             $this->stop();
+            if ($ownsBuild) {
+                $waiters = $this->singletonWaiters[$id] ?? [];
+                unset($this->singletonOwners[$id], $this->singletonWaiters[$id]);
+                foreach ($waiters as $context => $channel) {
+                    unset($this->waitingFor[$context]);
+                }
+                foreach ($waiters as $channel) {
+                    $channel->push([$failure, $object ?? null]);
+                }
+            }
+        }
+    }
+
+    private function awaitSingleton(string $id): object
+    {
+        $context = $this->contextId();
+        $owner = $this->singletonOwners[$id];
+        for ($next = $owner; ; $next = $this->waitingFor[$next]) {
+            if ($next === $context) {
+                throw new CircularDependencyException("Circular dependency across coroutines while resolving {$id}");
+            }
+            if (!isset($this->waitingFor[$next])) {
+                break;
+            }
+        }
+
+        $channel = new Channel(1);
+        $this->waitingFor[$context] = $owner;
+        $this->singletonWaiters[$id][$context] = $channel;
+        try {
+            $result = $channel->pop();
+            if ($result === false) {
+                throw new ResolutionException("Interrupted while waiting for singleton {$id}");
+            }
+            [$failure, $instance] = $result;
+            if ($failure !== null) {
+                throw $failure;
+            }
+            return $instance;
+        } finally {
+            unset($this->waitingFor[$context], $this->singletonWaiters[$id][$context]);
         }
     }
 
