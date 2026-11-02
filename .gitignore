@@ -26,3 +26,5 @@
 /core/vendor
 /core/.tmp
 /core/.phpunit.*
+
+.history/

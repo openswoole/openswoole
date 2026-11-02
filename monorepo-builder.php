@@ -17,6 +17,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         __DIR__ . '/grpc',
         __DIR__ . '/example',
         __DIR__ . '/ide-helper',
+        __DIR__ . '/injection',
     ]);
     // for "merge" command
     $parameters->set(Option::DATA_TO_APPEND, [
