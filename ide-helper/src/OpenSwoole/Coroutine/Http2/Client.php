@@ -124,7 +124,7 @@ class Client
     {
     }
 
-    public function goaway(int $errorCode = Client::HTTP2_ERROR_NO_ERROR, string $debugData): bool
+    public function goaway(int $errorCode = Client::HTTP2_ERROR_NO_ERROR, string $debugData = ''): bool
     {
     }
 
