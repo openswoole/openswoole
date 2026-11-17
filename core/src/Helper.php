@@ -17,7 +17,14 @@ class Helper
     public static function handle(Server $server, callable $callback)
     {
         $server->on('request', function (\OpenSwoole\HTTP\Request $request, \OpenSwoole\HTTP\Response $response) use ($callback) {
-            $serverRequest  = Psr\ServerRequest::from($request);
+            try {
+                $serverRequest = Psr\ServerRequest::from($request);
+            } catch (\InvalidArgumentException $e) {
+                // a request target that is not a valid URI
+                $response->status(400);
+                $response->end();
+                return;
+            }
             $serverResponse = $callback($serverRequest);
             Psr\Response::emit($response, $serverResponse);
         });
@@ -26,7 +33,14 @@ class Helper
     public static function setHandler(Server $server, RequestHandlerInterface $handler)
     {
         $server->on('request', function (\OpenSwoole\HTTP\Request $request, \OpenSwoole\HTTP\Response $response) use ($handler) {
-            $serverRequest  = Psr\ServerRequest::from($request);
+            try {
+                $serverRequest = Psr\ServerRequest::from($request);
+            } catch (\InvalidArgumentException $e) {
+                // a request target that is not a valid URI
+                $response->status(400);
+                $response->end();
+                return;
+            }
             $serverResponse = $handler->handle($serverRequest);
             Psr\Response::emit($response, $serverResponse);
         });

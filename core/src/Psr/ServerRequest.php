@@ -176,7 +176,7 @@ class ServerRequest extends Request implements ServerRequestInterface
         }
 
         return new ServerRequest(
-            $request->server['request_uri'],
+            static::uriFromRequest($request),
             $request->server['request_method'],
             $request->rawContent() ? $request->rawContent() : 'php://memory',
             $request->header,
@@ -184,8 +184,26 @@ class ServerRequest extends Request implements ServerRequestInterface
             $request->get ?? [],
             $request->server,
             $files,
-            $request->post
+            $request->post,
+            substr($request->server['server_protocol'] ?? 'HTTP/1.1', 5)
         );
+    }
+
+    // the request target is only the path and query, the host and port come from the Host header
+    private static function uriFromRequest(\OpenSwoole\Http\Request $request): Uri
+    {
+        $uri  = (new Uri())->withScheme('http');
+        $host = $request->header['host'] ?? '';
+        $port = $request->server['server_port'] ?? null;
+        if (preg_match('/^(\[[^\]]+\]|[^:]+)(?::(\d+))?$/', $host, $m)) {
+            $uri  = $uri->withHost($m[1]);
+            $port = isset($m[2]) ? (int) $m[2] : $port;
+        }
+        if ($port !== null) {
+            $uri = $uri->withPort((int) $port);
+        }
+        return $uri->withPath($request->server['request_uri'] ?? '/')
+            ->withQuery($request->server['query_string'] ?? '');
     }
 
     private function hasAttribute(string $name): bool
