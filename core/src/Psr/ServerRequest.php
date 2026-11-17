@@ -182,11 +182,24 @@ class ServerRequest extends Request implements ServerRequestInterface
             $request->header,
             $request->cookie ?? [],
             $request->get ?? [],
-            $request->server,
+            static::serverParamsFromRequest($request),
             $files,
             $request->post,
             substr($request->server['server_protocol'] ?? 'HTTP/1.1', 5)
         );
+    }
+
+    // $request->server keys are lowercase, add the $_SERVER style names next to them
+    private static function serverParamsFromRequest(\OpenSwoole\Http\Request $request): array
+    {
+        $params = $request->server ?? [];
+        foreach ($request->server ?? [] as $key => $value) {
+            $params[strtoupper($key)] = $value;
+        }
+        foreach ($request->header ?? [] as $name => $value) {
+            $params['HTTP_' . strtoupper(str_replace('-', '_', $name))] = $value;
+        }
+        return $params;
     }
 
     // the request target is only the path and query, the host and port come from the Host header

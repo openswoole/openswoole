@@ -40,6 +40,17 @@ class ServerRequestFromTest extends TestCase
         $this->assertSame('1.1', $serverRequest->getProtocolVersion());
     }
 
+    public function testServerParamsHaveServerStyleKeys()
+    {
+        $params = ServerRequest::from($this->request("GET /a?y=1 HTTP/1.1\r\nHost: x:8080\r\nX-Forwarded-Proto: https\r\n\r\n"))->getServerParams();
+        $this->assertSame('GET', $params['REQUEST_METHOD']);
+        $this->assertSame('GET', $params['request_method']);
+        $this->assertSame('/a', $params['REQUEST_URI']);
+        $this->assertSame('y=1', $params['QUERY_STRING']);
+        $this->assertSame('x:8080', $params['HTTP_HOST']);
+        $this->assertSame('https', $params['HTTP_X_FORWARDED_PROTO']);
+    }
+
     public function testUriWithIpv6Host()
     {
         $uri = ServerRequest::from($this->request("GET / HTTP/1.1\r\nHost: [::1]:9501\r\n\r\n"))->getUri();
