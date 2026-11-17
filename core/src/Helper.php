@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OpenSwoole\Core;
 
+use InvalidArgumentException;
 use OpenSwoole\Http\Server;
 use Psr\Http\Server\RequestHandlerInterface;
 
@@ -19,7 +20,7 @@ class Helper
         $server->on('request', function (\OpenSwoole\HTTP\Request $request, \OpenSwoole\HTTP\Response $response) use ($callback) {
             try {
                 $serverRequest = Psr\ServerRequest::from($request);
-            } catch (\InvalidArgumentException $e) {
+            } catch (InvalidArgumentException $e) {
                 // a request target that is not a valid URI
                 $response->status(400);
                 $response->end();
@@ -35,7 +36,7 @@ class Helper
         $server->on('request', function (\OpenSwoole\HTTP\Request $request, \OpenSwoole\HTTP\Response $response) use ($handler) {
             try {
                 $serverRequest = Psr\ServerRequest::from($request);
-            } catch (\InvalidArgumentException $e) {
+            } catch (InvalidArgumentException $e) {
                 // a request target that is not a valid URI
                 $response->status(400);
                 $response->end();

@@ -203,7 +203,8 @@ class ServerRequest extends Request implements ServerRequestInterface
             $uri = $uri->withPort((int) $port);
         }
         return $uri->withPath($request->server['request_uri'] ?? '/')
-            ->withQuery($request->server['query_string'] ?? '');
+            ->withQuery($request->server['query_string'] ?? '')
+        ;
     }
 
     private function hasAttribute(string $name): bool

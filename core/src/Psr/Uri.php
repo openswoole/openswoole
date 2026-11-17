@@ -102,7 +102,7 @@ class Uri implements UriInterface
         }
 
         $uri         = clone $this;
-        $uri->path = $path;
+        $uri->path   = $path;
 
         return $uri;
     }
@@ -121,7 +121,7 @@ class Uri implements UriInterface
         }
 
         $uri         = clone $this;
-        $uri->host = $host;
+        $uri->host   = $host;
 
         return $uri;
     }
@@ -150,7 +150,7 @@ class Uri implements UriInterface
         }
 
         $uri         = clone $this;
-        $uri->port = $port;
+        $uri->port   = $port;
 
         return $uri;
     }
@@ -168,7 +168,7 @@ class Uri implements UriInterface
             return $this;
         }
 
-        $uri         = clone $this;
+        $uri           = clone $this;
         $uri->fragment = $fragment;
 
         return $uri;
@@ -188,7 +188,7 @@ class Uri implements UriInterface
         }
 
         $uri         = clone $this;
-        $uri->query = $query;
+        $uri->query  = $query;
 
         return $uri;
     }
@@ -209,7 +209,7 @@ class Uri implements UriInterface
             return $this;
         }
 
-        $uri         = clone $this;
+        $uri           = clone $this;
         $uri->userInfo = $userInfo;
 
         return $uri;
