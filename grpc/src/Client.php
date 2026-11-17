@@ -41,7 +41,6 @@ class Client implements ClientInterface
         $this->client  = $client;
         $this->streams = [];
         $this->mode    = $mode;
-        return $this;
     }
 
     public function set(array $settings): self

@@ -45,7 +45,6 @@ class MysqliClient extends ClientProxy
     {
         $this->config = $config;
         $this->makeClient();
-        return $this;
     }
 
     public function __call(string $name, array $arguments)
