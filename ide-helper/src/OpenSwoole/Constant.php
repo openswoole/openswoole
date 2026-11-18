@@ -11,13 +11,13 @@ namespace OpenSwoole;
 
 class Constant
 {
-    public const VERSION = '26.2.0';
+    public const VERSION = '26.11.0';
 
-    public const VERSION_ID = 260200;
+    public const VERSION_ID = 261100;
 
     public const MAJOR_VERSION = 26;
 
-    public const MINOR_VERSION = 2;
+    public const MINOR_VERSION = 11;
 
     public const RELEASE_VERSION = 0;
 

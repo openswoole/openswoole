@@ -38,7 +38,6 @@ class PDOClient extends ClientProxy
         $this->config = $config;
         $this->makeClient();
         $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
-        return $this;
     }
 
     public function __call(string $name, array $arguments)

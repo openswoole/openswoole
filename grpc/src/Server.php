@@ -61,8 +61,6 @@ final class Server
 
         $handler       = (new StackHandler())->add(new ServiceHandler());
         $this->handler = $handler;
-
-        return $this;
     }
 
     public function withWorkerContext(string $context, Closure $callback): self

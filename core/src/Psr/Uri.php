@@ -101,9 +101,10 @@ class Uri implements UriInterface
             return $this;
         }
 
-        $this->path = $path;
+        $uri         = clone $this;
+        $uri->path   = $path;
 
-        return $this;
+        return $uri;
     }
 
     public function getHost(): string
@@ -119,9 +120,10 @@ class Uri implements UriInterface
             return $this;
         }
 
-        $this->host = $host;
+        $uri         = clone $this;
+        $uri->host   = $host;
 
-        return $this;
+        return $uri;
     }
 
     public function getPort(): ?int
@@ -147,9 +149,10 @@ class Uri implements UriInterface
             return $this;
         }
 
-        $this->port = $port;
+        $uri         = clone $this;
+        $uri->port   = $port;
 
-        return $this;
+        return $uri;
     }
 
     public function getFragment(): string
@@ -165,9 +168,10 @@ class Uri implements UriInterface
             return $this;
         }
 
-        $this->fragment = $fragment;
+        $uri           = clone $this;
+        $uri->fragment = $fragment;
 
-        return $this;
+        return $uri;
     }
 
     public function getQuery(): string
@@ -183,9 +187,10 @@ class Uri implements UriInterface
             return $this;
         }
 
-        $this->query = $query;
+        $uri         = clone $this;
+        $uri->query  = $query;
 
-        return $this;
+        return $uri;
     }
 
     public function getUserInfo(): string
@@ -204,9 +209,10 @@ class Uri implements UriInterface
             return $this;
         }
 
-        $this->userInfo = $userInfo;
+        $uri           = clone $this;
+        $uri->userInfo = $userInfo;
 
-        return $this;
+        return $uri;
     }
 
     public function getAuthority(): string
@@ -273,6 +279,9 @@ class Uri implements UriInterface
         $res = new stdClass();
 
         $parsed = parse_url($uri);
+        if ($parsed === false) {
+            throw new InvalidArgumentException('Unable to parse the URI');
+        }
 
         $res->scheme = array_key_exists('scheme', $parsed) ? $this->normalizeScheme($parsed['scheme']) : '';
         $res->host   = array_key_exists('host', $parsed) ? $this->normalizeHost($parsed['host']) : '';
