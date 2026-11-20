@@ -227,7 +227,7 @@ function socket_clear_error(?Socket $socket = null)
     if ($socket) {
         $socket->errCode = 0;
     }
-    clear_error();
+    \OpenSwoole\Util::clearError();
 }
 
 function socket_last_error(?Socket $socket = null): int
@@ -235,7 +235,7 @@ function socket_last_error(?Socket $socket = null): int
     if ($socket) {
         return $socket->errCode;
     }
-    return last_error();
+    return \OpenSwoole\Util::getLastErrorCode();
 }
 
 function socket_set_block(Socket $socket)
